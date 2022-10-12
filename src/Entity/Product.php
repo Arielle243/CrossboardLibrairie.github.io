@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -65,6 +67,23 @@ class Product
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
+
+    #[ORM\ManyToOne(inversedBy: 'product')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Lignecommande $lignecommande = null;
+
+    #[ORM\OneToMany(mappedBy: 'produits', targetEntity: Lignecommande::class)]
+    private Collection $lignecommandes;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $createdBy = null;
+
+
+    public function __construct()
+    {
+        $this->lignecommandes = new ArrayCollection();
+       
+    }
 
     public function getId(): ?int
     {
@@ -274,4 +293,63 @@ class Product
 
         return $this;
     }
+
+    public function getLignecommande(): ?Lignecommande
+    {
+        return $this->lignecommande;
+    }
+
+    public function setLignecommande(?Lignecommande $lignecommande): self
+    {
+        $this->lignecommande = $lignecommande;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Lignecommande>
+     */
+    public function getLignecommandes(): Collection
+    {
+        return $this->lignecommandes;
+    }
+
+    public function addLignecommande(Lignecommande $lignecommande): self
+    {
+        if (!$this->lignecommandes->contains($lignecommande)) {
+            $this->lignecommandes->add($lignecommande);
+            $lignecommande->setProduits($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLignecommande(Lignecommande $lignecommande): self
+    {
+        if ($this->lignecommandes->removeElement($lignecommande)) {
+            // set the owning side to null (unless already changed)
+            if ($lignecommande->getProduits() === $this) {
+                $lignecommande->setProduits(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?string
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?string $createdBy): self
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+
+
+
+
 }

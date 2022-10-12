@@ -28,16 +28,25 @@ class Category
     private ?bool $statut = null;
 
 
-    #[ORM\Column(length: 255)]
-    private ?string $sousCategory = null;
-
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Product::class)]
     private Collection $products;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\ManyToMany(targetEntity: Souscategory::class, mappedBy: 'category')]
+    private Collection $souscategories;
+
 
     public function __construct()
     {
       
         $this->products = new ArrayCollection();
+        $this->souscategories = new ArrayCollection();
+       
     }
 
 
@@ -94,19 +103,7 @@ class Category
 
         return $this;
     }
-
-
-    public function getSousCategory(): ?string
-    {
-        return $this->sousCategory;
-    }
-
-    public function setSousCategory(string $sousCategory): self
-    {
-        $this->sousCategory = $sousCategory;
-
-        return $this;
-    }
+ 
 
     /**
      * @return Collection<int, Product>
@@ -138,33 +135,55 @@ class Category
         return $this;
     }
 
-    
-    
-    
-    
-    
-    
-    
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
 
-    
-    
-    
-    
-    
-    
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
-    
-    
+        return $this;
+    }
 
-    
-    
-    
-    
-    
-    
-    
-    
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
 
-    
-    
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Souscategory>
+     */
+    public function getSouscategories(): Collection
+    {
+        return $this->souscategories;
+    }
+
+    public function addSouscategory(Souscategory $souscategory): self
+    {
+        if (!$this->souscategories->contains($souscategory)) {
+            $this->souscategories->add($souscategory);
+            $souscategory->addCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSouscategory(Souscategory $souscategory): self
+    {
+        if ($this->souscategories->removeElement($souscategory)) {
+            $souscategory->removeCategory($this);
+        }
+
+        return $this;
+    }
+ 
 }
