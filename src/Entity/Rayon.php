@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\RayonsRepository;
+use App\Repository\RayonRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: RayonsRepository::class)]
-class Rayons
+#[ORM\Entity(repositoryClass: RayonRepository::class)]
+class Rayon
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -75,6 +76,15 @@ class Rayons
 
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
+
+    #[ORM\Column]
+    private ?bool $statut = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $updatedAp = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createAt = null;
 
     public function getId(): ?int
     {
@@ -329,6 +339,42 @@ class Rayons
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function isStatut(): ?bool
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(bool $statut): self
+    {
+        $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function getUpdatedAp(): ?\DateTimeInterface
+    {
+        return $this->updatedAp;
+    }
+
+    public function setUpdatedAp(?\DateTimeInterface $updatedAp): self
+    {
+        $this->updatedAp = $updatedAp;
+
+        return $this;
+    }
+
+    public function getCreateAt(): ?\DateTimeImmutable
+    {
+        return $this->createAt;
+    }
+
+    public function setCreateAt(\DateTimeImmutable $createAt): self
+    {
+        $this->createAt = $createAt;
 
         return $this;
     }

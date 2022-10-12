@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Rayons;
+use App\Entity\Rayon;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Rayons>
+ * @extends ServiceEntityRepository<Rayon>
  *
- * @method Rayons|null find($id, $lockMode = null, $lockVersion = null)
- * @method Rayons|null findOneBy(array $criteria, array $orderBy = null)
- * @method Rayons[]    findAll()
- * @method Rayons[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Rayon|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Rayon|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Rayon[]    findAll()
+ * @method Rayon[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class RayonsRepository extends ServiceEntityRepository
+class RayonRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Rayons::class);
+        parent::__construct($registry, Rayon::class);
     }
 
-    public function save(Rayons $entity, bool $flush = false): void
+    public function save(Rayon $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class RayonsRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Rayons $entity, bool $flush = false): void
+    public function remove(Rayon $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class RayonsRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Rayons[] Returns an array of Rayons objects
+//     * @return Rayon[] Returns an array of Rayon objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class RayonsRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Rayons
+//    public function findOneBySomeField($value): ?Rayon
 //    {
 //        return $this->createQueryBuilder('r')
 //            ->andWhere('r.exampleField = :val')
