@@ -27,15 +27,17 @@ class Category
     #[ORM\Column]
     private ?bool $statut = null;
 
-    #[ORM\OneToMany(mappedBy: 'categories', targetEntity: Produit::class)]
-    private Collection $produits;
 
     #[ORM\Column(length: 255)]
     private ?string $sousCategory = null;
 
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Product::class)]
+    private Collection $products;
+
     public function __construct()
     {
-        $this->produits = new ArrayCollection();
+      
+        $this->products = new ArrayCollection();
     }
 
 
@@ -93,35 +95,6 @@ class Category
         return $this;
     }
 
-    /**
-     * @return Collection<int, Produit>
-     */
-    public function getProduits(): Collection
-    {
-        return $this->produits;
-    }
-
-    public function addProduit(Produit $produit): self
-    {
-        if (!$this->produits->contains($produit)) {
-            $this->produits->add($produit);
-            $produit->setCategories($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduit(Produit $produit): self
-    {
-        if ($this->produits->removeElement($produit)) {
-            // set the owning side to null (unless already changed)
-            if ($produit->getCategories() === $this) {
-                $produit->setCategories(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getSousCategory(): ?string
     {
@@ -131,6 +104,36 @@ class Category
     public function setSousCategory(string $sousCategory): self
     {
         $this->sousCategory = $sousCategory;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products->add($product);
+            $product->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->removeElement($product)) {
+            // set the owning side to null (unless already changed)
+            if ($product->getCategory() === $this) {
+                $product->setCategory(null);
+            }
+        }
 
         return $this;
     }

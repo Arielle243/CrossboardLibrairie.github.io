@@ -2,23 +2,23 @@
 
 namespace App\Entity;
 
-use App\Repository\ProduitRepository;
+use App\Repository\ProductRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ProduitRepository::class)]
-class Produit
+#[ORM\Entity(repositoryClass: ProductRepository::class)]
+class Product
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $illustration = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $excerpt = null;
@@ -38,7 +38,7 @@ class Produit
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $price = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $format = null;
 
     #[ORM\Column(nullable: true)]
@@ -50,24 +50,21 @@ class Produit
     #[ORM\Column(length: 255)]
     private ?string $isbn = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $age = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $age = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $createAt = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
     private ?bool $statut = null;
 
-    #[ORM\ManyToOne(inversedBy: 'produits')]
+    #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
-
-    #[ORM\ManyToOne(inversedBy: 'produits')]
-    private ?Category $categories = null;
 
     public function getId(): ?int
     {
@@ -79,21 +76,21 @@ class Produit
         return $this->illustration;
     }
 
-    public function setIllustration(string $illustration): self
+    public function setIllustration(?string $illustration): self
     {
         $this->illustration = $illustration;
 
         return $this;
     }
 
-    public function getName(): ?string
+    public function getTitle(): ?string
     {
-        return $this->name;
+        return $this->title;
     }
 
-    public function setName(string $name): self
+    public function setTitle(string $title): self
     {
-        $this->name = $name;
+        $this->title = $title;
 
         return $this;
     }
@@ -175,7 +172,7 @@ class Produit
         return $this->format;
     }
 
-    public function setFormat(?string $format): self
+    public function setFormat(string $format): self
     {
         $this->format = $format;
 
@@ -218,12 +215,12 @@ class Produit
         return $this;
     }
 
-    public function getAge(): ?int
+    public function getAge(): ?string
     {
         return $this->age;
     }
 
-    public function setAge(?int $age): self
+    public function setAge(?string $age): self
     {
         $this->age = $age;
 
@@ -242,14 +239,14 @@ class Produit
         return $this;
     }
 
-    public function getCreateAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->createAt;
+        return $this->createdAt;
     }
 
-    public function setCreateAt(?\DateTimeImmutable $createAt): self
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): self
     {
-        $this->createAt = $createAt;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -274,18 +271,6 @@ class Produit
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
-
-        return $this;
-    }
-
-    public function getCategories(): ?Category
-    {
-        return $this->categories;
-    }
-
-    public function setCategories(?Category $categories): self
-    {
-        $this->categories = $categories;
 
         return $this;
     }
