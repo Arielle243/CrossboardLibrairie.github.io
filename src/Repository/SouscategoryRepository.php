@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\SousCategories;
+use App\Entity\Souscategory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<SousCategories>
+ * @extends ServiceEntityRepository<Souscategory>
  *
- * @method SousCategories|null find($id, $lockMode = null, $lockVersion = null)
- * @method SousCategories|null findOneBy(array $criteria, array $orderBy = null)
- * @method SousCategories[]    findAll()
- * @method SousCategories[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Souscategory|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Souscategory|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Souscategory[]    findAll()
+ * @method Souscategory[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class SousCategoriesRepository extends ServiceEntityRepository
+class SouscategoryRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, SousCategories::class);
+        parent::__construct($registry, Souscategory::class);
     }
 
-    public function save(SousCategories $entity, bool $flush = false): void
+    public function save(Souscategory $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class SousCategoriesRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(SousCategories $entity, bool $flush = false): void
+    public function remove(Souscategory $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class SousCategoriesRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return SousCategories[] Returns an array of SousCategories objects
+//     * @return Souscategory[] Returns an array of Souscategory objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class SousCategoriesRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?SousCategories
+//    public function findOneBySomeField($value): ?Souscategory
 //    {
 //        return $this->createQueryBuilder('s')
 //            ->andWhere('s.exampleField = :val')

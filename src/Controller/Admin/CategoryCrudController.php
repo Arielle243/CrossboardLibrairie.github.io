@@ -4,7 +4,6 @@ namespace App\Controller\Admin;
 
 use App\Entity\Category;
 
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
@@ -23,12 +22,11 @@ class CategoryCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id')->hideOnForm(),
             TextField::new('title'),
             BooleanField::new('statut'),
             //TextField::new('sousCategory')->setColumns(6),
             TextField::new('illustration'),
-            TextField::new('category.category'),
+            //TextField::new('category.category'),
             TextEditorField::new('description'),
             DateTimeField::new('createdAt')->hideWhenUpdating(),
             DateTimeField::new('updatedAt')->hideWhenCreating(),

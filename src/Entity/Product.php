@@ -72,8 +72,6 @@ class Product
     #[ORM\JoinColumn(nullable: false)]
     private ?Lignecommande $lignecommande = null;
 
-    #[ORM\OneToMany(mappedBy: 'produits', targetEntity: Lignecommande::class)]
-    private Collection $lignecommandes;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $createdBy = null;

@@ -93,15 +93,15 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Gestion des Sous-Catégories', 'fa-solid fa-table');
         yield MenuItem::subMenu('Actions')->setSubItems([
-                MenuItem::linkToCrud('Ajouter une sous-catégorie', 'fas fa-plus', SousCategories::class)->setAction(Crud::PAGE_NEW),
-                MenuItem::linkToCrud('Voir les sous-catégories', 'fas fa-eye', SousCategories::class),
+               // MenuItem::linkToCrud('Ajouter une sous-catégorie', 'fas fa-plus', Souscategory::class)->setAction(Crud::PAGE_NEW),
+                //MenuItem::linkToCrud('Voir les sous-catégories', 'fas fa-eye', Souscategory::class),
             
             ]);
        
         yield MenuItem::section('Gestions Clients', 'fa-sharp fa-solid fa-address-card');
         yield MenuItem::subMenu('Actions')->setSubItems([
-            MenuItem::linkToCrud('Ajouter un utilisateur', 'fas fa-plus', Category::class)->setAction(Crud::PAGE_NEW),
-            MenuItem::linkToCrud('Voir les clients', 'fas fa-eye', Category::class)
+            //MenuItem::linkToCrud('Ajouter un utilisateur', 'fas fa-plus', User::class)->setAction(Crud::PAGE_NEW),
+            //MenuItem::linkToCrud('Voir les clients', 'fas fa-eye', User::class)
         ]);
 
         

@@ -28,12 +28,13 @@ class Commande
     #[ORM\Column]
     private ?int $nombreProduct = null;
 
-    #[ORM\ManyToOne(inversedBy: 'commandes')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $client = null;
 
     #[ORM\OneToMany(mappedBy: 'commandes', targetEntity: Lignecommande::class, orphanRemoval: true)]
     private Collection $lignecommandes;
+
+    #[ORM\ManyToOne(inversedBy: 'commande')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
     public function __construct()
     {
@@ -93,17 +94,8 @@ class Commande
         return $this;
     }
 
-    public function getClient(): ?User
-    {
-        return $this->client;
-    }
 
-    public function setClient(?User $client): self
-    {
-        $this->client = $client;
 
-        return $this;
-    }
 
     /**
      * @return Collection<int, Lignecommande>
@@ -131,6 +123,18 @@ class Commande
                 $lignecommande->setCommandes(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
