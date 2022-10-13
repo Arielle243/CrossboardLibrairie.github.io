@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Category;
+
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -27,7 +28,7 @@ class CategoryCrudController extends AbstractCrudController
             BooleanField::new('statut'),
             //TextField::new('sousCategory')->setColumns(6),
             TextField::new('illustration'),
-            ChoiceField::new('categories')->renderAsNativeWidget(),
+            TextField::new('category.category'),
             TextEditorField::new('description'),
             DateTimeField::new('createdAt')->hideWhenUpdating(),
             DateTimeField::new('updatedAt')->hideWhenCreating(),

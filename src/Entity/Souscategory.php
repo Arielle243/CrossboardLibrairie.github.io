@@ -27,8 +27,6 @@ class Souscategory
     #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'souscategory')]
     private Collection $products;
 
-    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'souscategory')]
-    private Collection $categories;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'souscategories')]
     private Collection $category;
@@ -36,7 +34,6 @@ class Souscategory
     public function __construct()
     {
         $this->products = new ArrayCollection();
-        $this->categories = new ArrayCollection();
         $this->category = new ArrayCollection();
     }
 
