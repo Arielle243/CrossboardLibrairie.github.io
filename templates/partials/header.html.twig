@@ -1,0 +1,60 @@
+<header>
+    <div class="entete_menu">
+        <nav class="navbar navbar-expand-lg" style="background-color: #b7cff3;">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"                       
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
+                </button>
+                    <a class="navbar-brand" href="#"><img src="" alt="Bootstrap" width="30" height="24"></a>
+                        <ul class="navbar-nav justify-content-end">
+                            <li class="nav-item"><a class="nav-link" href="#">Panier<i class="bi bi-basket"></i></a></li>
+
+
+                            <li class="nav-item"><a class="nav-link" href="{{ path('app_login') }}">Connexion<i class="bi bi-person-circle"></i></a></li>
+                        {# <li class="nav-item dropdown"> #}
+                        {#     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Connexion</a> #}
+                        {#     <ul class="dropdown-menu"> #}
+                        {#         <li><a class="dropdown-item" href="{{ path('app_login') }}">Se connecter</a></li> #}
+                                {# <li><a class="dropdown-item" href="{{ path('app_register') }}">S'inscrire</a></li> #}
+                            </ul>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="home_menu">
+        <nav class="navbar navbar-expand-lg" style="background-color:#434445;">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
+                </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item"><span class="badge text-bg-primary"><a class="nav-link active" aria-current="page" href="{{ path('app_home') }}">Accueil</a></li>
+                            <li class="nav-item dropdown"><span class="badge text-bg-primary">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Rayons</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Littérature</a></li>
+                                        <li><a class="dropdown-item" href="#">Jeunesse</a></li>
+                                        <li><a class="dropdown-item" href="#">Loisirs, nature & voyages</a></li>
+                                        <li><a class="dropdown-item" href="#">Bandes dessinées & humour</a></li>
+                                        <li><a class="dropdown-item" href="#">Arts, société & sciences humaines</a></li>
+                                        <li><a class="dropdown-item" href="#">Scolaire & pédagogie</a></li>
+                                        <li><a class="dropdown-item" href="#">Médecine, sciences & techniques</a></li>
+                                        <li><a class="dropdown-item" href="#">Entreprise, emploi, droits & économies</a></li>
+                                        <li><a class="dropdown-item" href="#">Langues</a></li>
+                                    </ul>
+                                <li class="nav-item"><span class="badge text-bg-primary"><a class="nav-link active" aria-current="page" href="#">Événements</a></li>
+                            </li>
+                        </ul>
+                        <form class="d-flex" role="search">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                    </div>
+            </div>
+        </nav>
+    </div>
+</header>
