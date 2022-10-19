@@ -1,17 +1,163 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/form.css') }}">
+{% endblock %}
 
-{% block title %}Register{% endblock %}
+
+{% block title %}Formulaire d'inscription{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+    <h1>Formulaire d'inscription</h1>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+        {{ form_start(registrationForm,{
+            'attr':{
+            'class':'registration'
+                }
+            }) }}
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+
+
+            <div class="row">
+                <div class="col">
+                    <label for="inputpicture">Photo de profil :</label>
+                        {{ form_widget(registrationForm.picture, {
+                            'attr':{
+                            'class':'form-control',
+                            'id':'inputpicture',
+                                 }
+                        })}}
+                </div>   
+
+
+                <div class="col">
+                    <label for="inputpseudo">Pseudo :</label>
+                        {{ form_widget(registrationForm.pseudo, {
+                            'attr':{
+                            'class':'form-control',
+                            'id':'inputpseudo',
+                                }
+                        })}}
+                </div>    
+            </div>
+
+
+            <div class="row">
+                <div class="col">
+                    <label for="inputname">Nom :</label>
+                        {{ form_widget(registrationForm.name, {
+                             'attr':{
+                            'class':'form-control',
+                            'id':'inputname',
+                                }
+                        })}}
+                </div>    
+
+                <div class="col">
+                    <label for="inputfisrtname">Prénom :</label>
+                    {{ form_widget(registrationForm.firstname, {
+                            'attr':{
+                            'class':'form-control',
+                            'id':'inputfirstname',
+                            }
+                    })}}
+                </div>    
+            </div>
+
+
+            <div class="row">
+                <div class="col">
+                    <label for="inputbirth">Date de naissance :</label>
+                    <i class="fa-solid fa-calendar-days"></i>
+                    {{ form_widget(registrationForm.birthDate, {
+                    'attr':{
+                    'class':'form-control',
+                    'id':'inputbirth',
+                        }
+                    })}}
+                </div>  
+
+
+                <div class="col">
+                    <label for="inputphonenumber">Numéro de téléphone :</label>
+                    {{ form_widget(registrationForm.phoneNumber, {
+                    'attr':{
+                     'class':'form-control',
+                    'id':'inputLogin',
+                        }
+                    })}}
+                </div>      
+            </div>
+
+            <div class="row">
+                <div class="col -md-4 mb-3">
+                    <label for="inputaddress">Adresse:</label>
+                    {{ form_widget(registrationForm.address, {
+                    'attr':{
+                    'class':'form-control',
+                    'id':'inputaddress',
+                        }
+                    })}}
+                </div>   
+
+                <div class="col">
+                    <label for="inputcity">Ville :</label>
+                    {{ form_widget(registrationForm.city, {
+                    'attr':{
+                    'class':'form-control',
+                    'id':'inputcity',
+                        }
+                    })}}
+                </div>    
+
+
+
+                <div class="col">
+                    <label for="inputzipcode">Code postal :</label>
+                    {{ form_widget(registrationForm.zipCode, {
+                    'attr':{
+                    'class':'form-control',
+                    'id':'inputzipcode',
+                        }
+                    })}}
+                </div>    
+            </div>
+
+
+            <div class="row">
+                <div class="col">
+                    <label for="inputemail">Email :</label>
+                    {{ form_widget(registrationForm.email, {
+                    'attr':{
+                    'class':'form-control',
+                    'id':'inputemail',
+                        }
+                    })}}
+                </div>    
+
+                <div class="col">
+                    <label for="inputpw">Mot de passe :</label>
+                    {{ form_widget(registrationForm.plainPassword, {
+                    'attr':{
+                    'class':'form-control',
+                    'id':'inputpw',
+                        }
+                    })}}
+                </div>    
+
+   
+
+
+                                {# <div class="col"> #}
+                                    {# <label for="inputagreeterms">Agree terms</label> #}
+                                {# {{ form_widget(registrationForm.agreeTerms, { #}
+                                {#  'attr':{ #}
+                                {#  'id':'inputagreeterms', #}
+                                {# } #}
+                                {# })}} #}
+                                {# </div> #}
+                                {#  #}
+            </div>
+
+            <button type="submit" class="btn btn-primary  btn-block">Je m'inscris</button>
+        {{ form_end(registrationForm) }}
 {% endblock %}

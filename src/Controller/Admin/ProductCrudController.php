@@ -4,8 +4,10 @@ namespace App\Controller\Admin;
 
 use App\Entity\Product;
 
+use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
@@ -46,13 +48,29 @@ class ProductCrudController extends AbstractCrudController
             TextField::new('isbn', 'ISBN'),
             TextField::new('langues', 'Langues'),
             TextField::new('age', 'Âges'),
-            BooleanField::new('statut', 'Statut'),
-            AssociationField::new('category', 'Choisir les catégories'),
-            //AssociationField::new('souscategory', 'Choisir les sous-catégories'),
+            TextField::new('editor', 'Éditeur'),
+  
+            
+
+            AssociationField::new('category', 'Choisir les catégories')
+                ->setQueryBuilder(function (QueryBuilder $queryBuilder){ // pour montrer que les catégories actives.
+                    $queryBuilder->where('entity.statut=true');
+                }),
+            //AssociationField::new('lignecommande', 'Ajouter par'),
+            //AssociationField::new('user', 'Ajouter par'),
+            //AssociationField::new('souscategory', 'Choisir les sous-catégories')
+            //->setQueryBuilder(function (QueryBuilder $queryBuilder){
+               // $queryBuilder->where('entity.statut=true');
+           // }),
+
             IntegerField::new('stock', 'Stock'),
             DateTimeField::new('createdAt', 'Ajouter le')->hideOnForm(),
-            DateTimeField::new('updatedAt', 'Modifier le')->hideWhenCreating(),
+
+            DateTimeField::new('updatedAt', 'Modifier le')
+                ->hideWhenCreating(),
+            BooleanField::new('statut', 'Statut'),
             TextField::new('createdBy','Ajouter par'),
+            FormField::addRow(),
 
         ];
     }
