@@ -5,7 +5,6 @@ namespace App\Controller\Client;
 use App\Entity\User;
 use App\Service\FileUploader;
 use App\Form\RegistrationFormType;
-use App\Repository\UserRepository;
 use App\Security\AppCustomAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,37 +27,25 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
                // encode the plain password
-    $user->setPassword(
-    $userPasswordHasher->hashPassword(
-        $user,
-        $form->get('plainPassword')->getData()
-    )
-);
-
-        $user->setRoles(['ROLE_CLIENT']);
-        $user = $this->getUser();
+            $user->setPassword(
+            $userPasswordHasher->hashPassword(
+            $user,
+            $form->get('plainPassword')->getData()
+              )
+           );
+            //les utilisateurs inscrit avec ce formulaires auront un rôle client
+            $user->setRoles(['ROLE_CLIENT']);
         
-        $entityManager->persist($user);
-        $entityManager->flush();
-// do anything else you need here, like send an email
-//les utilisateurs inscrit avec ce formulaires auront un rôle client
+            $entityManager->persist($user);
+            $entityManager->flush();
+            // do anything else you need here, like send an email
+            
 
-                return $userAuthenticator->authenticateUser(
+            return $userAuthenticator->authenticateUser(
                 $user,
                 $authenticator,
                 $request
-);
-
-
-             // on récupère le fichier présent dans le formulaire
-             $picture = $form->get('picture')->getData();
-             // si le champs picture est renseigné (si $picture existe)
-             if($picture){
-                 // on récupère le nom du fichier téléversé en même temps qu'il est placé dans le dossier public/upload/images/
-                 $fileName = $fileUploader->upload($picture);
-                 // on renseigne la propriété picture de l'article avec ce nom de fichier.
-                 $user->setPicture($fileName);
-             }
+            );          
  
         
         }

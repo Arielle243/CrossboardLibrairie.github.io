@@ -4,10 +4,9 @@
 {% endblock %}
 
 
-{% block title %}Formulaire d'inscription{% endblock %}
+{% block title %}Inscription{% endblock %}
 
 {% block body %}
-    <h1>Formulaire d'inscription</h1>
 
         {{ form_start(registrationForm,{
             'attr':{
@@ -15,7 +14,9 @@
                 }
             }) }}
 
-
+            <div class="register_title">
+                <h1 class="h3 mb-3 font-weight-normal">Formulaire d'inscription</h1>
+            </div>
 
             <div class="row">
                 <div class="col">
@@ -158,6 +159,6 @@
                                 {#  #}
             </div>
 
-            <button type="submit" class="btn btn-primary  btn-block">Je m'inscris</button>
+            <button type="submit" class="btn btn-primary">Je m'inscris</button>
         {{ form_end(registrationForm) }}
 {% endblock %}

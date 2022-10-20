@@ -68,19 +68,18 @@ class Product
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
-    #[ORM\ManyToOne(inversedBy: 'product')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Lignecommande $lignecommande = null;
-
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $createdBy = null;
 
+    #[ORM\ManyToMany(targetEntity: souscategory::class, inversedBy: 'products')]
+    private Collection $souscategory;
+
+
 
     public function __construct()
     {
-        $this->lignecommandes = new ArrayCollection();
-       
+        $this->souscategory = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -292,48 +291,6 @@ class Product
         return $this;
     }
 
-    public function getLignecommande(): ?Lignecommande
-    {
-        return $this->lignecommande;
-    }
-
-    public function setLignecommande(?Lignecommande $lignecommande): self
-    {
-        $this->lignecommande = $lignecommande;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Lignecommande>
-     */
-    public function getLignecommandes(): Collection
-    {
-        return $this->lignecommandes;
-    }
-
-    public function addLignecommande(Lignecommande $lignecommande): self
-    {
-        if (!$this->lignecommandes->contains($lignecommande)) {
-            $this->lignecommandes->add($lignecommande);
-            $lignecommande->setProduits($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLignecommande(Lignecommande $lignecommande): self
-    {
-        if ($this->lignecommandes->removeElement($lignecommande)) {
-            // set the owning side to null (unless already changed)
-            if ($lignecommande->getProduits() === $this) {
-                $lignecommande->setProduits(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getCreatedBy(): ?string
     {
         return $this->createdBy;
@@ -346,8 +303,28 @@ class Product
         return $this;
     }
 
+    /**
+     * @return Collection<int, souscategory>
+     */
+    public function getSouscategory(): Collection
+    {
+        return $this->souscategory;
+    }
 
+    public function addSouscategory(souscategory $souscategory): self
+    {
+        if (!$this->souscategory->contains($souscategory)) {
+            $this->souscategory->add($souscategory);
+        }
 
+        return $this;
+    }
 
+    public function removeSouscategory(souscategory $souscategory): self
+    {
+        $this->souscategory->removeElement($souscategory);
+
+        return $this;
+    }
 
 }

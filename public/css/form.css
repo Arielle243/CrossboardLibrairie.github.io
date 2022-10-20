@@ -18,12 +18,14 @@ body{
 
 .registration{
     border: 1px solid black;
-    width:95%;
-    padding:18px;
-    margin-left:2.5em;
+    width:75%;
+    padding-left:25px;
+    padding-right:25px;
+    margin-left:10em;
     border-radius: 12px;
     background-color: aliceblue;
     opacity:0.9;
+    margin-top: 2em;
 
 }
 
@@ -53,9 +55,9 @@ body{
 
 }
 
-.registation h1{
+.register_title{
     text-align: center;
-    font-size: 1.5em;
+    font-size: 1em;
     padding:2px;
     background-color: aliceblue;
 
@@ -63,6 +65,7 @@ body{
 
 .connexion button{
     margin-left:18em;
+   
 }
 
 .lien_register{
@@ -74,5 +77,7 @@ body{
 }
 
 .registration button {
-    margin-left:38em;
+    margin-left:32em;
+    margin-top: 3em;
+    margin-bottom: 2em;
 }

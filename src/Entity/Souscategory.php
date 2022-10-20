@@ -24,17 +24,17 @@ class Souscategory
     #[ORM\Column(nullable: true)]
     private ?bool $statut = null;
 
-    #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'souscategory')]
-    private Collection $products;
-
-
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'souscategories')]
     private Collection $category;
 
+    #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'souscategory')]
+    private Collection $products;
+
     public function __construct()
     {
-        $this->products = new ArrayCollection();
+        
         $this->category = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -79,30 +79,6 @@ class Souscategory
     }
 
     /**
-     * @return Collection<int, Product>
-     */
-    public function getProducts(): Collection
-    {
-        return $this->products;
-    }
-
-    public function addProduct(Product $product): self
-    {
-        if (!$this->products->contains($product)) {
-            $this->products->add($product);
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(Product $product): self
-    {
-        $this->products->removeElement($product);
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Category>
      */
     public function getCategories(): Collection
@@ -132,5 +108,32 @@ class Souscategory
     public function getCategory(): Collection
     {
         return $this->category;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products->add($product);
+            $product->addSouscategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->removeElement($product)) {
+            $product->removeSouscategory($this);
+        }
+
+        return $this;
     }
 }

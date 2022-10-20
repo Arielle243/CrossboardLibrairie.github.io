@@ -18,16 +18,10 @@ class Lignecommande
     #[ORM\Column]
     private ?int $quantite = null;
 
-    #[ORM\OneToMany(mappedBy: 'lignecommande', targetEntity: Product::class, orphanRemoval: true)]
-    private Collection $product;
-
     #[ORM\ManyToOne(inversedBy: 'lignecommandes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Commande $commandes = null;
 
-    #[ORM\ManyToOne(inversedBy: 'lignecommandes')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Product $produits = null;
 
     public function __construct()
     {
@@ -51,35 +45,7 @@ class Lignecommande
         return $this;
     }
 
-    /**
-     * @return Collection<int, Product>
-     */
-    public function getProduct(): Collection
-    {
-        return $this->product;
-    }
 
-    public function addProduct(Product $product): self
-    {
-        if (!$this->product->contains($product)) {
-            $this->product->add($product);
-            $product->setLignecommande($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(Product $product): self
-    {
-        if ($this->product->removeElement($product)) {
-            // set the owning side to null (unless already changed)
-            if ($product->getLignecommande() === $this) {
-                $product->setLignecommande(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getCommandes(): ?Commande
     {
@@ -89,18 +55,6 @@ class Lignecommande
     public function setCommandes(?Commande $commandes): self
     {
         $this->commandes = $commandes;
-
-        return $this;
-    }
-
-    public function getProduits(): ?Product
-    {
-        return $this->produits;
-    }
-
-    public function setProduits(?Product $produits): self
-    {
-        $this->produits = $produits;
 
         return $this;
     }

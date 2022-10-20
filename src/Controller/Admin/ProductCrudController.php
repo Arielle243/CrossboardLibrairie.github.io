@@ -57,7 +57,10 @@ class ProductCrudController extends AbstractCrudController
                     $queryBuilder->where('entity.statut=true');
                 }),
             //AssociationField::new('lignecommande', 'Ajouter par'),
-            //AssociationField::new('user', 'Ajouter par'),
+            //AssociationField::new('user', 'Ajouter par')
+                //->setQueryBuilder(function (QueryBuilder $queryBuilder){ 
+                //$queryBuilder->where('entity.statut=true');
+            //}),
             //AssociationField::new('souscategory', 'Choisir les sous-catégories')
             //->setQueryBuilder(function (QueryBuilder $queryBuilder){
                // $queryBuilder->where('entity.statut=true');
