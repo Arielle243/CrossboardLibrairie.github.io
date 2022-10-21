@@ -78,14 +78,6 @@ class Souscategory
         return $this;
     }
 
-    /**
-     * @return Collection<int, Category>
-     */
-    public function getCategories(): Collection
-    {
-        return $this->categories;
-    }
-
     public function addCategory(Category $category): self
     {
         if (!$this->categories->contains($category)) {

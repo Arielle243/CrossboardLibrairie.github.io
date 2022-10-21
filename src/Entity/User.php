@@ -69,6 +69,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $statut = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateRegistration = null;
+
 
     public function __construct()
     {
@@ -310,6 +313,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setStatut(bool $statut): self
     {
         $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function getDateRegistration(): ?\DateTimeInterface
+    {
+        return $this->dateRegistration;
+    }
+
+    public function setDateRegistration(?\DateTimeInterface $dateRegistration): self
+    {
+        $this->dateRegistration = $dateRegistration;
 
         return $this;
     }

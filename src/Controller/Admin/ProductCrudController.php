@@ -29,11 +29,19 @@ class ProductCrudController extends AbstractCrudController
         return Product::class;
     }
 
+
+    public function createEntity(string $entityFqcn)
+    {
+        $product = new Product();
+        $product->createdBy($this->getUser());
+
+        return $product;
+    }
     
     public function configureFields(string $pageName): iterable
     {
         return [
-            //IdField::new('id'),
+            IdField::new('id')->hideOnForm(),
             ImageField::new('illustration', 'Image du produit')
             ->setBasePath(self::PRODUCTS_BASE_PATH)
             ->setUploadDir(self::PRODUCTS_UPLOAD_DIR),
@@ -54,20 +62,21 @@ class ProductCrudController extends AbstractCrudController
 
             AssociationField::new('category', 'Choisir les catégories')
                 ->setQueryBuilder(function (QueryBuilder $queryBuilder){ // pour montrer que les catégories actives.
-                    $queryBuilder->where('entity.statut=true');
+                    $queryBuilder->where('entity.statut=true')
+                                 ->orderBy('entity.createdAt');
                 }),
             //AssociationField::new('lignecommande', 'Ajouter par'),
             //AssociationField::new('user', 'Ajouter par')
                 //->setQueryBuilder(function (QueryBuilder $queryBuilder){ 
                 //$queryBuilder->where('entity.statut=true');
             //}),
-            //AssociationField::new('souscategory', 'Choisir les sous-catégories')
-            //->setQueryBuilder(function (QueryBuilder $queryBuilder){
-               // $queryBuilder->where('entity.statut=true');
-           // }),
+           /*  AssociationField::new('souscategory', 'Choisir les sous-catégories') */
+           /*      ->setQueryBuilder(function (QueryBuilder $queryBuilder){ */
+           /*          $queryBuilder->where('entity.statut=true'); */
+           /*      }), */
 
             IntegerField::new('stock', 'Stock'),
-            DateTimeField::new('createdAt', 'Ajouter le')->hideOnForm(),
+            DateTimeField::new('createdAt', 'Ajouter le'),
 
             DateTimeField::new('updatedAt', 'Modifier le')
                 ->hideWhenCreating(),
