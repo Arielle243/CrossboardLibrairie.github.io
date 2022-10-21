@@ -72,8 +72,12 @@ class Product
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $createdBy = null;
 
-    #[ORM\ManyToMany(targetEntity: souscategory::class, inversedBy: 'products')]
+    #[ORM\ManyToMany(targetEntity: Souscategory::class, inversedBy: 'products')]
     private Collection $souscategory;
+
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?user $users = null;
 
 
 
@@ -304,14 +308,14 @@ class Product
     }
 
     /**
-     * @return Collection<int, souscategory>
+     * @return Collection<int, Souscategory>
      */
     public function getSouscategory(): Collection
     {
         return $this->souscategory;
     }
 
-    public function addSouscategory(souscategory $souscategory): self
+    public function addSouscategory(Souscategory $souscategory): self
     {
         if (!$this->souscategory->contains($souscategory)) {
             $this->souscategory->add($souscategory);
@@ -320,9 +324,21 @@ class Product
         return $this;
     }
 
-    public function removeSouscategory(souscategory $souscategory): self
+    public function removeSouscategory(Souscategory $souscategory): self
     {
         $this->souscategory->removeElement($souscategory);
+
+        return $this;
+    }
+
+    public function getUsers(): ?user
+    {
+        return $this->users;
+    }
+
+    public function setUsers(?user $users): self
+    {
+        $this->users = $users;
 
         return $this;
     }

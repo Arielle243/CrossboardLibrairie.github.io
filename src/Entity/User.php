@@ -72,10 +72,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateRegistration = null;
 
+    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Product::class)]
+    private Collection $products;
+
 
     public function __construct()
     {
         $this->commande = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -325,6 +329,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDateRegistration(?\DateTimeInterface $dateRegistration): self
     {
         $this->dateRegistration = $dateRegistration;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products->add($product);
+            $product->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->removeElement($product)) {
+            // set the owning side to null (unless already changed)
+            if ($product->getUsers() === $this) {
+                $product->setUsers(null);
+            }
+        }
 
         return $this;
     }

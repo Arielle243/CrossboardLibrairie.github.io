@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Souscategory;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
@@ -20,7 +21,8 @@ class SouscategoryCrudController extends AbstractCrudController
         return [
 
             TextField::new('title', 'Nom'),
-            TextField::new('description'),
+            TextField::new('description', 'Description'),
+            BooleanField::new('statut','Statut'),
         ];
     }
     

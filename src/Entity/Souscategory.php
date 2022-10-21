@@ -6,6 +6,7 @@ use App\Repository\SouscategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: SouscategoryRepository::class)]
 class Souscategory
@@ -24,8 +25,6 @@ class Souscategory
     #[ORM\Column(nullable: true)]
     private ?bool $statut = null;
 
-    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'souscategories')]
-    private Collection $category;
 
     #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'souscategory')]
     private Collection $products;
@@ -33,7 +32,7 @@ class Souscategory
     public function __construct()
     {
         
-        $this->category = new ArrayCollection();
+        
         $this->products = new ArrayCollection();
     }
 
@@ -78,29 +77,6 @@ class Souscategory
         return $this;
     }
 
-    public function addCategory(Category $category): self
-    {
-        if (!$this->categories->contains($category)) {
-            $this->categories->add($category);
-        }
-
-        return $this;
-    }
-
-    public function removeCategory(Category $category): self
-    {
-        $this->categories->removeElement($category);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Category>
-     */
-    public function getCategory(): Collection
-    {
-        return $this->category;
-    }
 
     /**
      * @return Collection<int, Product>
@@ -127,5 +103,10 @@ class Souscategory
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->title;
     }
 }

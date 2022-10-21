@@ -37,16 +37,13 @@ class Category
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\ManyToMany(targetEntity: Souscategory::class, mappedBy: 'category')]
-    private Collection $souscategories;
 
 
     public function __construct()
     {
       
         $this->products = new ArrayCollection();
-        $this->souscategories = new ArrayCollection();
-       
+
     }
 
 
@@ -155,33 +152,6 @@ class Category
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Souscategory>
-     */
-    public function getSouscategories(): Collection
-    {
-        return $this->souscategories;
-    }
-
-    public function addSouscategory(Souscategory $souscategory): self
-    {
-        if (!$this->souscategories->contains($souscategory)) {
-            $this->souscategories->add($souscategory);
-            $souscategory->addCategory($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSouscategory(Souscategory $souscategory): self
-    {
-        if ($this->souscategories->removeElement($souscategory)) {
-            $souscategory->removeCategory($this);
-        }
 
         return $this;
     }

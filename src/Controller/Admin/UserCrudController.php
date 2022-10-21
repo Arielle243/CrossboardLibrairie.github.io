@@ -12,11 +12,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class UserCrudController extends AbstractCrudController
@@ -36,16 +34,17 @@ class UserCrudController extends AbstractCrudController
         return [
            
             FormField::addPanel('Identité')
-            ->setIcon('fa fa-card')->addCssClass('optional'),
+            ->setIcon('fa fa-user')->addCssClass('optional'),
+            
             IdField::new('id')->hideOnForm(),
             ImageField::new('picture', 'Photo de profil')
             ->setBasePath(self::USER_BASE_PATH)
-            ->setUploadDir(self::USER_UPLOAD_DIR),
+            ->setUploadDir(self::USER_UPLOAD_DIR)
+            ->onlyOnDetail(),
+
             TextField::new('name', 'Nom'),
             TextField::new('Firstname', 'Prénom'),
-            ArrayField::new('roles', 'Rôles')
-            //->onlyOnDetail()
-            ,
+            ArrayField::new('roles', 'Rôles'),
             DateTimeField::new('dateRegistration', 'Date d\'inscription')
             ->setFormat('dd.MM.yyyy HH:mm:ss')->hideWhenCreating()
             ->onlyOnDetail(),
@@ -57,7 +56,8 @@ class UserCrudController extends AbstractCrudController
             EmailField::new('email', 'Email')->onlyOnDetail(),
             TextField::new('address', 'Adresse')->onlyOnDetail(),
 
-            FormField::addPanel('Statut'),
+            FormField::addPanel('Statut')
+            ->setIcon(''),
             BooleanField::new('statut'),
 
 
