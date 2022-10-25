@@ -36,7 +36,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 
 /**
- * @method User getUsers
+ * @method User getUser
  */
 
 class UserCrudController extends AbstractCrudController
@@ -154,7 +154,7 @@ class UserCrudController extends AbstractCrudController
 
             public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
             {
-            $userId = $this->getUsers()->getId();
+            $userId = $this->getUser()->getId();
             
             $response = $this->entityRepo->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
             return $response;

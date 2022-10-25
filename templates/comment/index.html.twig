@@ -1,20 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CommentController!{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+{% set pseudo = app.user.pseudo %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/niong/OneDrive/Bureau/Arielle dossiers/FORMATION DEV WEB ESRP/Projet PASS/CrossbooardLibrairie/CrossboardLibrairie/src/Controller/CommentController.php'|file_link(0) }}">src/Controller/CommentController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/niong/OneDrive/Bureau/Arielle dossiers/FORMATION DEV WEB ESRP/Projet PASS/CrossbooardLibrairie/CrossboardLibrairie/templates/comment/index.html.twig'|file_link(0) }}">templates/comment/index.html.twig</a></code></li>
-    </ul>
+<div class="comment" id="c{{ comment.id }}">
+    <div class="card">
+        <div class="comment-content">
+            <h5 class="card-title">
+                <a class="text-decoration-none" href="{{ path('user', { 'pseudo': pseudo }) }}">
+                    <span class="comment-author">{{ pseudo }}</span>
+                </a>
+            </h5>
+            <small>{{ comment.createdAt|ago }}</small>
+            {% include 'comment/_card_text.html.twig' with { 'action': 'show', 'content': comment.content } %}
+        </div>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <div class="card-footer">
+                {% include 'comment/_card_footer.html.twig' with { 'action': 'show', 'id': comment.id, 'isCommentAuthor': comment|isCommentAuthor } %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="comment-answers">
+        {% if item.answers is defined %}
+            {% for answer in item.answers %}
+                {% include 'comment/answer.html.twig' with { 'answer': answer } %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
 </div>
-{% endblock %}
