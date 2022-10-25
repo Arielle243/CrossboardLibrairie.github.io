@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\User;
 use App\Entity\Rayon;
+use App\Entity\Comment;
 use App\Entity\Product;
 use App\Entity\Category;
 use App\Entity\Commande;
@@ -70,50 +71,56 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         
+        //yield MenuItem::linkTo
+        yield MenuItem::linkToRoute('Aller sur le site', 'fa fa-undo', routeName:'app_home');
+        //yield MenuItem::section('Produits', 'fa fa-book');
 
-        yield MenuItem::linkToDashboard('Gestion Librairie', 'fa fa-home');
-        yield MenuItem::section('Produits', 'fa fa-book');
-
-        yield MenuItem::subMenu('Actions')->setSubItems([
+        yield MenuItem::subMenu('Produits', 'fa fa-book')->setSubItems([
             MenuItem::linkToCrud('Ajouter un produit', 'fas fa-plus', Product::class)->setAction(Crud::PAGE_NEW),
-            MenuItem::linkToCrud('Voir les produits', 'fas fa-eye', Product::class)
+            MenuItem::linkToCrud('Liste des produits', 'fas fa-eye', Product::class)
         ]);
        
         
 
-        yield MenuItem::section('Rayons', 'fa fa-list');
-        yield MenuItem::subMenu('Actions')->setSubItems([
+        //yield MenuItem::section('Rayons', 'fa fa-list');
+        yield MenuItem::subMenu('Rayon', 'fa fa-list')->setSubItems([
             MenuItem::linkToCrud('Ajouter un rayon', 'fas fa-plus', Rayon::class)->setAction(Crud::PAGE_NEW),
             MenuItem::linkToCrud('Voir les rayons', 'fas fa-eye', Rayon::class)
         ]);
 
        
-        yield MenuItem::section('Catégories', 'fa-solid fa-table');
-        yield MenuItem::subMenu('Actions')->setSubItems([
+        //yield MenuItem::section('Catégories', 'fa-solid fa-table');
+        yield MenuItem::subMenu('Catégories', 'fa-solid fa-table')->setSubItems([
             MenuItem::linkToCrud('Ajouter une catégorie', 'fas fa-plus', Category::class)->setAction(Crud::PAGE_NEW),
             MenuItem::linkToCrud('Voir les catégories', 'fas fa-eye', Category::class)
         ]);
 
-        yield MenuItem::section('Sous-Catégories', 'fa-solid fa-tags');
-        yield MenuItem::subMenu('Actions')->setSubItems([
+        //yield MenuItem::section('Sous-Catégories', 'fa-solid fa-tags');
+        yield MenuItem::subMenu('Sous-catégories', 'fa-solid fa-tags')->setSubItems([
                MenuItem::linkToCrud('Ajouter une sous-catégorie', 'fas fa-plus', Souscategory::class)->setAction(Crud::PAGE_NEW),
-                MenuItem::linkToCrud('Voir les sous-catégories', 'fas fa-eye', Souscategory::class),
+                MenuItem::linkToCrud('Toutes les sous-catégories', 'fas fa-eye', Souscategory::class),
             
             ]);
        
-        yield MenuItem::section('Clients', 'fa-sharp fa-solid fa-address-card');
-        yield MenuItem::subMenu('Actions')->setSubItems([
+        //yield MenuItem::section('Clients', 'fa-sharp fa-solid fa-address-card');
+        yield MenuItem::subMenu('Clients', 'fa-solid fa-users')->setSubItems([
             MenuItem::linkToCrud('Ajouter un utilisateur', 'fas fa-plus', User::class)->setAction(Crud::PAGE_NEW),
-            MenuItem::linkToCrud('Voir les clients', 'fas fa-eye', User::class),
+            MenuItem::linkToCrud('Liste des clients', 'fas fa-eye', User::class),
            
     
         ]);
 
         
-        yield MenuItem::section('Commandes', 'fa-sharp fa-solid fa-basket-shopping');
-        yield MenuItem::subMenu('Actions')->setSubItems([
-            MenuItem::linkToCrud('Voir les commandes', 'fas fa-eye', Commande::class)
+        //yield MenuItem::section('Commandes', 'fa-sharp fa-solid fa-basket-shopping');
+        yield MenuItem::subMenu('Commandes', 'fa-sharp fa-solid fa-basket-shopping')->setSubItems([
+            MenuItem::linkToCrud('Liste les commandes', 'fas fa-eye', Commande::class)
         ]);
+
+        
+           //yield MenuItem::section('Commentaires & notes', 'fa-sharp fa-solid fa-basket-shopping');
+        yield MenuItem::subMenu('Commentaires & notes', 'fa-solid fa-comments')->setSubItems([
+         MenuItem::linkToCrud('Liste les commentaires & notes', 'fas fa-eye', Comment::class)
+]);
 
 
     }

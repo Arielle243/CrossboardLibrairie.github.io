@@ -21,6 +21,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 class ProductCrudController extends AbstractCrudController
 {
@@ -37,17 +38,18 @@ class ProductCrudController extends AbstractCrudController
     {
         return [
 
-            IdField::new('id')->hideOnForm(),
+            IdField::new('id', 'Référence produit')->hideOnForm(),
             ImageField::new('illustration', 'Image du produit')
                 ->setBasePath(self::PRODUCTS_BASE_PATH)
                 ->setUploadDir(self::PRODUCTS_UPLOAD_DIR),
 
             TextField::new('title', 'Nom du produit'),
             TextEditorField::new('excerpt', 'Résumé'),
-            TextEditorField::new('description', 'Description'),
-            TextField::new('author', 'Auteurs'),
+            TextEditorField::new('description', 'Description')->hideOnIndex(),
+            TextField::new('author', 'Auteurs')->hideOnIndex(),
             DateField::new('publishedAt', 'Date de parution')
-                ->setFormat('dd.MM.yyyy'),
+                ->setFormat('dd.MM.yyyy')
+                ->hideOnIndex(),
 
             ChoiceField::new('format', 'Format')
                 ->setChoices([
@@ -56,26 +58,32 @@ class ProductCrudController extends AbstractCrudController
                 'Relié'=>'relie',
                 'Audio'=>'audio',
                 
-            ]),
+            ])
+            ->hideOnIndex(),
 
             MoneyField::new('price', 'Prix')->setCurrency('EUR'),
-            TextField::new('isbn', 'ISBN'),
+            TextField::new('isbn', 'ISBN')->hideOnIndex(),
+
             ChoiceField::new('langues', 'Langues')
             ->setChoices([
                 'Français'=>'francais',
-                'Anglais'=>'anglais',
-                
-            ]),
-            TextField::new('age', 'Âges'),
-            TextField::new('editor', 'Éditeur'),
+                'Anglais'=>'anglais',   
+            ])
+            ->hideOnIndex(),
+            
+            TextField::new('age', 'Âges')
+            ->hideOnIndex(),
+            TextField::new('editor', 'Éditeur')
+            ->hideOnIndex(),
   
             
             AssociationField::new('category', 'Choisir les catégories')
                 ->setQueryBuilder(function (QueryBuilder $queryBuilder){ // pour montrer que les catégories actives.
                     $queryBuilder
                         ->where('entity.statut=true')
-                        ->orderBy('entity.createdAt', 'ASC');
-                }),
+                        ->orderBy('entity.createdAt', 'DESC');
+                })
+                ->hideOnIndex(),
             //AssociationField::new('lignecommande', 'Ajouter par'),
                 //->setQueryBuilder(function (QueryBuilder $queryBuilder){ 
                 //$queryBuilder->where('entity.statut=true');
@@ -84,20 +92,26 @@ class ProductCrudController extends AbstractCrudController
                 ->setQueryBuilder(function (QueryBuilder $queryBuilder){
                   $queryBuilder
                         ->where('entity.statut=true');
-              }), 
+              })
+              ->hideOnIndex(), 
 
             IntegerField::new('stock', 'Stock')
                 ->formatValue(function ($value) {
-                return $value < 10 ? sprintf('%d **LOW STOCK**', $value) : $value;}),
+                return $value < 5 ? sprintf('%d **STOCK FAIBLE**', $value) : $value;}),
 
-            DateTimeField::new('createdAt', 'Ajouter le')
-                ->setFormat('dd.MM.yyyy HH:mm'),
+            DateTimeField::new('createdAt', 'Date d\'ajout')
+                ->setFormat('dd.MM.yyyy HH:mm')
+                ->hideOnIndex()
+                ->hideOnForm(),
 
-            DateTimeField::new('updatedAt', 'Modifier le')
-                ->hideWhenCreating()
-                ->setFormat('dd.MM.yyyy HH:mm'),
+            DateTimeField::new('updatedAt', 'Date de modification')
+                ->hideOnForm()
+                ->setFormat('dd.MM.yyyy HH:mm')
+                ->hideOnIndex(),
+
+            AssociationField::new('users', 'Nom de User')
+            ->hideOnIndex(),
             BooleanField::new('statut', 'Statut'),
-            AssociationField::new('users', 'Ajouter par'),
             FormField::addRow(),
 
 
@@ -114,4 +128,39 @@ class ProductCrudController extends AbstractCrudController
         ->add(Crud::PAGE_EDIT, Action::SAVE_AND_ADD_ANOTHER);
     }
     
+
+    public function configureCrud(Crud $crud) : Crud
+    {
+        return $crud
+            ->setEntityLabelInPlural('Produits')
+            ->setEntityLabelInSingular('Produit');
+    }
+
+
+
+
+}
+
+class ProductRepository extends ServiceEntityRepository
+{
+    public function findAllGreaterThanPrice(int $price, bool $includeUnavailableProducts = false): array
+    {
+        // automatically knows to select Products
+        // the "p" is an alias you'll use in the rest of the query
+        $qb = $this->createQueryBuilder('p')
+            ->where('p.price > :price')
+            ->setParameter('price', $price)
+            ->orderBy('p.price', 'ASC');
+
+        if (!$includeUnavailableProducts) {
+            $qb->andWhere('p.statut = TRUE');
+        }
+
+        $query = $qb->getQuery();
+
+        return $query->execute();
+
+        // to get just one result:
+        // $product = $query->setMaxResults(1)->getOneOrNullResult();
+    }
 }

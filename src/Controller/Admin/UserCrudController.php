@@ -3,19 +3,41 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+
+
+
+
+
+/**
+ * @method User getUsers
+ */
 
 class UserCrudController extends AbstractCrudController
 {
@@ -24,41 +46,86 @@ class UserCrudController extends AbstractCrudController
     public const USER_BASE_PATH ='upload/images/users';
     public const USER_UPLOAD_DIR ='public/upload/images/users';
 
+    
+    public function __construct(
+        private EntityRepository $entityRepo,
+        private UserPasswordHasherInterface $passwordHasher
+    ) {}
+
     public static function getEntityFqcn(): string
     {
         return User::class;
     }
     
+
     public function configureFields(string $pageName): iterable
     {
         return [
            
             FormField::addPanel('Identité')
-            ->setIcon('fa fa-user')->addCssClass('optional'),
+                ->setIcon('fa fa-user')->addCssClass('optional'),
             
-            IdField::new('id')->hideOnForm(),
-            ImageField::new('picture', 'Photo de profil')
-            ->setBasePath(self::USER_BASE_PATH)
-            ->setUploadDir(self::USER_UPLOAD_DIR)
-            ->onlyOnDetail(),
+            IdField::new('id', 'Identifiant')->hideOnForm(),
 
-            TextField::new('name', 'Nom'),
+            ImageField::new('picture', 'Photo de profil')
+                ->setBasePath(self::USER_BASE_PATH)
+                ->setUploadDir(self::USER_UPLOAD_DIR)
+                ->hideOnIndex(),
+
+            TextField::new('name', 'Nom')
+                ->setColumns('col-sm-6 col-lg-5 col-xxl-3'),
+
             TextField::new('Firstname', 'Prénom'),
-            ArrayField::new('roles', 'Rôles'),
-            DateTimeField::new('dateRegistration', 'Date d\'inscription')
-            ->setFormat('dd.MM.yyyy HH:mm:ss')->hideWhenCreating()
-            ->onlyOnDetail(),
+            DateField::new('birthdate', 'Date de naissance')
+            ->setColumns('col-sm-6 col-lg-5 col-xxl-3')
+            ->hideOnIndex(),
+
+            ChoiceField::new('roles', 'Rôles')
+                ->hideOnIndex()
+                ->allowMultipleChoices()
+                ->renderAsBadges([
+                    'ROLE_ADMIN' => 'success',
+                    'ROLE_CLIENT' => 'primary'
+                ])
+                ->setChoices([
+                    'Administrateur' => 'ROLE_ADMIN',
+                    'Client' => 'ROLE_CLIENT',
+                    'Employé' => 'ROLE_EMPLOYE'
+                ]),
+
 
             FormField::addPanel('Information de contact')
-            ->setIcon('fa fa-phone')->addCssClass('optional'),
-            //->setHelp('Phone number is preferred'),
-            TextField::new('phoneNumber', 'Téléphone')->onlyOnDetail(),
-            EmailField::new('email', 'Email')->onlyOnDetail(),
-            TextField::new('address', 'Adresse')->onlyOnDetail(),
+                ->setIcon('fa fa-phone'),
+          
+            TextField::new('phoneNumber', 'Téléphone')
+                ->hideOnIndex()
+                ->setColumns('col-sm-6 col-lg-5 col-xxl-3'),
+            TextField::new('address', 'Adresse Postale')
+            ->hideOnIndex(),
+            TextField::new('city', 'Ville')
+            ->setColumns('col-sm-6 col-lg-5 col-xxl-3')
+            ->hideOnIndex(),
+            IntegerField::new('zipCode', 'Code postal')
+            ->hideOnIndex(),
+          
+
+            FormField::addPanel('Email')
+            ->setIcon('fa fa-envelope'),
+
+            EmailField::new('email', 'Email')
+            ->setColumns('col-sm-6 col-lg-5 col-xxl-3'),
+            TextField::new('password', 'Mot de passe')
+                ->setFormType(PasswordType::class)
+                ->onlyOnForms(),
 
             FormField::addPanel('Statut')
-            ->setIcon(''),
+                ->setIcon(''),
             BooleanField::new('statut'),
+
+            DateTimeField::new('dateRegistration', 'Date d\'inscription')
+            ->setFormat('dd.MM.yyyy HH:mm:ss')
+            ->hideWhenCreating()
+            ->hideOnIndex(),
 
 
         ];
@@ -72,5 +139,40 @@ class UserCrudController extends AbstractCrudController
                 ->add(Crud::PAGE_EDIT, Action::SAVE_AND_ADD_ANOTHER);
             }
 
+
+            public function configureCrud(Crud $crud) : Crud
+            {
+                return $crud
+                    ->setEntityLabelInPlural('Utilisateurs')
+                    ->setEntityLabelInSingular('Utilisateur')
+                    ->setPageTitle('index', 'Crossboard -Gestion des utilisateurs');
+            }
+
+
+
+
+
+            public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
+            {
+            $userId = $this->getUsers()->getId();
+            
+            $response = $this->entityRepo->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
+            return $response;
+        }
+
+
+
+            public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
+            {
+                /** @var User $user */
+                $user = $entityInstance;
+        
+                $plainPassword = $user->getPassword();
+                $hashedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
+        
+                $user->setPassword($hashedPassword);
+        
+                parent::persistEntity($entityManager, $user);
+            }
 
 }
