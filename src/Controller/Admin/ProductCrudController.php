@@ -25,84 +25,114 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 class ProductCrudController extends AbstractCrudController
 {
-    //pour faire appel au dossier images
+    //pour faire appel au dossier qui contient les images
     public const PRODUCTS_BASE_PATH ='upload/images/products';
     public const PRODUCTS_UPLOAD_DIR ='public/upload/images/products';
+
+
 
     public static function getEntityFqcn(): string
     {
         return Product::class;
     }
 
+
+    public function createEntity(string $entityFqcn)
+    {
+        $product= new Product();
+        $product->setUsers($this->getUser());
+        $date = new \Datetime('now');
+
+        return $product;
+    }
+
+
+
+    //---------------MODIFIER LES CHAMPS DU FORMULAIRES----------------------------------------------
+
     public function configureFields(string $pageName): iterable
     {
         return [
 
             IdField::new('id', 'Référence produit')->hideOnForm(),
+
             ImageField::new('illustration', 'Image du produit')
                 ->setBasePath(self::PRODUCTS_BASE_PATH)
                 ->setUploadDir(self::PRODUCTS_UPLOAD_DIR),
 
             TextField::new('title', 'Nom du produit'),
+
             TextEditorField::new('excerpt', 'Résumé'),
-            TextEditorField::new('description', 'Description')->hideOnIndex(),
-            TextField::new('author', 'Auteurs')->hideOnIndex(),
+
+            TextEditorField::new('description', 'Description')
+            ->hideOnIndex(),
+
+            TextField::new('author', 'Auteurs')
+            ->hideOnIndex(),
+
             DateField::new('publishedAt', 'Date de parution')
                 ->setFormat('dd.MM.yyyy')
                 ->hideOnIndex(),
 
             ChoiceField::new('format', 'Format')
+                ->hideOnIndex()
                 ->setChoices([
-                'Poche'=>'poche',
-                'Broché'=>'broche',
-                'Relié'=>'relie',
-                'Audio'=>'audio',
+                    'Poche'=>'poche',
+                    'Broché'=>'broche',
+                    'Relié'=>'relie',
+                    'Audio'=>'audio',
+                    'Dvd'=>'dvd',
                 
-            ])
-            ->hideOnIndex(),
+                ]),
 
             MoneyField::new('price', 'Prix')->setCurrency('EUR'),
+
             TextField::new('isbn', 'ISBN')->hideOnIndex(),
 
             ChoiceField::new('langues', 'Langues')
+            ->hideOnIndex()
             ->setChoices([
                 'Français'=>'francais',
                 'Anglais'=>'anglais',   
-            ])
-            ->hideOnIndex(),
+                ]),
             
             TextField::new('age', 'Âges')
             ->hideOnIndex(),
+
             TextField::new('editor', 'Éditeur')
             ->hideOnIndex(),
   
             
-            AssociationField::new('category', 'Choisir les catégories')
+            AssociationField::new('category', 'Les catégories')
+                ->hideOnIndex()
                 ->setQueryBuilder(function (QueryBuilder $queryBuilder){ // pour montrer que les catégories actives.
                     $queryBuilder
                         ->where('entity.statut=true')
                         ->orderBy('entity.createdAt', 'DESC');
-                })
-                ->hideOnIndex(),
+                }),
+
             //AssociationField::new('lignecommande', 'Ajouter par'),
                 //->setQueryBuilder(function (QueryBuilder $queryBuilder){ 
                 //$queryBuilder->where('entity.statut=true');
             //}),
-            AssociationField::new('souscategory', 'Choisir les sous-catégories')
+
+            AssociationField::new('souscategory', 'Les sous-catégories')
+                ->hideOnIndex()
                 ->setQueryBuilder(function (QueryBuilder $queryBuilder){
                   $queryBuilder
                         ->where('entity.statut=true');
-              })
-              ->hideOnIndex(), 
+              }),
 
             IntegerField::new('stock', 'Stock')
                 ->formatValue(function ($value) {
                 return $value < 5 ? sprintf('%d **STOCK FAIBLE**', $value) : $value;}),
 
+
             DateTimeField::new('createdAt', 'Date d\'ajout')
                 ->setFormat('dd.MM.yyyy HH:mm')
                 ->hideOnIndex()
                 ->hideOnForm(),
+               
 
             DateTimeField::new('updatedAt', 'Date de modification')
                 ->hideOnForm()
@@ -110,7 +140,9 @@ class ProductCrudController extends AbstractCrudController
                 ->hideOnIndex(),
 
             AssociationField::new('users', 'Nom de User')
-            ->hideOnIndex(),
+                ->HideOnForm(),
+            
+        
             BooleanField::new('statut', 'Statut'),
             FormField::addRow(),
 
@@ -119,6 +151,7 @@ class ProductCrudController extends AbstractCrudController
     }
 
 
+    //--------------------- MODIFIER LES ACTIONS----------------------------------- 
 
     public function configureActions(Actions $actions): Actions
     {
@@ -163,4 +196,6 @@ class ProductRepository extends ServiceEntityRepository
         // to get just one result:
         // $product = $query->setMaxResults(1)->getOneOrNullResult();
     }
+
+
 }

@@ -1,0 +1,36 @@
+main{
+background-image: url(../upload/images/mesImages/femme-livre.webp);
+ background-repeat: no-repeat;
+ background-position:center;
+ background-size:cover;
+ padding:180px; 
+
+}
+
+.home_menu{
+    background-color:rgba(26, 17, 17, 0.9);
+}
+
+.best_seller h5{
+    text-align: center;
+    margin-top:2em;
+}
+
+.all_product a {
+    font-size: 1em;
+    text-decoration: none;
+    margin-left:42em;
+
+}
+
+
+
+
+/*---------------FOOTER------------*/
+.container{
+    background-color:#B7D7F3 ;
+    max-width: 1537px;
+    margin-top:30%;
+    padding: 10px 10px;
+    color: black;
+}

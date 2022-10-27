@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CommentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -28,6 +30,20 @@ class Comment
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     private ?User $users = null;
+
+    #[ORM\Column]
+    private ?bool $statut = null;
+
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'comments')]
+    private ?self $commentparent = null;
+
+    #[ORM\OneToMany(mappedBy: 'commentparent', targetEntity: self::class)]
+    private Collection $comments;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -90,6 +106,60 @@ class Comment
     public function setUsers(?User $users): self
     {
         $this->users = $users;
+
+        return $this;
+    }
+
+    public function isStatut(): ?bool
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(bool $statut): self
+    {
+        $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function getCommentparent(): ?self
+    {
+        return $this->commentparent;
+    }
+
+    public function setCommentparent(?self $commentparent): self
+    {
+        $this->commentparent = $commentparent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(self $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setCommentparent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(self $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getCommentparent() === $this) {
+                $comment->setCommentparent(null);
+            }
+        }
 
         return $this;
     }

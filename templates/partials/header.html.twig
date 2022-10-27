@@ -1,3 +1,9 @@
+
+{% block stylesheets %}
+   <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+{% endblock %}
+
+
 <header>
     <div class="entete_menu">
         <nav class="navbar navbar-expand-lg" style="background-color: #b7cff3;">
@@ -43,7 +49,7 @@
     </div>
 
     <div class="home_menu">
-        <nav class="navbar navbar-expand-lg" style="background-color:#434445;">
+         <nav class="navbar navbar-expand-lg" {# style="background-color:#434445; "#}>
             <div class="container-fluid">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
                 </button>

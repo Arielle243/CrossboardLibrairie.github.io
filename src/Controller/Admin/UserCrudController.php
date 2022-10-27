@@ -58,6 +58,17 @@ class UserCrudController extends AbstractCrudController
     }
     
 
+    public function createEntity(string $entityFqcn)
+{
+    $user= new User();
+    $date = new \Datetime('now');
+    return $user;
+}
+
+
+
+
+
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -70,7 +81,8 @@ class UserCrudController extends AbstractCrudController
             ImageField::new('picture', 'Photo de profil')
                 ->setBasePath(self::USER_BASE_PATH)
                 ->setUploadDir(self::USER_UPLOAD_DIR)
-                ->hideOnIndex(),
+                //->hideOnIndex()
+                ,
 
             TextField::new('name', 'Nom')
                 ->setColumns('col-sm-6 col-lg-5 col-xxl-3'),
@@ -124,7 +136,7 @@ class UserCrudController extends AbstractCrudController
 
             DateTimeField::new('dateRegistration', 'Date d\'inscription')
             ->setFormat('dd.MM.yyyy HH:mm:ss')
-            ->hideWhenCreating()
+            ->hideOnForm()
             ->hideOnIndex(),
 
 
