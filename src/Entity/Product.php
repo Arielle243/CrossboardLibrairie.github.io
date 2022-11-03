@@ -17,7 +17,7 @@ class Product
     #[ORM\Column]
     private ?int $id;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $illustration = null;
 
     #[ORM\Column(length: 255)]
@@ -70,9 +70,6 @@ class Product
     private ?Category $category = null;
 
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $createdBy = null;
-
     #[ORM\ManyToMany(targetEntity: Souscategory::class, inversedBy: 'products')]
     private Collection $souscategory;
 
@@ -86,12 +83,20 @@ class Product
     #[ORM\ManyToOne]
     private ?Media $featuredImage = null;
 
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Lignecommande::class)]
+    private Collection $lignecommandes;
+
+    #[ORM\ManyToMany(targetEntity: Rayon::class, inversedBy: 'products')]
+    private Collection $rayons;
+
 
 
     public function __construct()
     {
         $this->souscategory = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->lignecommandes = new ArrayCollection();
+        $this->rayons = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -303,18 +308,6 @@ class Product
         return $this;
     }
 
-    public function getCreatedBy(): ?string
-    {
-        return $this->createdBy;
-    }
-
-    public function setCreatedBy(?string $createdBy): self
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Souscategory>
      */
@@ -398,6 +391,60 @@ class Product
     {
         return $this->title;
         
+    }
+
+    /**
+     * @return Collection<int, Lignecommande>
+     */
+    public function getLignecommandes(): Collection
+    {
+        return $this->lignecommandes;
+    }
+
+    public function addLignecommande(Lignecommande $lignecommande): self
+    {
+        if (!$this->lignecommandes->contains($lignecommande)) {
+            $this->lignecommandes->add($lignecommande);
+            $lignecommande->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLignecommande(Lignecommande $lignecommande): self
+    {
+        if ($this->lignecommandes->removeElement($lignecommande)) {
+            // set the owning side to null (unless already changed)
+            if ($lignecommande->getProduct() === $this) {
+                $lignecommande->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Rayon>
+     */
+    public function getRayons(): Collection
+    {
+        return $this->rayons;
+    }
+
+    public function addRayon(Rayon $rayon): self
+    {
+        if (!$this->rayons->contains($rayon)) {
+            $this->rayons->add($rayon);
+        }
+
+        return $this;
+    }
+
+    public function removeRayon(Rayon $rayon): self
+    {
+        $this->rayons->removeElement($rayon);
+
+        return $this;
     }
     
 

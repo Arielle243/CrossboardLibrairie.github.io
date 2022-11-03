@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\MediaRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\MediaRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: MediaRepository::class)]
 class Media
 {
     #[ORM\Id]
+    #[Groups('product')]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
@@ -61,5 +63,12 @@ class Media
         $this->filename = $filename;
 
         return $this;
+    }
+
+
+    public function __toString(): string
+    {
+    return $this->name;
+    
     }
 }

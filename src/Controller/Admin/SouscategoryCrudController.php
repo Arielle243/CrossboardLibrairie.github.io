@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Souscategory;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
@@ -26,4 +27,15 @@ class SouscategoryCrudController extends AbstractCrudController
         ];
     }
     
+
+
+    public function configureCrud(Crud $crud) : Crud
+    {
+        return $crud
+            ->setEntityLabelInPlural('Sous-catégories')
+            ->setEntityLabelInSingular('Sous-catégorie')
+            ->setPageTitle('index', 'Crossboard Gestion des sous-catégories')
+            ->setPageTitle('new', 'Crossboard ajouter une sous-catégorie');
+ 
+    }
 }

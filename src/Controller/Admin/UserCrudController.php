@@ -48,7 +48,7 @@ class UserCrudController extends AbstractCrudController
 
     
     public function __construct(
-        private EntityRepository $entityRepo,
+        private EntityRepository $entityRepository,
         private UserPasswordHasherInterface $passwordHasher
     ) {}
 
@@ -56,17 +56,14 @@ class UserCrudController extends AbstractCrudController
     {
         return User::class;
     }
-    
 
     public function createEntity(string $entityFqcn)
-{
-    $user= new User();
-    $date = new \Datetime('now');
-    return $user;
-}
-
-
-
+    {
+        $user = new User();
+        $date = new \DatetimeImmutable('now');
+        $user->setDateRegistration($date);
+        return $user;
+    }
 
 
     public function configureFields(string $pageName): iterable
@@ -93,11 +90,12 @@ class UserCrudController extends AbstractCrudController
             ->hideOnIndex(),
 
             ChoiceField::new('roles', 'Rôles')
-                ->hideOnIndex()
                 ->allowMultipleChoices()
                 ->renderAsBadges([
-                    'ROLE_ADMIN' => 'success',
-                    'ROLE_CLIENT' => 'primary'
+                    'ROLE_ADMIN' => 'danger',
+                    'ROLE_CLIENT' => 'success',
+                    'ROLE_EMPLOYE'=>'warning',
+                    'ROLE_INTERVENANT'=>'primary'
                 ])
                 ->setChoices([
                     'Administrateur' => 'ROLE_ADMIN',
@@ -128,7 +126,7 @@ class UserCrudController extends AbstractCrudController
             ->setColumns('col-sm-6 col-lg-5 col-xxl-3'),
             TextField::new('password', 'Mot de passe')
                 ->setFormType(PasswordType::class)
-                ->onlyOnForms(),
+                ->OnlyOnForm(),
 
             FormField::addPanel('Statut')
                 ->setIcon(''),
@@ -157,20 +155,13 @@ class UserCrudController extends AbstractCrudController
                 return $crud
                     ->setEntityLabelInPlural('Utilisateurs')
                     ->setEntityLabelInSingular('Utilisateur')
-                    ->setPageTitle('index', 'Crossboard -Gestion des utilisateurs');
+                    ->setPageTitle('index', 'Crossboard Gestion des utilisateurs')
+                    ->setPageTitle('new', 'Crossboard ajouter un utilisateur')
+                    ->setPageTitle('detail', 'Crossboard profil utilisateur')
+                    ->setDefaultSort(['dateRegistration' => 'DESC']);
+        
+                    
             }
-
-
-
-
-
-            public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
-            {
-            $userId = $this->getUser()->getId();
-            
-            $response = $this->entityRepo->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
-            return $response;
-        }
 
 
 

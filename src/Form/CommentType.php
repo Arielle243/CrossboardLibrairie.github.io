@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\User;
 use App\Entity\Comment;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,19 +18,17 @@ class CommentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('content', HiddenType::class, [
+            ->add('content', TextareaType::class, [
                 'label'=>'Votre commentaire',
                 'attr'=>[
                     'class'=>'form-control'
                 ]
             ])
-            //->add('createdAt')
             ->add('rating', CheckboxType::class, [
                 'label'=>'Votre note'
             ])
-            //->add('statut')
-            //->add('product')
-            ->add('users', EntityType::class)
+
+
             ->add('commentparent', HiddenType::class, [
                 'mapped'=> false
                 ])

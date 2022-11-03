@@ -22,6 +22,10 @@ class Lignecommande
     #[ORM\JoinColumn(nullable: false)]
     private ?Commande $commandes = null;
 
+    #[ORM\ManyToOne(inversedBy: 'lignecommandes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Product $product = null;
+
 
     public function __construct()
     {
@@ -55,6 +59,18 @@ class Lignecommande
     public function setCommandes(?Commande $commandes): self
     {
         $this->commandes = $commandes;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
 
         return $this;
     }

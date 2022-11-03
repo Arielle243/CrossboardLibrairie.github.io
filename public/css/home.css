@@ -1,14 +1,80 @@
-main{
+
+
+
+html, body {
+    margin:0;
+    padding:0;
+    height:100%;
+ }
+
+ #main {
+    min-height:100%;
+    position:relative;
+    padding-bottom:100px;   /* Hauteur du pied de page */
+ }
+/*-----------------HEADER------------------------------*/
+.site_login{
+    background-color:#434445;
+    padding:15px;
+}
+
+
+.menu_home{
+    margin-left:50em;
+
+}
+
+.logo{
+    margin-right:75em;
+}
+
+.connect{
+    margin-left:92em;
+    border: 1px solid black;
+    border-radius: 12px;
+    color: white;
+    padding: 10px;
+    background-color: #8e9092;
+  
+    
+}
+.login_menu{
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap:3%; 
+    list-style: none;   
+}
+
+a{
+    text-decoration: none;
+    color:blue;
+      
+}
+
+.login_menu  li {
+    text-decoration: none;
+    list-style: none;   
+}
+
+.navbar {
+    background-color:rgba(0,0,0,0.5);
+}
+
+
+.banner{
 background-image: url(../upload/images/mesImages/femme-livre.webp);
  background-repeat: no-repeat;
  background-position:center;
  background-size:cover;
- padding:180px; 
+ height: 300px;
+ 
 
 }
 
+
 .home_menu{
-    background-color:rgba(26, 17, 17, 0.9);
+    margin-top:-1em;
 }
 
 .best_seller h5{
@@ -23,14 +89,13 @@ background-image: url(../upload/images/mesImages/femme-livre.webp);
 
 }
 
-
+.userIdentifier{
+    background: rgba(0,0,0,0.5);
+    color:bisque;
+    margin-left: 75em;
+}
 
 
 /*---------------FOOTER------------*/
-.container{
-    background-color:#B7D7F3 ;
-    max-width: 1537px;
-    margin-top:30%;
-    padding: 10px 10px;
-    color: black;
-}
+
+

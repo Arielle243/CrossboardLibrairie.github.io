@@ -22,12 +22,6 @@ class Commande
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $statutCommande = null;
 
-    #[ORM\Column]
-    private ?float $montantTotal = null;
-
-    #[ORM\Column]
-    private ?int $nombreProduct = null;
-
 
     #[ORM\OneToMany(mappedBy: 'commandes', targetEntity: Lignecommande::class, orphanRemoval: true)]
     private Collection $lignecommandes;
@@ -35,6 +29,9 @@ class Commande
     #[ORM\ManyToOne(inversedBy: 'commande')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()
     {
@@ -66,30 +63,6 @@ class Commande
     public function setStatutCommande(?string $statutCommande): self
     {
         $this->statutCommande = $statutCommande;
-
-        return $this;
-    }
-
-    public function getMontantTotal(): ?float
-    {
-        return $this->montantTotal;
-    }
-
-    public function setMontantTotal(float $montantTotal): self
-    {
-        $this->montantTotal = $montantTotal;
-
-        return $this;
-    }
-
-    public function getNombreProduct(): ?int
-    {
-        return $this->nombreProduct;
-    }
-
-    public function setNombreProduct(int $nombreProduct): self
-    {
-        $this->nombreProduct = $nombreProduct;
 
         return $this;
     }
@@ -135,6 +108,18 @@ class Commande
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

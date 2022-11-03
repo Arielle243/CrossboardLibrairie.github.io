@@ -3,13 +3,13 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{% block title %}CrossboardLibrairie{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <title>CrossboardLibrairie - {% block title %}{% endblock %}</title>
+    
+       
+        <link rel="icon" href="{{ asset('upload/images/mesImages/logo2.png') }}" width="500">
+        
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
        
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
 
         {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
@@ -21,7 +21,7 @@
        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 
        <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
-    
+        
     </head>
 
     <body>
@@ -37,5 +37,9 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/fontawesome.min.js"   integrity="sha512-j3gF1rYV2kvAKJ0Jo5CdgLgSYS7QYmBVVUjduXdoeBkc4NFV4aSRTi+Rodkiy9ht7ZYEwF+s09S43Z1Y+ujUkA=="   crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/axentix@0.5.3/dist/js/axentix.min.js"></script>
+    <script src="{{ asset('js/script.js') }}"></script>
+
+      
     </body>
 </html>

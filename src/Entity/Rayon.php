@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Model\TimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\RayonRepository;
@@ -29,6 +31,14 @@ class Rayon
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
+
+    #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'rayons')]
+    private Collection $products;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -93,5 +103,38 @@ class Rayon
         $this->updatedAt = $updatedAt;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products->add($product);
+            $product->addRayon($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->removeElement($product)) {
+            $product->removeRayon($this);
+        }
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+    return $this->name;
+    
     }
 }

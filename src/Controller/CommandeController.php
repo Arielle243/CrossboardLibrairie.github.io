@@ -6,18 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class UserController extends AbstractController
+class CommandeController extends AbstractController
 {
-    #[Route('/user', name: 'app_user')]
+    #[Route('/commande', name: 'app_commande')]
     public function index(): Response
     {
-
-      
-      
-         $date = new \Datetime('now');
-
-        return $this->render('user/index.html.twig', [
-            'controller_name' => 'UserController',
+        return $this->render('commande/index.html.twig', [
+            'controller_name' => 'CommandeController',
         ]);
     }
 }

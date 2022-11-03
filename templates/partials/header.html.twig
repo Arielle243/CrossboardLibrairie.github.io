@@ -5,87 +5,84 @@
 
 
 <header>
-    <div class="entete_menu">
-        <nav class="navbar navbar-expand-lg" style="background-color: #b7cff3;">
-            <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"          data-bs-target="#navbarSupportedContent"                       
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
-                </button>
-                    <a class="navbar-brand" href="#"><img src="" alt="Bootstrap" width="30" height="24"></a>
-                        <ul class="navbar-nav justify-content-end">
-                            {% if app.user %}
-
-                                 <li class="nav-item"><a class="nav-link" href="#">Panier<i class="bi bi-basket"></i></a></li> 
-                                    <div class="flex-shrink-0 dropdown">
-                                        <a  class="d-block link test-decoration-none dropdown-toggle" href="#"  
-                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                            <img class="rounded-circle"  src="{{ app.user.picture }}" alt="photo de profil"  width="32" height="32" srcset="">
-                                        </a>
-                                        <ul class="dropdown-menu text-small shadow">
-                                            <li class="nav-item"><a  class="nav-link" href="{{ path('app_user', { 'firstname': app.user.firstname }) }}">Mon compte<i class="bi                   bi-person-lines-fill"></i></a></li>
-                                            <li class="nav-item"><a class="nav-link" href="{{ path('app_logout') }}">Déconnexion<i class="bi bi-lock"></i></a></li>
-                                            <li>
-                                            {%  if is_granted('ROLE_ADMIN') %}
-                                                <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}
-                                                 ">Gestion admin<i class="bi bi-lock"></i></a></li> 
-                                            {% endif %}
-                                            </li> 
-                                        </ul>
-                                    </div>
-
-                            {% else %}
-
-                                    <li class="nav-item"><a class="nav-link" href="{{ path('app_login') }}">Connexion<i class="bi 
-                                    bi-person-circle"></i></a></li>
-                            {% endif %}
-
-                            </ul>
-                        </li>
-                    </ul>
-
-                </div>
-            </div>
-        </nav>
-    </div>
-
-    <div class="home_menu">
-         <nav class="navbar navbar-expand-lg" {# style="background-color:#434445; "#}>
-            <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
-                </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item"><span class="badge text-bg-primary"><a class="nav-link active" aria-current="page" href="{{ path('app_home') }}">Accueil</a></li>
-                            <li class="nav-item dropdown"><span class="badge text-bg-primary">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Rayons</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Littérature</a></li>
-                                        <li><a class="dropdown-item" href="#">Jeunesse</a></li>
-                                        <li><a class="dropdown-item" href="#">Loisirs, nature & voyages</a></li>
-                                        <li><a class="dropdown-item" href="#">Bandes dessinées & humour</a></li>
-                                        <li><a class="dropdown-item" href="#">Arts, société & sciences humaines</a></li>
-                                        <li><a class="dropdown-item" href="#">Scolaire & pédagogie</a></li>
-                                        <li><a class="dropdown-item" href="#">Médecine, sciences & techniques</a></li>
-                                        <li><a class="dropdown-item" href="#">Entreprise, emploi, droits & économies</a></li>
-                                        <li><a class="dropdown-item" href="#">Langues</a></li>
-                                    </ul>
-                                <li class="nav-item"><span class="badge text-bg-primary"><a class="nav-link active" aria-current="page" href="#">Événements</a></li>
-                            </li>
-                        </ul>
-                        <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form>
-                    </div>
-               </div>
-           </div>
-        </nav>
-
         {% if app.user %}
-            <div class="userIdentifier">
-                Vous êtes connecté en tant que {{ app.user.firstname}}
-                {# {{ app.user.userIdentifier }} #}
-            </div>
+
+
+            <ul class="login_menu">
+            <li class="logo"><a href="{{ path ('app_home') }}"><img src="{{ asset('upload/images/mesImages/logo3.png')}}" alt="logo du site" width="100"></li></a>
+                <li>
+                <button type="button" class="btn btn-secondary"><a  href="#"><i class="bi bi-basket"></i></a><span class="badge text-bg-secondary">4</span>
+                </button></li>
+                <div class="nav-item dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle"></i></button>
+
+                    <ul class="dropdown-menu text-small shadow" style="background-color:#5c636a; ">
+                    
+                        <li class="nav-item"><a  class="nav-link" href="{{ path('app_user', { 'firstname': app.user.firstname }) }}">Mon compte
+                            <i class="bibi-person-lines-fill"></i></a></li>
+
+                            <li class="nav-item"><a class="nav-link" href="{{ path('app_logout') }}">Déconnexion<i class="bi bi-lock"></i></a></li>
+                                {%  if is_granted('ROLE_ADMIN') %}
+                                        <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Administration<i class="bi bi-lock"></i></a></li>
+                                {% endif %}
+                    </ul>           
+                    {% else %} 
+                    
+                            <li><a  class="connect" href="{{ path('app_login') }}"><i class="bi bi-person"></i></a></li>
+
+                          
+                </div>
+            </ul>               
         {% endif %}
+        
     </div>
 </header>
+
+<div class="banner">
+<section class="menu">
+    <div class="home_menu">
+        <nav class="navbar navbar-expand-lg" style="">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"                        
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <form class="container">
+                        <div class="menu_home">  
+                           <button class="btn btn-sm btn-outline-secondary" type="button"><a href="{{ path ('app_home') }}">Accueil</a></button>
+                           <button class="btn btn-sm btn-outline-secondary" type="button"><a class="nav-link dropdown-toggle" href="#" role="button"            data-bs-toggle="dropdown" aria-expanded="false">Rayon</a>
+                           <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Littérature</a></li>
+                                <li><a class="dropdown-item" href="#">Jeunesse</a></li>
+                                <li><a class="dropdown-item" href="#">Loisirs, nature & voyages</a></li>
+                                <li><a class="dropdown-item" href="#">Bandes dessinées & humour</a></li>
+                                <li><a class="dropdown-item" href="#">Arts, société & sciences humaines</a></li>
+                                <li><a class="dropdown-item" href="#">Scolaire & pédagogie</a></li>
+                                <li><a class="dropdown-item" href="#">Médecine, sciences & techniques</a></li>
+                                <li><a class="dropdown-item" href="#">Entreprise, emploi, droits & économies</a></li>
+                                <li><a class="dropdown-item" href="#">Langues</a></li>
+                            </ul>
+                           </button>
+                           <button class="btn btn-sm btn-outline-secondary" type="button"><a href="#">Événements</a></button>
+                        </div> 
+                        </form>
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2 " type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn  btn-sm btn-outline-primary" type="submit"><i class="bi bi-search"></i></button>
+                    </form>                  
+                </div>
+            </div>
+        </nav>       
+    </div>
+</section>
+
+
+
+{% if app.user %}
+<div class="userIdentifier">
+    Vous êtes connecté en tant que {{ app.user.firstname}}
+    {# {{ app.user.userIdentifier }} #}
+</div>
+{% endif %}
+</div>

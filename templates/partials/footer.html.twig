@@ -7,24 +7,23 @@
 {% block body %}
 
 
+    <footer class="container-fluid">
+        <div class="row" style="background-color: #b7cff3;">
+            <section class="col">
+                © {{ 'now'|date('Y') }} 
+		    </section>
 
+		    <section class="col">
+                 Crossboard Librairie
+		    </section>
 
+		    <section class="col">
+                Tous droits résérvés
+		    </section>
+	    </div>
 
+    </footer>
 
-<div class="container">
-    <footer class="">
-        <div class="info">
-
-        </div>
-
-    <div class="footer2">
-        <span class="copyright">© {{ 'now'|date('Y') }} </span>
-        <span> Crossboard Librairie</span>
-        <span>Tous droits résérvés</span>
-
-    </div>
-</footer>
-</div>
 
 
 {% endblock %}

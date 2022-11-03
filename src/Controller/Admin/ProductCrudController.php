@@ -25,9 +25,9 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 class ProductCrudController extends AbstractCrudController
 {
-    //pour faire appel au dossier qui contient les images
-    public const PRODUCTS_BASE_PATH ='upload/images/products';
-    public const PRODUCTS_UPLOAD_DIR ='public/upload/images/products';
+    /* //pour faire appel au dossier qui contient les images */
+    /* public const PRODUCTS_BASE_PATH ='upload/images/products'; */
+    /* public const PRODUCTS_UPLOAD_DIR ='public/upload/images/products'; */
 
 
 
@@ -56,13 +56,14 @@ class ProductCrudController extends AbstractCrudController
 
             IdField::new('id', 'Référence produit')->hideOnForm(),
 
-            ImageField::new('illustration', 'Image du produit')
-                ->setBasePath(self::PRODUCTS_BASE_PATH)
-                ->setUploadDir(self::PRODUCTS_UPLOAD_DIR),
+           AssociationField::new('featuredImage', 'Image du produit'),
+           /*      ->setBasePath(self::PRODUCTS_BASE_PATH) */
+           /*      ->setUploadDir(self::PRODUCTS_UPLOAD_DIR), */
 
             TextField::new('title', 'Nom du produit'),
 
-            TextEditorField::new('excerpt', 'Résumé'),
+            TextEditorField::new('excerpt', 'Résumé')
+                ->HideOnIndex(),
 
             TextEditorField::new('description', 'Description')
             ->hideOnIndex(),
@@ -111,11 +112,14 @@ class ProductCrudController extends AbstractCrudController
                         ->orderBy('entity.createdAt', 'DESC');
                 }),
 
-            //AssociationField::new('lignecommande', 'Ajouter par'),
-                //->setQueryBuilder(function (QueryBuilder $queryBuilder){ 
-                //$queryBuilder->where('entity.statut=true');
-            //}),
+            AssociationField::new('rayons', 'Rayons')
+                ->hideOnIndex()
+                ->setQueryBuilder(function (QueryBuilder $queryBuilder){ 
+                    $queryBuilder->where('entity.statut=true');
+                }),
 
+
+              
             AssociationField::new('souscategory', 'Les sous-catégories')
                 ->hideOnIndex()
                 ->setQueryBuilder(function (QueryBuilder $queryBuilder){
@@ -128,19 +132,20 @@ class ProductCrudController extends AbstractCrudController
                 return $value < 5 ? sprintf('%d **STOCK FAIBLE**', $value) : $value;}),
 
 
-            DateTimeField::new('createdAt', 'Date d\'ajout')
-                ->setFormat('dd.MM.yyyy HH:mm')
-                ->hideOnIndex()
-                ->hideOnForm(),
-               
+             DateTimeField::new('createdAt', 'Date d\'ajout') 
+                 ->setFormat('dd.MM.yyyy HH:mm')
+                 ->hideOnIndex() 
+                 ->hideOnForm(), 
+                 
 
-            DateTimeField::new('updatedAt', 'Date de modification')
-                ->hideOnForm()
-                ->setFormat('dd.MM.yyyy HH:mm')
+             DateTimeField::new('updatedAt', 'Date de modification') 
+                 ->hideOnForm() 
+                 ->setFormat('dd.MM.yyyy HH:mm') 
+                 ->hideOnIndex(), 
+
+            AssociationField::new('users', 'Ajouté par ')
+                ->HideOnForm()
                 ->hideOnIndex(),
-
-            AssociationField::new('users', 'Nom de User')
-                ->HideOnForm(),
             
         
             BooleanField::new('statut', 'Statut'),
@@ -162,40 +167,24 @@ class ProductCrudController extends AbstractCrudController
     }
     
 
+    //----------------MODIFIER CRUD PRODUCT------------------------------------------------
+
     public function configureCrud(Crud $crud) : Crud
     {
+
+        
         return $crud
             ->setEntityLabelInPlural('Produits')
-            ->setEntityLabelInSingular('Produit');
+            ->setEntityLabelInSingular('Produit')
+            ->setPageTitle('index', 'Crossboard Gestion des produits')
+            ->setPageTitle('new', 'Crossboard ajouter un produit')
+            ->setDefaultSort(['createdAt' => 'DESC']);
+
+        
+            
     }
 
 
-
-
-}
-
-class ProductRepository extends ServiceEntityRepository
-{
-    public function findAllGreaterThanPrice(int $price, bool $includeUnavailableProducts = false): array
-    {
-        // automatically knows to select Products
-        // the "p" is an alias you'll use in the rest of the query
-        $qb = $this->createQueryBuilder('p')
-            ->where('p.price > :price')
-            ->setParameter('price', $price)
-            ->orderBy('p.price', 'ASC');
-
-        if (!$includeUnavailableProducts) {
-            $qb->andWhere('p.statut = TRUE');
-        }
-
-        $query = $qb->getQuery();
-
-        return $query->execute();
-
-        // to get just one result:
-        // $product = $query->setMaxResults(1)->getOneOrNullResult();
-    }
-
+    
 
 }

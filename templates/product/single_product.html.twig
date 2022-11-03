@@ -1,56 +1,71 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Détails de {{product.title}} {% endblock %}
 
 {% block body %}
 
+<main class="container">
+
 <section class="single">
     <div class="single_head">
-        <h5>{{ product.title }}</h5>
+        <h3>{{ product.title }}</h3>
         <div class="author">
-
-        {% for product in app.user.products %}
-            <a href="{{ path('author_product', {'id':product.id}) }}">{{ product.author}} (Auteurs)</a>
-        {% endfor %}
+            <a href="#">{{ product.author}} (Auteurs)</a>
         </div>
         <div class="photo">
-            <p><img src="{{ asset('/upload/images/products/' ~ product.illustration) }}" alt="" width="250"></p>
-            <a href="">{{ product.category }}</a>
+            <p><img src="{{ asset('/upload/images/products/' ~ product.illustration) }}" alt="{{ product.title }}" width="250"></p>
+            <a href="">Catégorie : {{ product.category }}</a>
+            {%  for souscategory in product %}
+            <a href="">Sous catégorie: {{ product.souscategory }} </a>
+            {%  endfor %}
         </div>
     </div>
 
     <div class="details">
         <div class="details_price">
-            <p class="price">{{ product.price }} Euros</p>
-            <p class="stock">
+            <p class="price">Prix : {{ product.price / 100 }} Euros</p>
             {%  if product.stock > 5 %}
                 <p class="text-success"> Disponible</p>
-               
+                <a href="#" class="btn btn-success">Ajouter au panier</a>
                 {% elseif product.stock > 0 %}
                 <p class="text-warning"> Plus que {{ product.stock }} !</p>
-                
+                <a href="#" class="btn btn-success">Ajouter au panier</a>
                 {% else %}
-                    <p class="text-danger">Épuisé</p>
-            {% endif %}</p>
+                    <p class="text-danger">Temporairement en rupture de stock</p>
+            {% endif %}
 
-            <form action="" method="post">
-                <button type="submit" class="btn btn-primary">Ajouter au panier</button>
-            </form>
         </div>
 
-        <div class="resume">
-            <p>{{ product.excerpt }}</p>
+        <div class="resume col-6">
+            {# pour supprimer les balises on ajoute raw #}
+            <hr>
+            <p>Résumé : {{ product.excerpt | raw }}</p>
             <p>Date de parution: {{ product.publishedAt |date("d/m/Y")  }}</p>
             <p>Éditeurs: {{ product.editor}}</p>
+            <p>Réference: {{ product.isbn}}</p>
+            <p>Langues: {{ product.langues}}</p>
+            <p>Âges: {{ product.age}}</p>
             <a href="{{ path('app_product') }}">Retour à la liste</a>
         </div>
     </div>
 </section>
 
 <hr>
-<p>Commentaire(s)</p>
-{% for comment in product.comments %}
-<p>{{ product.comments }}</p>
-{% endfor %}
+
+
+        <div class="class col">
+            <h5>Laisser un commentaire</h5>
+        </div>
+    </div>
+            
+
+
+
+
+
+</main>
+
+
 
 
 

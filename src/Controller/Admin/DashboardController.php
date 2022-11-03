@@ -3,11 +3,13 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use App\Entity\Media;
 use App\Entity\Rayon;
 use App\Entity\Comment;
 use App\Entity\Product;
 use App\Entity\Category;
 use App\Entity\Commande;
+use App\Entity\Employes;
 use App\Entity\Souscategory;
 use App\Entity\SousCategories;
 use Symfony\Component\HttpFoundation\Response;
@@ -113,15 +115,23 @@ class DashboardController extends AbstractDashboardController
         
         //yield MenuItem::section('Commandes', 'fa-sharp fa-solid fa-basket-shopping');
         yield MenuItem::subMenu('Commandes', 'fa-sharp fa-solid fa-basket-shopping')->setSubItems([
+            MenuItem::linkToCrud('Ajouter une commande', 'fas fa-plus', Commande::class)->setAction(Crud::PAGE_NEW),
             MenuItem::linkToCrud('Liste les commandes', 'fas fa-eye', Commande::class)
         ]);
 
         
            //yield MenuItem::section('Commentaires & notes', 'fa-sharp fa-solid fa-basket-shopping');
         yield MenuItem::subMenu('Commentaires & notes', 'fa-solid fa-comments')->setSubItems([
-         MenuItem::linkToCrud('Liste les commentaires & notes', 'fas fa-eye', Comment::class)
-]);
+            MenuItem::linkToCrud('Ajouter un commentaire', 'fas fa-plus', Comment::class)->setAction(Crud::PAGE_NEW),
+            MenuItem::linkToCrud('Liste les commentaires & notes', 'fas fa-eye', Comment::class)
+        ]);
 
+
+        //yield MenuItem::section('Commandes', 'fa-sharp fa-solid fa-basket-shopping');
+        yield MenuItem::subMenu('Media', 'fas fa-photo-video')->setSubItems([
+            MenuItem::linkToCrud('Ajouter une image', 'fas fa-plus', Media::class)->setAction(Crud::PAGE_NEW),
+            MenuItem::linkToCrud('Liste les images', 'fas fa-eye', Media::class)
+        ]);
 
     }
 }
