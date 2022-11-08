@@ -11,7 +11,7 @@ class CommandeController extends AbstractController
     #[Route('/commande', name: 'app_commande')]
     public function index(): Response
     {
-        return $this->render('commande/index.html.twig', [
+        return $this->render('home/commande.html.twig', [
             'controller_name' => 'CommandeController',
         ]);
     }

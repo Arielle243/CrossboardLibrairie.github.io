@@ -126,7 +126,7 @@ class UserCrudController extends AbstractCrudController
             ->setColumns('col-sm-6 col-lg-5 col-xxl-3'),
             TextField::new('password', 'Mot de passe')
                 ->setFormType(PasswordType::class)
-                ->OnlyOnForm(),
+                ->OnlyOnForms(),
 
             FormField::addPanel('Statut')
                 ->setIcon(''),

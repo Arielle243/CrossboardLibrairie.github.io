@@ -41,10 +41,12 @@ class ProductCrudController extends AbstractCrudController
     {
         $product= new Product();
         $product->setUsers($this->getUser());
-        $date = new \Datetime('now');
+        $product->setCreatedAt (new \Datetime());
+        $product->setUpdatedAt (new \Datetime());
 
         return $product;
     }
+
 
 
 
@@ -52,111 +54,125 @@ class ProductCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        return [
-
-            IdField::new('id', 'Référence produit')->hideOnForm(),
-
-           AssociationField::new('featuredImage', 'Image du produit'),
-           /*      ->setBasePath(self::PRODUCTS_BASE_PATH) */
-           /*      ->setUploadDir(self::PRODUCTS_UPLOAD_DIR), */
-
-            TextField::new('title', 'Nom du produit'),
-
-            TextEditorField::new('excerpt', 'Résumé')
-                ->HideOnIndex(),
-
-            TextEditorField::new('description', 'Description')
-            ->hideOnIndex(),
-
-            TextField::new('author', 'Auteurs')
-            ->hideOnIndex(),
-
-            DateField::new('publishedAt', 'Date de parution')
-                ->setFormat('dd.MM.yyyy')
-                ->hideOnIndex(),
-
-            ChoiceField::new('format', 'Format')
-                ->hideOnIndex()
-                ->setChoices([
-                    'Poche'=>'poche',
-                    'Broché'=>'broche',
-                    'Relié'=>'relie',
-                    'Audio'=>'audio',
-                    'Dvd'=>'dvd',
-                
-                ]),
-
-            MoneyField::new('price', 'Prix')->setCurrency('EUR'),
-
-            TextField::new('isbn', 'ISBN')->hideOnIndex(),
-
-            ChoiceField::new('langues', 'Langues')
-            ->hideOnIndex()
-            ->setChoices([
-                'Français'=>'francais',
-                'Anglais'=>'anglais',   
-                ]),
-            
-            TextField::new('age', 'Âges')
-            ->hideOnIndex(),
-
-            TextField::new('editor', 'Éditeur')
-            ->hideOnIndex(),
-  
-            
-            AssociationField::new('category', 'Les catégories')
-                ->hideOnIndex()
-                ->setQueryBuilder(function (QueryBuilder $queryBuilder){ // pour montrer que les catégories actives.
-                    $queryBuilder
-                        ->where('entity.statut=true')
-                        ->orderBy('entity.createdAt', 'DESC');
-                }),
-
-            AssociationField::new('rayons', 'Rayons')
-                ->hideOnIndex()
-                ->setQueryBuilder(function (QueryBuilder $queryBuilder){ 
-                    $queryBuilder->where('entity.statut=true');
-                }),
-
-
-              
-            AssociationField::new('souscategory', 'Les sous-catégories')
-                ->hideOnIndex()
-                ->setQueryBuilder(function (QueryBuilder $queryBuilder){
-                  $queryBuilder
-                        ->where('entity.statut=true');
-              }),
-
-            IntegerField::new('stock', 'Stock')
-                ->formatValue(function ($value) {
-                return $value < 5 ? sprintf('%d **STOCK FAIBLE**', $value) : $value;}),
-
-
-             DateTimeField::new('createdAt', 'Date d\'ajout') 
-                 ->setFormat('dd.MM.yyyy HH:mm')
-                 ->hideOnIndex() 
-                 ->hideOnForm(), 
-                 
-
-             DateTimeField::new('updatedAt', 'Date de modification') 
-                 ->hideOnForm() 
-                 ->setFormat('dd.MM.yyyy HH:mm') 
-                 ->hideOnIndex(), 
-
-            AssociationField::new('users', 'Ajouté par ')
-                ->HideOnForm()
-                ->hideOnIndex(),
-            
         
-            BooleanField::new('statut', 'Statut'),
-            FormField::addRow(),
+
+            yield   FormField::addPanel('Produit');
+            yield   IdField::new('id', 'Référence produit')->hideOnForm();
+            yield   AssociationField::new('featuredImage', 'Image du produit')
+                        ->setColumns('col-sm-6 col-lg-5 col-xxl-3');
+            /*         ->setBasePath(self::PRODUCTS_BASE_PATH) */
+            /*         ->setUploadDir(self::PRODUCTS_UPLOAD_DIR), */
+            yield   TextField::new('title', 'Nom du produit');
+            yield   TextField::new('author', 'Auteurs')->hideOnIndex();
+            yield   TextEditorField::new('excerpt', 'Résumé')->HideOnIndex();
+
+            yield   TextEditorField::new('description', 'Description')
+                        ->hideOnIndex()
+                        ->HideOnForm();
+
+            yield   FormField::addPanel('Caractéristiques du produit');
+            yield   DateField::new('publishedAt', 'Date de parution')
+                        ->setFormat('dd.MM.yyyy')
+                        ->hideOnIndex()
+                        ->setColumns('col-sm-6 col-lg-5 col-xxl-2');
+
+            yield   ChoiceField::new('format', 'Format')
+                        
+                        ->hideOnIndex()
+                        ->setColumns('col-sm-6 col-lg-5 col-xxl-3')
+                        ->setChoices([
+                            'Poche'=>'poche',
+                            'Broché'=>'broche',
+                            'Relié'=>'relie',
+                            'Audio'=>'audio',
+                            'Dvd'=>'dvd',
+                        ]);
+
+            yield   MoneyField::new('price', 'Prix')
+                        ->setCurrency('EUR');
+
+            yield   TextField::new('isbn', 'ISBN')
+                        ->hideOnIndex()
+                        ->setColumns('col-sm-6 col-lg-5 col-xxl-3');
+
+            yield   ChoiceField::new('langues', 'Langues')
+                        ->hideOnIndex()
+                        ->setChoices([
+                           'Allemand'=>'allemand',
+                            'Anglais'=>'anglais',
+                            'Arabe'=>'arabe',
+                            'Espagnol'=>'espagnol',
+                            'Français'=>'francais',
+                            'Italien'=>'italien',
+                            'Mandarin'=>'mandarin',
+                            'Portugais'=>'portugais',
+                            'Russe'=>'russe',
+                            'Swahili'=>'swahili',
+                           
+
+                        ]);
+                    
+            yield   TextField::new('age', 'Âges')
+                        ->hideOnIndex()
+                        ->setColumns('col-sm-6 col-lg-5 col-xxl-3');
+
+            yield   TextField::new('editor', 'Éditeur')
+                        ->hideOnIndex();
 
 
-        ];
+            yield   AssociationField::new('category', 'Les catégories')
+                        ->setColumns('col-sm-6 col-lg-5 col-xxl-3')
+                        ->hideOnIndex()
+                        ->setQueryBuilder(function (QueryBuilder $queryBuilder){ // pour montrer que les catégories actives.
+                            $queryBuilder
+                                ->where('entity.statut=true')
+                                ->orderBy('entity.createdAt', 'DESC');
+                        });
+                    
+            yield   AssociationField::new('rayons', 'Rayons')
+                        ->hideOnIndex()
+                        ->setQueryBuilder(function (QueryBuilder $queryBuilder){ 
+                            $queryBuilder->where('entity.statut=true');
+                        });
+                
+            yield   AssociationField::new('souscategory', 'Les sous-catégories')
+                        ->setColumns('col-sm-6 col-lg-5 col-xxl-3')
+                        ->hideOnIndex()
+                        ->setQueryBuilder(function (QueryBuilder $queryBuilder){
+                          $queryBuilder
+                                ->where('entity.statut=true');
+                        });
+                    
+            yield   IntegerField::new('stock', 'Stock')
+                        ->formatValue(function ($value) {
+                        return $value < 5 ? sprintf('%d **STOCK FAIBLE**', $value) : $value;});
+                        
+                        
+            yield   DateTimeField::new('createdAt', 'Date d\'ajout') 
+                         ->setFormat('dd.MM.yyyy HH:mm')
+                         ->hideOnIndex() 
+                         ->hideOnForm();
+                        
+
+            yield   DateTimeField::new('updatedAt', 'Date de modification') 
+                        ->hideOnForm() 
+                        ->setFormat('dd.MM.yyyy HH:mm') 
+                        ->hideOnIndex();
+
+            yield   AssociationField::new('users', 'Ajouté par ')
+                        ->HideOnForm()
+                        ->hideOnIndex();
+
+        
+            yield   BooleanField::new('statut', 'Statut');
+            yield   FormField::addRow();
+
+
+        ;
     }
 
 
-    //--------------------- MODIFIER LES ACTIONS----------------------------------- 
+    //--------------------- MODIFIER LES ACTIONS du crud----------------------------------- 
 
     public function configureActions(Actions $actions): Actions
     {

@@ -33,9 +33,13 @@ class Commande
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\ManyToMany(targetEntity: LignePanier::class, mappedBy: 'commandes')]
+    private Collection $lignePaniers;
+
     public function __construct()
     {
         $this->lignecommandes = new ArrayCollection();
+        $this->lignePaniers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -120,6 +124,33 @@ class Commande
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LignePanier>
+     */
+    public function getLignePaniers(): Collection
+    {
+        return $this->lignePaniers;
+    }
+
+    public function addLignePanier(LignePanier $lignePanier): self
+    {
+        if (!$this->lignePaniers->contains($lignePanier)) {
+            $this->lignePaniers->add($lignePanier);
+            $lignePanier->addCommande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLignePanier(LignePanier $lignePanier): self
+    {
+        if ($this->lignePaniers->removeElement($lignePanier)) {
+            $lignePanier->removeCommande($this);
+        }
 
         return $this;
     }

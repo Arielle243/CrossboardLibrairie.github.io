@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panier{% endblock %}
+
+{% block body %}
+      <h1 class="text-center p-3">Panier</h1>
+
+    <table class="table p-3">
+        <thead>
+            <tr class="text-primary">
+                <th>Produit</th>
+                <th>Prix(unité)</th>
+                <th>Quantité</th>
+                <th>Montant</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {# on créé un compteur qui permettra de calculer le montant du panier #}
+            {% set montantTotal = 0 %}
+            {% for lignecommande in panier.lignecommandes %}
+                {# on affiche les propriétés désirées #}
+
+                <tr>
+                    <td>{{ lignecommande.product.title }}</td>
+                    <td>{{  lignecommande.product.price / 100 }} €</td>
+                    {# en TWIG il est possible de multiplier, additionner, soustraire ou diviser les propriétés entre elles si leur type s'y prète (integer ou float) #}
+                    
+                    <td>{{ lignecommande.quantite }}</td>
+                    <td>{{ lignecommande.quantite * lignecommande.product.price / 100 }} € </td>
+                    <td>
+                        <a href="{{ path('home-panier')}}" class="btn btn-outline-success"><i class="bi bi-plus"></i></a>
+                        <a href="" class="btn btn-outline-warning"><i class="bi bi-dash"></i></a>
+                        <a href="#" class="btn btn-outline-danger"><i class="bi bi-x"></i></a>
+                    </td>
+                    {# à chaque tour de boucle, càd pour chaque ligne de commande, on incrémente le compteur avec le montant de ctte ligne #}
+                    {% set montantTotal = montantTotal + (lignecommande.quantite * lignecommande.product.price) / 100 %}
+                </tr>
+            {% endfor %}
+        </tbody>
+
+        <tfooter>
+                <tr class="text-primary">
+                    <td colspan="3">Total du panier</td>
+                    {# maintenant on peut afficher le compteur qui contient le montant total, on pourrait aussi lui appliquer un traitement pour une remise ou calculer la tva... #}
+                    <td>{{ montantTotal }} €</td>
+                </tr> 
+        </tfooter>
+    </table>
+
+    {# ici on affiche le formulaire qui est constitué d'un bouton unique qui servira à valider le panier #}
+        {{ form_start(form) }} 
+          {{ form_widget(form) }} 
+        {{ form_end(form) }}
+{% endblock %}

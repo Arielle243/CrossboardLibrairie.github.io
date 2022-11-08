@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\LignecommandeRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LignecommandeRepository::class)]
@@ -26,12 +24,12 @@ class Lignecommande
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 
-
-    public function __construct()
-    {
-        $this->product = new ArrayCollection();
-    }
-
+/*  */
+/*     public function __construct() */
+/*     { */
+/*         $this->product = new ArrayCollection(); */
+/*     } */
+/*  */
     public function getId(): ?int
     {
         return $this->id;

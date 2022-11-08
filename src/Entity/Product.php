@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\User;
 use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,9 +17,6 @@ class Product
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id;
-
-    #[ORM\Column(length: 255)]
-    private ?string $illustration = null;
 
     #[ORM\Column(length: 255)]
     private ?string $title = null;
@@ -89,6 +87,9 @@ class Product
     #[ORM\ManyToMany(targetEntity: Rayon::class, inversedBy: 'products')]
     private Collection $rayons;
 
+    #[ORM\ManyToMany(targetEntity: LignePanier::class, mappedBy: 'products')]
+    private Collection $lignePaniers;
+
 
 
     public function __construct()
@@ -97,23 +98,12 @@ class Product
         $this->comments = new ArrayCollection();
         $this->lignecommandes = new ArrayCollection();
         $this->rayons = new ArrayCollection();
+        $this->lignePaniers = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getIllustration(): ?string
-    {
-        return $this->illustration;
-    }
-
-    public function setIllustration(?string $illustration): self
-    {
-        $this->illustration = $illustration;
-
-        return $this;
     }
 
     public function getTitle(): ?string
@@ -443,6 +433,33 @@ class Product
     public function removeRayon(Rayon $rayon): self
     {
         $this->rayons->removeElement($rayon);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LignePanier>
+     */
+    public function getLignePaniers(): Collection
+    {
+        return $this->lignePaniers;
+    }
+
+    public function addLignePanier(LignePanier $lignePanier): self
+    {
+        if (!$this->lignePaniers->contains($lignePanier)) {
+            $this->lignePaniers->add($lignePanier);
+            $lignePanier->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLignePanier(LignePanier $lignePanier): self
+    {
+        if ($this->lignePaniers->removeElement($lignePanier)) {
+            $lignePanier->removeProduct($this);
+        }
 
         return $this;
     }

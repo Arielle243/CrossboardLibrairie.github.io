@@ -1,0 +1,7 @@
+{
+    "editor.wordWrap": "on",
+    "editor.autoClosingQuotes": "always",
+    "editor.autoIndent": "advanced",
+    "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+    "editor.columnSelection": true
+}

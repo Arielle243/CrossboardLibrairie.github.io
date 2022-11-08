@@ -5,14 +5,15 @@
 
 
 <header>
-        {% if app.user %}
-
-
-            <ul class="login_menu">
-            <li class="logo"><a href="{{ path ('app_home') }}"><img src="{{ asset('upload/images/mesImages/logo3.png')}}" alt="logo du site" width="100"></li></a>
+        <ul class="login_menu">
+                <li class="logo"><a href="{{ path ('home-index') }}"><img  class="logo"src="{{ asset('upload/images/mesImages/logo3.png')}}" alt="logo du site" width="100"></li></a>
                 <li>
-                <button type="button" class="btn btn-secondary"><a  href="#"><i class="bi bi-basket"></i></a><span class="badge text-bg-secondary">4</span>
+
+                           {% if app.user %}
+                <button type="button" class="btn btn-secondary"><a  href="{{ path('home-panier') }}"><i class="bi bi-basket"></i></a><span class="badge text-bg-secondary">4</span>
                 </button></li>
+
+             
                 <div class="nav-item dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-person-circle"></i></button>
@@ -50,7 +51,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <form class="container">
                         <div class="menu_home">  
-                           <button class="btn btn-sm btn-outline-secondary" type="button"><a href="{{ path ('app_home') }}">Accueil</a></button>
+                           <button class="btn btn-sm btn-outline-secondary" type="button"><a href="{{ path ('home-index') }}">Accueil</a></button>
                            <button class="btn btn-sm btn-outline-secondary" type="button"><a class="nav-link dropdown-toggle" href="#" role="button"            data-bs-toggle="dropdown" aria-expanded="false">Rayon</a>
                            <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="#">Littérature</a></li>
