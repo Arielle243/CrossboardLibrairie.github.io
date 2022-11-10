@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -53,7 +54,7 @@ class RegistrationFormType extends AbstractType
             'widget' => 'choice',
             'years' => range(date('Y')-100,date('Y'))
         ])
-        ->add('phoneNumber',TextType::class )
+        ->add('phoneNumber',TelType::class )
         ->add('address',TextType::class)
         ->add('city', TextType::class)
         ->add('zipCode', TextType::class)
@@ -61,14 +62,14 @@ class RegistrationFormType extends AbstractType
          
          
             ->add('email')
-          /*   ->add('agreeTerms', CheckboxType::class, [ */
-          /*       'mapped' => false, */
-          /*       'constraints' => [ */
-          /*           new IsTrue([ */
-          /*               'message' => 'You should agree to our terms.', */
-          /*           ]), */
-          /*       ], */
-          /*   ]) */
+            ->add('agreeTerms', CheckboxType::class, [ 
+                'mapped' => false, 
+                'constraints' => [ 
+                    new IsTrue([ 
+                        'message' => 'You should agree to our terms.', 
+                    ]), 
+                ], 
+            ]) 
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'required' => 'true',

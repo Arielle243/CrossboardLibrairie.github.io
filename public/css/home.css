@@ -64,7 +64,7 @@ a{
 
 
 .banner{
-background-image: url(../upload/images/mesImages/femme-livre.webp);
+background-image: url(../upload/images/mesImages/bookish1.webp);
  background-repeat: no-repeat;
  background-position:center;
  background-size:cover;
@@ -97,6 +97,35 @@ background-image: url(../upload/images/mesImages/femme-livre.webp);
 }
 
 
+.details{
+    border: 1px solid black;
+    padding: 15px;
+    border-radius: 12px;
+    margin-top: 5em;
+    background-color:  rgba(170, 155, 155, 0.5);
+    /*width:45%;*/
+
+}
+.single_head{
+       margin-top: 5em;
+       width: 30%;
+}
+
+.single{
+    display:flex;
+    flex-direction: row;
+    gap:30px;
+}
+
+table, th, td {
+  border:0.5px solid black;
+  padding: 10px;
+
+}
+
+.resume h6{
+    padding-top: 15px;
+}
 /*---------------FOOTER------------*/
 
 

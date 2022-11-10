@@ -6,9 +6,9 @@
 
     <main class="container">
 
+        <h3 class="text-center">{{ product.title }}</h3>
         <section class="single">
             <div class="single_head">
-                <h3>{{ product.title }}</h3>
                 <div class="author">
                     <a href="#">{{ product.author}} (Auteurs)</a>
                 </div>
@@ -50,23 +50,42 @@
         </div>
 
 
-        <div class="resume col-6">
+        <div class="resume">
             {# pour supprimer les balises on ajoute raw #}
-            <hr>
-            <p>Résumé : {{ product.excerpt | raw }}</p>
-            <p>Date de parution: {{ product.publishedAt |date("d/m/Y")  }}</p>
-            <p>Éditeurs: {{ product.editor}}</p>
-            <p>Réference: {{ product.isbn}}</p>
-            <p>Langues: {{ product.langues}}</p>
-            <p>Âges: {{ product.age}}</p>
-            <a href="{{ path('home-product') }}">Retour à la liste</a>
+           
+            <h6>Description</h6>
+                <p>{{ product.excerpt | raw }}</p>
+             
+
+            <div class="caracteristique">
+
+            <table>
+               
+                    <tr colspan=2>
+                        <th>Date de parution</th>
+                        <th>Éditeurs</th>
+                        <th>ISBN/ASIN</th>
+                        <th>Langues</th>
+                        <th>Âges</th>
+                    </tr>
+             
+                    <tr>
+                        <td>{{ product.publishedAt |date("d/m/Y")  }}</td>
+                        <td>{{ product.editor}}</td>
+                        <td>{{ product.isbn}}</td>
+                        <td>{{ product.langues}}</td>
+                        <td>{{ product.age}}</td>
+                    </tr>
+               
+            </table>
+            </div>
+
         </div>
     </div>
 </section>
 
 <hr>
-
-
+        <p class="text-end"><a href="{{ path('home-product') }}">Retour à la liste</a></p>
         <div class="class col">
             <h5>Laisser un commentaire</h5>
         </div>
