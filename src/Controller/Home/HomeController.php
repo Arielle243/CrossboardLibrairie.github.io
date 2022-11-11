@@ -2,14 +2,15 @@
 
 namespace App\Controller\Home;
 
+use App\Entity\Panier;
 use App\Entity\Comment;
 use App\Entity\Product;
 use App\Entity\Commande;
 use App\Form\CommentType;
 use App\Entity\LignePanier;
 use App\Entity\Lignecommande;
+use App\Service\FileUploader;
 use App\Form\LigneCommandeType;
-use App\Form\Lignecommande1Type;
 use App\Form\ValidatePanierType;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
@@ -40,7 +41,7 @@ class HomeController extends AbstractController
 
   
   /**
-   * !--------------  PARTIE PRODUIT--------------------------*/
+   * !---------------------------------------------PARTIE  PRODUIT--------------------------------------------------------*/
 
 
         #[Route('/product', name: 'product')]
@@ -57,13 +58,15 @@ class HomeController extends AbstractController
         // on intègre la commande ayant un staut panier et y'a que l'utilisateur connecté qui peut avoir un panier
 
         #[Route('/product/{id}/details', name: 'details', methods:['GET', 'POST'])]
+
         public function details(Request $request, Product $product, CommandeRepository 
         $commandeRepository, LignecommandeRepository $lignecommandeRepository, 
         EntityManagerInterface $entityManager): Response
         {
             $lignecommandes = new Lignecommande(); 
 
-            // formulaire pour ajouter une quantité de produit              
+            //----------------------------formulaire pour ajouter  le produit avec une quantité de produit dans le panier------------------------------------- 
+
             $form = $this->createForm(LigneCommandeType::class, $lignecommandes);
             $form->handleRequest($request);
             $panier = $commandeRepository->findOneBy([
@@ -72,86 +75,94 @@ class HomeController extends AbstractController
             ]);
 
             if($form->isSubmitted() && $form->isValid()) {
+
                 $lignecommandes->setProduct($product);
                 $lignecommandes->setCommandes($panier);
+
+               
                 //$lignecommandeRepository->add($lignecommandes, true);
                 $entityManager->persist($lignecommandes);
                 $entityManager->flush();
                 return $this->redirectToRoute('home-panier', [], Response::HTTP_SEE_OTHER);
             }
-                        if(!$product){
-                    return $this->redirectToRoute('home-index');
-                }
+
                     return $this->renderForm('home/single_product.html.twig', [
                         'product' => $product,
                         'form' => $form,
                         'commande' => $panier,
                         'lignecommande' => $lignecommandes,
                         'button_label' => 'Ajouter au panier',
-                ]);
-            }
+                    ]);
+
+                    //-----------------------------------------------------
+                    // si on ne trouve pas de produit on rédirige vers l'accueil
+                    if(!$product){
+                        return $this->redirectToRoute('home-index');
+                    }
+
+        }
     
-
-
 
 
 
         /**
- * !--------------  PARTIE PANIER--------------------------*/
+ * !--------------------------------------------------PARTIE PANIER---------------------------------------------------*/
 
     #[Route('/panier', name: 'panier', methods: ['GET', 'POST'])]
-    public function panier(CommandeRepository $commandeRepository, Request $request, EntityManagerInterface $entityManager): Response
+    public function panier(CommandeRepository $commandeRepository, Request $request, EntityManagerInterface $entityManager, ProductRepository $productRepository): Response
     {
          // on va récupérer le panier pour l'afficher, c'est à dire la commande qui a le statut 'panier et qui appartient à l'utilisateur connecté
          $panier = $commandeRepository->findOneBy([ 
              'statutCommande' => 'panier', 
-             'user' => $this->getUser(), 
+             'user' => $this->getUser(),
+             
               
          ]); 
 
+        //-------------------------------------VALIDATION PANIER------------------------------------------------------------------------
 
-    // on va mettre en place un bouton qui permettra de valider le panier, càd modifier le statut  du panier pour lui donner le statut 'en cours de préparation'
-    $form = $this->createForm(ValidatePanierType::class, 
-    $panier);
-    $form->handleRequest($request);
-     if($form->isSubmitted() && $form->isValid()) {
-         $date = new \DatetimeImmutable('now');
-         // on change le statut du panier
-         $panier->setStatutCommande('en cours de préparation');
-        // on met à jour le statut, donc il faut mettre aussi à jour la propriété 'updatedAt'
-        $panier->setUpdatedAt($date);
-        
-     // on persiste les données
-        $entityManager->persist($panier);
-        $entityManager->flush();
+        // on va mettre en place un bouton qui permettra de valider le panier, càd modifier le statut  du panier pour lui donner le statut 'en cours de préparation'
+        $form = $this->createForm(ValidatePanierType::class, 
+        $panier);
+        $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid()) {
+                $date = new \DatetimeImmutable('now');
+                 // on change le statut du panier
+                $panier->setStatutCommande('en cours de préparation');
+                // on met à jour le statut, donc il faut mettre aussi à jour la propriété 'updatedAt'
+                $panier->setUpdatedAt($date);
+                // on persiste les données
+                $entityManager->persist($panier);
+                $entityManager->flush();
 
 
-     // n'oublions pas de créer un nouveau panier : une nouvelle commande qui appartient au client connecté et qui a le statut 'panier'
-    $commande = new Commande();
-    $commande->setUser($this->getUser());
-    $commande->setStatutCommande('panier');
-    $commande->setDateCommande($date);
-    $commande->setUpdatedAt($date);
-     // on persiste les données
-    $entityManager->persist($panier);
-    $entityManager->flush();
-    
-    $entityManager->persist($commande);
-    $entityManager->flush();
-     // on redirige vers l'accueil
-     return $this->redirectToRoute('home-index', [], Response::HTTP_SEE_OTHER);
+                 // n'oublions pas de créer un nouveau panier : une nouvelle commande qui appartient au client connecté et qui a le statut 'panier'
+                $commande = new Commande();
+                $commande->setUser($this->getUser());
+                $commande->setStatutCommande('panier');
+                $commande->setDateCommande($date);
+                $commande->setUpdatedAt($date);
+                 // on persiste les données
+                $entityManager->persist($panier);
+                $entityManager->flush();
+
+                $entityManager->persist($commande);
+                $entityManager->flush();
+                 // on redirige vers l'accueil
+                return $this->redirectToRoute('home-index', [], Response::HTTP_SEE_OTHER);
+            }
+
+                return $this->renderForm('home/panier.html.twig', [
+                 'panier' => $panier,
+                 'form' => $form,
+                    ]); 
+
+
     }
 
-    return $this->renderForm('home/panier.html.twig', [
-     'panier' => $panier,
-     'form' => $form,
-        ]);
-    
 
-    }
+    //----------------------------DELETE LIGNE COMMANDE------------------------------------------------
 
-
-//----------------------------DELETE LIGNE COMMANDE------------------------------------------------
     #[Route('/delete/{id}', name: 'lignecommande_delete', methods: ['POST'])]
     public function delete_ligneCommande(Request $request, Lignecommande $lignecommande, LignecommandeRepository $lignecommandeRepository, EntityManagerInterface 
         $entityManager): Response
@@ -163,22 +174,56 @@ class HomeController extends AbstractController
     }
 
 
-//----------------------------ADD  AND REMOVE QUANTITE LIGNE COMMANDE------------------------------------------------------
-    #[Route('/edit/{id}', name: 'lignecommande_edit', methods: ['GET', 'POST'])]
-  public function edit_ligneCommande(Request $request, Lignecommande $lignecommande, LignecommandeRepository $lignecommandeRepository): Response
-  {
-      $form = $this->createForm(LignecommandeType::class, $lignecommande);
-      $form->handleRequest($request);
-      if ($form->isSubmitted() && $form->isValid()) {
-          $lignecommandeRepository->save($lignecommande, true);
-          return $this->redirectToRoute('home-panier', [], Response::HTTP_SEE_OTHER);
-      }
-      return $this->renderForm('lignecommande/edit.html.twig', [
-          'lignecommande' => $lignecommande,
-          'form' => $form,
-      ]);
-  }
+    //----------------------------ADD UNE QUANTITE  DANS UNE LIGNE COMMANDE------------------------------------------------------
 
+    #[Route('/addQuantity/{id}', name: 'lignecommande_add', methods: ['GET', 'POST'])]
+    public function add_ligneCommande(Request $request, Lignecommande $lignecommande, LignecommandeRepository $lignecommandeRepository): Response
+    {
+        // On défini la quantite qui sera associé à la ligne de commande en ajoutant 1 pour incrementer 
+        $quantite = $lignecommande->getQuantite() + 1 ;
+        $lignecommande->setQuantite($quantite);
+        //Ensuite on sauvegarde dans la base de données avec la foonction save
+        $lignecommandeRepository->save($lignecommande, true);
+        // et on rédirige
+         return $this->redirectToRoute('home-panier', [], Response::HTTP_SEE_OTHER);
+
+
+    }
+
+
+     //----------------------------RETIRER UNE QUANTITE  DANS UNE LIGNE COMMANDE------------------------------------------------------
+     #[Route('/removeQuantity/{id}', name: 'lignecommande_remove', methods: ['GET', 'POST'])]
+     public function remove_ligneCommande(Request $request, Lignecommande $lignecommande, LignecommandeRepository $lignecommandeRepository): Response
+     {
+        $quantite = $lignecommande->getQuantite() - 1 ;
+        $lignecommande->setQuantite($quantite);
+        $lignecommandeRepository->save($lignecommande, true);
+
+        if ($quantite < 1) {
+             $lignecommandeRepository->remove($lignecommande, true);
+        }
+        return $this->redirectToRoute('home-panier', [], Response::HTTP_SEE_OTHER);
+     }
+
+
+
+
+
+
+
+    //----------------------------DELETE  PANIER------------------------------------------------
+/*  */
+/*     #[Route('/panier/delete/{id}', name: 'panier_delete', methods: ['POST'])] */
+/*     public function delete_panier(Request $request, Commande $commande, CommandeRepository  */
+/*     $commandeRepository, EntityManagerInterface  */
+/*         $entityManager): Response */
+/*     { */
+/*         if ($this->isCsrfTokenValid('delete'.$panier->getId(), $request->request->get('_token'))) { */
+/*             $commandeRepository->remove($panier, true); */
+/*         } */
+/*         return $this->redirectToRoute('home-panier', [], Response::HTTP_SEE_OTHER); */
+/*  */
+/*     } */
 
 
 

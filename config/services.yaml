@@ -5,6 +5,10 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
    upload_directory: '%kernel.project_dir%/public/upload/images/users'
+   product_directory: '%kernel.project_dir%/public/products'
+ 
+   
+
    medias_directory: 'public/products/'
    products_directory: 'products/'
   
@@ -31,3 +35,4 @@ services:
     App\Service\FileUploader:
         arguments:
             $targetDirectory: '%upload_directory%'
+            

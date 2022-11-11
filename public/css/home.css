@@ -4,7 +4,7 @@
 html, body {
     margin:0;
     padding:0;
-    height:100%;
+    height:auto;
  }
 
  #main {
@@ -117,8 +117,8 @@ background-image: url(../upload/images/mesImages/bookish1.webp);
     gap:30px;
 }
 
-table, th, td {
-  border:0.5px solid black;
+.caracteristique td{
+  
   padding: 10px;
 
 }
@@ -126,6 +126,21 @@ table, th, td {
 .resume h6{
     padding-top: 15px;
 }
+
+.table_panier{
+    width:90%;
+    margin-left:5em;
+    padding: 40px;
+    
+}
+
+.image{
+    padding-left:10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+
 /*---------------FOOTER------------*/
 
 

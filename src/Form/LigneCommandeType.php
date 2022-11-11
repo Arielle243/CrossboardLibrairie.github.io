@@ -6,7 +6,6 @@ use App\Entity\Lignecommande;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class LigneCommandeType extends AbstractType
@@ -14,15 +13,7 @@ class LigneCommandeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('quantite', ChoiceType::class,[
-                'choices' =>[
-                    '1'=>'1',
-                    '2'=>'2',
-                    '3'=>'3',
-                    '4'=>'4',
-                    '5'=>'5',
-                    '6'=>'6'],
-
+            ->add('quantite', IntegerType::class,[
                 'attr'=>[
                     'class'=>' col-mb-3'],
                 'label'=>'Quantité',

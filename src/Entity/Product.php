@@ -90,6 +90,12 @@ class Product
     #[ORM\ManyToMany(targetEntity: LignePanier::class, mappedBy: 'products')]
     private Collection $lignePaniers;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $bestSeller = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $nouveaute = null;
+
 
 
     public function __construct()
@@ -460,6 +466,30 @@ class Product
         if ($this->lignePaniers->removeElement($lignePanier)) {
             $lignePanier->removeProduct($this);
         }
+
+        return $this;
+    }
+
+    public function isBestSeller(): ?bool
+    {
+        return $this->bestSeller;
+    }
+
+    public function setBestSeller(?bool $bestSeller): self
+    {
+        $this->bestSeller = $bestSeller;
+
+        return $this;
+    }
+
+    public function isNouveaute(): ?bool
+    {
+        return $this->nouveaute;
+    }
+
+    public function setNouveaute(?bool $nouveaute): self
+    {
+        $this->nouveaute = $nouveaute;
 
         return $this;
     }

@@ -13,7 +13,7 @@ class Lignecommande
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column (nullable: true)]
     private ?int $quantite = null;
 
     #[ORM\ManyToOne(inversedBy: 'lignecommandes')]

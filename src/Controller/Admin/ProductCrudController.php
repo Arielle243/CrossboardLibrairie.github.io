@@ -164,6 +164,8 @@ class ProductCrudController extends AbstractCrudController
                         ->hideOnIndex();
 
         
+            yield   BooleanField::new('bestSeller', 'Best-seller');
+            yield   BooleanField::new('nouveaute', 'Nouveauté');
             yield   BooleanField::new('statut', 'Statut');
             yield   FormField::addRow();
 

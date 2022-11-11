@@ -74,7 +74,7 @@ class DashboardController extends AbstractDashboardController
     {
         
         //yield MenuItem::linkTo
-        yield MenuItem::linkToRoute('Aller sur le site', 'fa fa-undo', routeName:'app_home');
+        yield MenuItem::linkToRoute('Aller sur le site', 'fa fa-undo', routeName:'home-index');
         //yield MenuItem::section('Produits', 'fa fa-book');
 
         yield MenuItem::subMenu('Produits', 'fa fa-book')->setSubItems([
