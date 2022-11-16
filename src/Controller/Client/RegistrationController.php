@@ -6,6 +6,7 @@ use App\Entity\User;
 
 
 use App\Entity\Commande;
+use App\Service\FileUploader;
 use App\Form\RegistrationFormType;
 use App\Repository\CommandeRepository;
 use App\Security\AppCustomAuthenticator;
@@ -24,13 +25,15 @@ class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
 
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator ,EntityManagerInterface $entityManager, CommandeRepository $commandeRepository, AppCustomAuthenticator $authenticator): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator ,EntityManagerInterface $entityManager, CommandeRepository $commandeRepository, AppCustomAuthenticator $authenticator, FileUploader $fileUploader): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+
                // encode the plain password
             $user->setPassword(
             $userPasswordHasher->hashPassword(
@@ -41,6 +44,18 @@ class RegistrationController extends AbstractController
             //les utilisateurs inscrit avec ce formulaires auront un rôle client
             $user->setRoles(['ROLE_CLIENT']);
             $user->setStatut(True);
+
+
+             // on récupère le fichier présent dans le formulaire
+            $picture = $form->get('picture')->getData();
+            // si le champs picture est renseigné (si $picture existe)
+            if($picture){
+                // on récupère le nom du fichier téléversé en même temps qu'il est placé dans le dossier public/uploads/images/
+            $fileName = $fileUploader->upload($picture);
+            // on renseigne la propriété picture de l'article avec ce nom de fichier.
+            $user->setPicture($fileName);
+            }
+            
         
             $entityManager->persist($user);
             $entityManager->flush();
@@ -66,10 +81,10 @@ class RegistrationController extends AbstractController
           );          
  
         
-          return $this->redirectToRoute('app_home');
+          return $this->redirectToRoute('home-index');
         }
 
-        return $this->render('client/registration/register.html.twig', [
+        return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }

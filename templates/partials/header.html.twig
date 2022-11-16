@@ -4,40 +4,60 @@
 {% endblock %}
 
 
+
 <header>
-        <ul class="login_menu">
-                <li class="logo"><a href="{{ path ('home-index') }}"><img  class="logo"src="{{ asset('upload/images/mesImages/logo3.png')}}" alt="logo du site" width="100"></li></a>
+    
+    <ul class="nav">
+        <li>
+            <div>
                 <li>
-
-                           {% if app.user %}
-                <button type="button" class="btn btn-secondary"><a  href="{{ path('home-panier') }}"><i class="bi bi-basket"></i></a><span class="badge text-bg-secondary">4</span>
-                </button></li>
-
-             
-                <div class="nav-item dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-person-circle"></i></button>
-
-                    <ul class="dropdown-menu text-small shadow" style="background-color:#5c636a; ">
                     
-                        <li class="nav-item"><a  class="nav-link" href="{{ path('app_user', { 'firstname': app.user.firstname }) }}">Mon compte
-                            <i class="bibi-person-lines-fill"></i></a></li>
+                </li>
+            </div>
+        </li>
+    </ul>
 
-                            <li class="nav-item"><a class="nav-link" href="{{ path('app_logout') }}">Déconnexion<i class="bi bi-lock"></i></a></li>
-                                {%  if is_granted('ROLE_ADMIN') %}
-                                        <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Administration<i class="bi bi-lock"></i></a></li>
-                                {% endif %}
-                    </ul>           
-                    {% else %} 
-                    
-                            <li><a  class="connect" href="{{ path('app_login') }}"><i class="bi bi-person"></i></a></li>
-
-                          
-                </div>
-            </ul>               
-        {% endif %}
+    
         
-    </div>
+   {#  <div class="menu"> #}
+   {#      <div class="menu_logo"> #}
+   {#      <p class="logo"><a href="{{ path ('home-index') }}"> #}
+   {#          <img  class="logo"src="{{ asset('upload/images/mesImages/logobgb.png')}}"  #}
+   {#          alt="logo du site" width="100"></a> #}
+   {#      </p> #}
+   {#      </div> #}
+
+   {#  <div class="menu_down"> #}
+   {#      {% if app.user %} #}
+   {#              <div class="cart"> #}
+   {#              <button type="button" class="btn btn-secondary"><a  href="{{ path('home-panier') }}"> #}
+   {#                  <i class="bi bi-basket"></i></a><span class="badge text-bg-secondary">4</span> #}
+   {#              </button> #}
+   {#               #}
+   {#                  <div class="nav-item dropdown"> #}
+   {#                      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"   aria-expanded="false"><i class="bi  #}{# bi-person-circle"></i></button> #}
+   {#                          <ul class="dropdown-menu text-small shadow" style="background-color:#5c636a; "> #}
+   {#                       #}
+   {#                              <li class="nav-item"><a  class="nav-link" href="{{ path('app_user', { 'firstname': app.user.firstname }) }}">Mon compte<i  #}{# class="bibi-person-lines-fill"></i></a></li> #}
+   {#                              {# <img  class="logo"src="{{ asset('upload/images/users/'  ~  app.user.picture)}}" > #} 
+
+   {#                              <li class="nav-item"><a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a></li> #}
+   {#                              {%  if is_granted('ROLE_ADMIN') %} #}
+   {#                                  <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Administration<i class="bi  bi-list"></i></a></li> #}
+   {#                              {% endif %} #}
+   {#                          </ul>  #}
+   {#                             #}
+   {#                      {% else %} #}
+
+   {#                              <li><a  class="connect" href="{{ path('app_login') }}"><i class="bi bi-person"></i></a></li> #}
+
+   {#               </div>          #}
+   {#                  </div>    #}
+   {#                  #}
+   {#      {% endif %} #}
+
+   {#  </div> #}
+   {#       #}
 </header>
 
 <div class="banner">
@@ -48,11 +68,13 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"                        
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
                 </button>
+
+                
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <form class="container">
                         <div class="menu_home">  
                            <button class="btn btn-sm btn-outline-secondary" type="button"><a href="{{ path ('home-index') }}">Accueil</a></button>
-                           <button class="btn btn-sm btn-outline-secondary" type="button"><a class="nav-link dropdown-toggle" href="#" role="button"            data-bs-toggle="dropdown" aria-expanded="false">Rayon</a>
+                           <button class="btn btn-sm btn-outline-secondary" type="button"><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Rayon</a>
                            <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="#">Littérature</a></li>
                                 <li><a class="dropdown-item" href="#">Jeunesse</a></li>

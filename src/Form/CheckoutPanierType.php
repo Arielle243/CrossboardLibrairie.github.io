@@ -13,7 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
  * ici nous allons créer un formulaire constitué d'un bouton unique qui permettra de valider le panier
  */
 
-class ValidatePanierType extends AbstractType
+class CheckoutPanierType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -22,7 +22,7 @@ class ValidatePanierType extends AbstractType
                 'attr'=>[
                     'class'=>'btn btn-success m-2',
                 ],
-                'label'=>'Payer ma commande',
+                'label'=>'Valider le panier',
             ]);
     }
 

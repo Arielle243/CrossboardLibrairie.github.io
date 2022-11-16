@@ -7,82 +7,79 @@
     <main class="container">
 
         <h3 class="text-center">{{ product.title }}</h3>
-        <section class="single">
-            <div class="single_head">
-                <div class="author">
-                    <a href="#">{{ product.author}} (Auteurs)</a>
+            <section class="single">
+                <div class="single_head">
+                    <div class="author">
+                        <a href="#">{{ product.author}} (Auteurs)</a>
+                    </div>
+                        <div class="photo">
+                            <p><img src="{{ asset('/products/' ~ product.featuredImage) }}" alt="{{ product.title }}" width="250"></p>
+                            <a href="">Catégorie : {{ product.category }}</a>
+                            {%  for souscategory in product %}
+                                <a href="">Sous catégorie: {{ product.souscategory }} </a>
+                            {%  endfor %}
+                        </div>
                 </div>
-                <div class="photo">
-                    <p><img src="{{ asset('/products/' ~ product.featuredImage) }}" alt="{{ product.title }}" width="250"></p>
-                    <a href="">Catégorie : {{ product.category }}</a>
-                    {%  for souscategory in product %}
-                    <a href="">Sous catégorie: {{ product.souscategory }} </a>
-                    {%  endfor %}
-                </div>
-            </div>
 
-            <div class="details">
-                <div class="details_price">
-                    <p class="price">Prix : {{ product.price / 100 }} Euros</p>
-                        {%  if product.stock > 5 %}
-                            <p class="text-success"> Disponible</p>
+                <div class="details">
+                    <div class="details_price">
+                        <p class="price">Prix : {{ product.price / 100 }} Euros</p>
+                            {%  if product.stock > 5 %}
+                                <p class="text-success"> Disponible</p>
 
-                             {# ----------------------Pour ajouter le formulaire d'ajout dans le panier-------------------------- #}
-                                {% if app.user %}
-                                    {{ form_start(form) }}
-                                        {{ form_widget(form) }}
+                                    {# ----------------------Pour ajouter le formulaire d'ajout dans le panier-------------------------- #}
+                                    {% if app.user %}
+                                        {{ form_start(form) }}
+                                            {{ form_widget(form) }}
                                             <button class="btn btn-success sm-3"> {{ button_label|default('save') }}</button>
-                                    {{ form_end(form) }}
-                                {% endif %}
+                                        {{ form_end(form) }}
+                                    {% endif %}
                             
-                                {% elseif product.stock > 0 %}
-                                    <p class="text-warning"> Plus que {{ product.stock }} !</p>
-                                    {{ form_start(form) }}
-                                        {{ form_widget(form) }}
-                                            <button class="btn btn-success sm-3"> {{ button_label|default('save') }}</button>
-                                    {{ form_end(form) }}
+                                    {% elseif product.stock > 0 %}
+                                        <p class="text-warning"> Plus que {{ product.stock }} !</p>
+                                            {{ form_start(form) }}
+                                                {{ form_widget(form) }}
+                                                    <button class="btn btn-success sm-3"> {{ button_label|default('save') }}</button>
+                                            {{ form_end(form) }}
                                     
-                                {% else %}
+                                    {% else %}
 
-                                <p class="text-danger">Temporairement en rupture de stock</p>
-                        {% endif %}
+                                    <p class="text-danger">Temporairement en rupture de stock</p>
 
-        </div>
+                            {% endif %}
 
-
-        <div class="resume">
-            {# pour supprimer les balises on ajoute raw #}
-           
-            <h6>Description</h6>
-                <p>{{ product.excerpt | raw }}</p>
+                    </div>
+                        <div class="resume">
+                            {# pour supprimer les balises on ajoute raw #}
+                            <h6>Description</h6>
+                                <p>{{ product.excerpt | raw }}</p>
              
 
-            <div class="caracteristique">
+                    <div class="caracteristique">
+                        <table class="caracteristique">
 
-            <table class="caracteristique">
-               
-                    <tr colspan=2>
-                        <th>Date de parution</th>
-                        <th>Éditeurs</th>
-                        <th>ISBN/ASIN</th>
-                        <th>Langues</th>
-                        <th>Âges</th>
-                    </tr>
+                            <tr colspan=2>
+                                <th>Date de parution</th>
+                                <th>Éditeurs</th>
+                                <th>ISBN/ASIN</th>
+                                <th>Langues</th>
+                                <th>Âges</th>
+                            </tr>
              
-                    <tr>
-                        <td>{{ product.publishedAt |date("d/m/Y")  }}</td>
-                        <td>{{ product.editor}}</td>
-                        <td>{{ product.isbn}}</td>
-                        <td>{{ product.langues}}</td>
-                        <td>{{ product.age}}</td>
-                    </tr>
+                            <tr>
+                                <td>{{ product.publishedAt |date("d/m/Y")  }}</td>
+                                <td>{{ product.editor}}</td>
+                                <td>{{ product.isbn}}</td>
+                                <td>{{ product.langues}}</td>
+                                <td>{{ product.age}}</td>
+                            </tr>
                
-            </table>
+                        </table>
+                    </div>
+
+                </div>
             </div>
-
-        </div>
-    </div>
-</section>
+        </section>
 
 <hr>
         <p class="text-end"><a href="{{ path('home-product') }}">Retour à la liste</a></p>
