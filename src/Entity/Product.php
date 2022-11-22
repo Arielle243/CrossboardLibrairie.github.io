@@ -96,6 +96,9 @@ class Product
     #[ORM\Column(nullable: true)]
     private ?bool $nouveaute = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $nbProduct = null;
+
 
 
     public function __construct()
@@ -490,6 +493,18 @@ class Product
     public function setNouveaute(?bool $nouveaute): self
     {
         $this->nouveaute = $nouveaute;
+
+        return $this;
+    }
+
+    public function getNbProduct(): ?int
+    {
+        return $this->nbProduct;
+    }
+
+    public function setNbProduct(?int $nbProduct): self
+    {
+        $this->nbProduct = $nbProduct;
 
         return $this;
     }

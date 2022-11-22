@@ -37,13 +37,6 @@ html, body {
 }
 
 
-.userIdentifier{
-    background: rgba(0,0,0,0.5);
-    color:bisque;
-    margin-left: 75em;
-}
-
-
 .connexion{
     border: 1px solid black;
     width:40%;

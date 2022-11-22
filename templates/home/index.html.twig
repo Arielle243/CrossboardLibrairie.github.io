@@ -10,21 +10,15 @@
 
 {% block body %}
   
-<main>
-    {# {% if app.user %} #}
-    {# <div class="userIdentifier"> #}
-    {#     Vous êtes connecté en tant que {{ app.user.firstname}} #}
-    {#     {# {{ app.user.userIdentifier }} #} 
-    {# </div> 
-{% endif %}#}
-</main>
 
     <div class="best_seller">
         <h5>Découvrez nos meilleures ventes</h5>
-          {# {% for product in product %} #}
-          {#   <p>{{ product.bestSeller}}</p> #}
-          {# {% endfor %} #}
+           {% for product in productBest %} 
+                {{ productBest.title }}
+           {% endfor %}
     </di>
+
+
 
 
     <div class="all_product">
@@ -32,3 +26,4 @@
     </div>
 
 {% endblock %}
+

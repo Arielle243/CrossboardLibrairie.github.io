@@ -10,7 +10,10 @@ use App\Entity\Product;
 use App\Entity\Category;
 use App\Entity\Commande;
 use App\Entity\Employes;
+use App\Entity\Addresses;
 use App\Entity\Souscategory;
+use App\Entity\Transporteur;
+use App\Entity\Lignecommande;
 use App\Entity\SousCategories;
 use Symfony\Component\HttpFoundation\Response;
 use App\Controller\Admin\ProductCrudController;
@@ -112,11 +115,29 @@ class DashboardController extends AbstractDashboardController
     
         ]);
 
+
+        yield MenuItem::subMenu('Transporteurs', 'fa-solid fa-users')->setSubItems([
+        MenuItem::linkToCrud('Ajouter un transporteur', 'fas fa-plus', 
+       Transporteur::class)->setAction(Crud::PAGE_NEW),
+        MenuItem::linkToCrud('Liste des transporteurs', 'fas fa-eye', Transporteur::class),
+    
+        ]);
+
+
+           yield MenuItem::subMenu('Adresses', 'fa-solid fa-users')
+->setSubItems([
+   MenuItem::linkToCrud('Ajouter une adresse', 'fas fa-plus', 
+  Addresses::class)->setAction(Crud::PAGE_NEW),
+   MenuItem::linkToCrud('Adresses', 'fas fa-eye', 
+Addresses::class),
+   ]);
+
         
         //yield MenuItem::section('Commandes', 'fa-sharp fa-solid fa-basket-shopping');
         yield MenuItem::subMenu('Commandes', 'fa-sharp fa-solid fa-basket-shopping')->setSubItems([
-            MenuItem::linkToCrud('Ajouter une commande', 'fas fa-plus', Commande::class)->setAction(Crud::PAGE_NEW),
-            MenuItem::linkToCrud('Liste les commandes', 'fas fa-eye', Commande::class)
+            //MenuItem::linkToCrud('Ajouter une commande', 'fas fa-plus', Commande::class)->setAction(Crud::PAGE_NEW),
+            MenuItem::linkToCrud('Liste les commandes', 'fas fa-eye', Commande::class),
+            MenuItem::linkToCrud('Liste les commandes', 'fas fa-eye',Lignecommande::class)
         ]);
 
         
@@ -127,7 +148,7 @@ class DashboardController extends AbstractDashboardController
         ]);
 
 
-        //yield MenuItem::section('Commandes', 'fa-sharp fa-solid fa-basket-shopping');
+        //yield MenuItem::section('Media', 'fa-sharp fa-solid fa-basket-shopping');
         yield MenuItem::subMenu('Media', 'fas fa-photo-video')->setSubItems([
             MenuItem::linkToCrud('Ajouter une image', 'fas fa-plus', Media::class)->setAction(Crud::PAGE_NEW),
             MenuItem::linkToCrud('Liste les images', 'fas fa-eye', Media::class)

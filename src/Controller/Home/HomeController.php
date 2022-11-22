@@ -6,15 +6,20 @@ use App\Entity\Panier;
 use App\Entity\Comment;
 use App\Entity\Product;
 use App\Entity\Commande;
+use App\Entity\Livraison;
 use App\Form\CommentType;
 use App\Entity\LignePanier;
+use App\Form\AddressesType;
+use App\Form\LivraisonType;
 use App\Entity\Lignecommande;
 use App\Service\FileUploader;
 use App\Form\LigneCommandeType;
+use App\Form\CheckoutPanierType;
 use App\Form\ValidatePanierType;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\CommandeRepository;
+use App\Repository\LivraisonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Repository\LignecommandeRepository;
@@ -31,10 +36,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'index')]
-        public function index(): Response
+        public function index(ProductRepository $productRepository, Request $request, EntityManagerInterface $entityManager): Response
         {
 
-        return $this->render('home/index.html.twig');
+        // Pour afficher les produits par best-seller
+
+            $productBest = $productRepository->findBybestSeller(1);
+            return $this->render('home/index.html.twig', [
+                'productBest' =>'$productBest',
+            ]);
      }
 
 
@@ -84,7 +94,7 @@ class HomeController extends AbstractController
                         $quantite = $item->getQuantite() + 1;
                         $item->setQuantite($quantite);
                         $lignecommandeRepository->save($item, true);
-                        return $this->redirectToRoute('home-panier', [], Response::HTTP_SEE_OTHER);
+                        return $this->redirectToRoute('home-panier_checkout', [], Response::HTTP_SEE_OTHER);
                     }
                 }
                 //sinon on l'ajoute dans le panier comme une nouvelle ligne de commande
@@ -95,7 +105,7 @@ class HomeController extends AbstractController
                 //$lignecommandeRepository->add($lignecommandes, true);
                 $entityManager->persist($lignecommande);
                 $entityManager->flush();
-                return $this->redirectToRoute('home-panier', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('home-panier_checkout', [], Response::HTTP_SEE_OTHER);
             }
 
                     return $this->renderForm('home/single_product.html.twig', [
@@ -120,13 +130,14 @@ class HomeController extends AbstractController
         /**
  * !--------------------------------------------------PARTIE PANIER---------------------------------------------------*/
 
-    #[Route('/panier', name: 'panier', methods: ['GET', 'POST'])]
-    public function panier(CommandeRepository $commandeRepository, Request $request, EntityManagerInterface $entityManager, ProductRepository $productRepository): Response
+    #[Route('/panier/validation', name: 'panier_validation', methods: ['GET', 'POST'])]
+    public function panier_validation(CommandeRepository $commandeRepository, Request $request, EntityManagerInterface $entityManager, ProductRepository $productRepository,  LignecommandeRepository $lignecommandeRepository ) : Response
     {
          // on va récupérer le panier pour l'afficher, c'est à dire la commande qui a le statut 'panier et qui appartient à l'utilisateur connecté
          $panier = $commandeRepository->findOneBy([ 
              'statutCommande' => 'panier', 
              'user' => $this->getUser(),
+            
              
               
          ]); 
@@ -138,6 +149,11 @@ class HomeController extends AbstractController
         $form->handleRequest($request);
             if($form->isSubmitted() && $form->isValid()) {
                 $date = new \DatetimeImmutable('now');
+                $this->addFlash('success', 'Votre commande est bien validée');
+                 // on veut récuperer les produits commandés
+                $lignecommande->getProduct($product);
+                $lignecommandeRepository->save($lignecommande, true);
+
                  // on change le statut du panier
                 $panier->setStatutCommande('en cours de préparation');
                 // on met à jour le statut, donc il faut mettre aussi à jour la propriété 'updatedAt'
@@ -146,6 +162,8 @@ class HomeController extends AbstractController
                 $entityManager->persist($panier);
                 $entityManager->flush();
 
+                $entityManager->persist($lignecommande);
+                $entityManager->flush();
 
                  // n'oublions pas de créer un nouveau panier : une nouvelle commande qui appartient au client connecté et qui a le statut 'panier'
                 $commande = new Commande();
@@ -153,6 +171,11 @@ class HomeController extends AbstractController
                 $commande->setStatutCommande('panier');
                 $commande->setDateCommande($date);
                 $commande->setUpdatedAt($date);
+                $commande->setLignecommandes();
+               /*  $commande->setTitle(); */
+               /*  $commande->setDescription(); */
+               
+
                  // on persiste les données
                 $entityManager->persist($panier);
                 $entityManager->flush();
@@ -169,6 +192,56 @@ class HomeController extends AbstractController
                     ]); 
 
 
+    
+
+    }
+
+    // ajouter une nouvelle adresse 
+     #[Route('/panier/address/new', name: 'address_new', methods: ['GET', 'POST'])]
+ public function new_address(Request $request, LignecommandeRepository 
+$addressesRepository): Response
+ {
+     $addresses = new Addresses();
+     $formAd = $this->createForm(AddressesType::class, $addresses);
+     $formAd->handleRequest($request);
+     if ($formAd->isSubmitted() && $formAd->isValid()) {
+         $addressesRepository->save($addresses, true);
+         return $this->redirectToRoute('home-panier_validation', [], 
+        Response::HTTP_SEE_OTHER);
+     }
+
+
+        return $this->renderForm('home/validation_panier.html.twig', [
+            'addresses' => $addresses,
+            'formAd' => $formAd,
+        ]);
+    }
+
+
+        /**
+         * !-----------------------------------------PARTIE         Livraison--------------------------------------------------*/
+        
+        // Pour afficher le formulaire de choix de livraison
+
+    #[Route('/panier/livraison', name: 'panier_livraison', methods: ['GET', 
+        'POST'])]
+    public function livraison_choice(LivraisonRepository $livraisonRepository): Response 
+
+    {
+
+
+       $formLivraison = $this->createForm(LivraisonType::class, $livraison);
+       $formLivraison->handleRequest($request);
+       if($formLivraison->isSubmitted() && $formLivraison->isValid()){
+
+        return $this->redirectToroute('home-panier_validation', [], Response::HTTP_SEE_OTHER);
+       }
+
+        return $this->renderForm('home/validation_panier.html.twig', [
+            'livraison' => $livraison,
+            'formLivraison' => $formLivraison,
+
+             ]); 
     }
 
 
@@ -196,7 +269,7 @@ class HomeController extends AbstractController
         //Ensuite on sauvegarde dans la base de données avec la foonction save
         $lignecommandeRepository->save($lignecommande, true);
         // et on rédirige
-         return $this->redirectToRoute('home-panier', [], Response::HTTP_SEE_OTHER);
+         return $this->redirectToRoute('home-panier_checkout', [], Response::HTTP_SEE_OTHER);
 
 
     }
@@ -213,7 +286,7 @@ class HomeController extends AbstractController
         if ($quantite < 1) {
              $lignecommandeRepository->remove($lignecommande, true);
         }
-        return $this->redirectToRoute('home-panier', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('home-panier_checkout', [], Response::HTTP_SEE_OTHER);
      }
 
 
@@ -239,10 +312,32 @@ class HomeController extends AbstractController
 
 
          #[Route('/panier/checkout', name: 'panier_checkout', methods: ['GET', 'POST'])]
-        public function checkout(Request $request, CommandeRepository $commandeRepository) : Response {
+        public function checkout( CommandeRepository $commandeRepository, EntityManagerInterface   $entityManager, ProductRepository $productRepository, Request $request ) : Response {
 
-              $panier = $commandeRepository->findAll(); 
+            // on va récupérer le panier pour l'afficher, c'est à dire la commande qui a le statut 'panier et qui appartient à l'utilisateur connecté
+            $panier = $commandeRepository->findOneBy([ 
+                'statutCommande' => 'panier', 
+                'user' => $this->getUser(),
+     
+                ]); 
 
-        return $this->redirectToRoute('home-panier_checkout', [], Response::HTTP_SEE_OTHER);
-        }
+                $formCheckout = $this->createForm(CheckoutPanierType::class, $panier);
+                $formCheckout->handleRequest($request);
+                if($formCheckout->isSubmitted() && $formCheckout->isValid()) {
+                $date = new \DatetimeImmutable('now');
+                $panier->setUpdatedAt($date);
+
+                return $this->redirectToRoute('home-panier_validation', [],
+                Response::HTTP_SEE_OTHER);
+
+                }
+ 
+        return $this->renderForm('home/checkout_panier.html.twig', [
+        'panier' => $panier,
+        'formCheckout' => $formCheckout,
+         
+        ]); 
+
+     }
+
 }

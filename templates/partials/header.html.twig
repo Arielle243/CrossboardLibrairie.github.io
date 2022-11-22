@@ -1,111 +1,93 @@
-
 {% block stylesheets %}
-   <link rel="stylesheet" href="{{ asset('css/home.css') }}">
-{% endblock %}
-
-
-
-<header>
+    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+    {% endblock %}
     
-    <ul class="nav">
-        <li>
-            <div>
-                <li>
-                    
-                </li>
-            </div>
-        </li>
-    </ul>
+            <div class="text-end">
+                <div class="banner">
+                    <div class="link">
+                      {% if app.user %}
+                        <button type="button" class="btn btn-secondary btn-sm">
+                            <a class="link" href="{{ path('home-panier_checkout') }}"><i class="bi bi-basket"></i></a>
+                        </button>
 
-    
-        
-   {#  <div class="menu"> #}
-   {#      <div class="menu_logo"> #}
-   {#      <p class="logo"><a href="{{ path ('home-index') }}"> #}
-   {#          <img  class="logo"src="{{ asset('upload/images/mesImages/logobgb.png')}}"  #}
-   {#          alt="logo du site" width="100"></a> #}
-   {#      </p> #}
-   {#      </div> #}
+                        <button type="button" class="btn btn-secondary btn-sm">
+                            <a  class="link" href="{{ path('app_logout') }}">Déconnexion</a>
+                        </button>
 
-   {#  <div class="menu_down"> #}
-   {#      {% if app.user %} #}
-   {#              <div class="cart"> #}
-   {#              <button type="button" class="btn btn-secondary"><a  href="{{ path('home-panier') }}"> #}
-   {#                  <i class="bi bi-basket"></i></a><span class="badge text-bg-secondary">4</span> #}
-   {#              </button> #}
-   {#               #}
-   {#                  <div class="nav-item dropdown"> #}
-   {#                      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"   aria-expanded="false"><i class="bi  #}{# bi-person-circle"></i></button> #}
-   {#                          <ul class="dropdown-menu text-small shadow" style="background-color:#5c636a; "> #}
-   {#                       #}
-   {#                              <li class="nav-item"><a  class="nav-link" href="{{ path('app_user', { 'firstname': app.user.firstname }) }}">Mon compte<i  #}{# class="bibi-person-lines-fill"></i></a></li> #}
-   {#                              {# <img  class="logo"src="{{ asset('upload/images/users/'  ~  app.user.picture)}}" > #} 
+                            {# ce lien sera accessible que par l'administrateur donc on vérifie si l'utilisateur connecté à un rôle et si il a un rôle admin on affiche ce lien. #}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <button type="button" class="btn btn-secondary btn-sm"><a  class="link" href="{{ path('admin') }}">
+                                Espace admin</a>
+                            </button>
+                        {% endif %}
 
-   {#                              <li class="nav-item"><a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a></li> #}
-   {#                              {%  if is_granted('ROLE_ADMIN') %} #}
-   {#                                  <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}">Administration<i class="bi  bi-list"></i></a></li> #}
-   {#                              {% endif %} #}
-   {#                          </ul>  #}
-   {#                             #}
-   {#                      {% else %} #}
+                        <button type="button" class="btn btn-secondary btn-sm">
+                            <a  class="link" href="{{ path('app_user' , { 'name': app.user.name, 'firstname':app.user.firstname}) }}"><i class="bi bi-person-circle"></i>{{ app.user.firstname }}
+                        </button>
+            
+           
 
-   {#                              <li><a  class="connect" href="{{ path('app_login') }}"><i class="bi bi-person"></i></a></li> #}
+                            {% else %}
 
-   {#               </div>          #}
-   {#                  </div>    #}
-   {#                  #}
-   {#      {% endif %} #}
-
-   {#  </div> #}
-   {#       #}
-</header>
-
-<div class="banner">
-<section class="menu">
-    <div class="home_menu">
-        <nav class="navbar navbar-expand-lg" style="">
-            <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"                        
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
-                </button>
-
+                        <button type="button" class="btn btn-secondary btn-sm">
+                        <a  class="link" href="{{ path('app_login') }}"><i class="bi bi-person-circle"></i> Connexion</button><a>
+           
+                    </div>
+                    {% endif %}
                 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <form class="container">
-                        <div class="menu_home">  
-                           <button class="btn btn-sm btn-outline-secondary" type="button"><a href="{{ path ('home-index') }}">Accueil</a></button>
-                           <button class="btn btn-sm btn-outline-secondary" type="button"><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Rayon</a>
-                           <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Littérature</a></li>
-                                <li><a class="dropdown-item" href="#">Jeunesse</a></li>
-                                <li><a class="dropdown-item" href="#">Loisirs, nature & voyages</a></li>
-                                <li><a class="dropdown-item" href="#">Bandes dessinées & humour</a></li>
-                                <li><a class="dropdown-item" href="#">Arts, société & sciences humaines</a></li>
-                                <li><a class="dropdown-item" href="#">Scolaire & pédagogie</a></li>
-                                <li><a class="dropdown-item" href="#">Médecine, sciences & techniques</a></li>
-                                <li><a class="dropdown-item" href="#">Entreprise, emploi, droits & économies</a></li>
-                                <li><a class="dropdown-item" href="#">Langues</a></li>
-                            </ul>
-                           </button>
-                           <button class="btn btn-sm btn-outline-secondary" type="button"><a href="#">Événements</a></button>
-                        </div> 
-                        </form>
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2 " type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn  btn-sm btn-outline-primary" type="submit"><i class="bi bi-search"></i></button>
-                    </form>                  
-                </div>
+
+
+                    <nav class="navbar navbar-expand-lg">
+                        <div class="container-fluid">
+                            <a class="navbar-brand" href="{{ path ('home-index') }}">
+                                <img class="logo" src="{{ asset('upload/images/mesImages/logo2.png') }}" width="80" height="80"> Crossbord Librairie</a>
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"   aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></button>
+                                    <div class="collapse navbar-collapse" id="navbarText">
+                                        <ul class="navbar-nav">
+                                            <li class="nav-item active">
+                                                <a class="nav-link" href="{{ path ('home-index') }}">
+                                                    Accueil
+                                                    <span class="sr-only">
+                                                    (current)
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{{ path ('app_rayon') }}">Rayon</a>
+                                            </li>
+
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#">
+                                                    Évenements                                 
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <form class="d-flex">
+                                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                                                    <i class="bi bi-search"></i>                              
+                                                </button>
+                                        </form>
+                                    </div>
+                        </div>
+                    </nav>
+
+
+                    {# Pour mettre en place l'image en banniere et récupérer l'utilisateur connecté en affichant son prénom par exemple d'abord on vérifie si l'utilisateur est connecté #}
+         
+                        {#  {% if app.user %} #}
+                        {#     <div class="userIdentifier"> #}
+                        {#         Vous êtes connecté en tant que  #}
+                        {#             {{ app.user.firstname }}  #}
+                        {#   </div> 
+                 
+                     {% endif %}#}
+                                 
+                </div> 
+
             </div>
-        </nav>       
-    </div>
-</section>
+                        
+    
 
-
-
-{% if app.user %}
-<div class="userIdentifier">
-    Vous êtes connecté en tant que {{ app.user.firstname}}
-    {# {{ app.user.userIdentifier }} #}
-</div>
-{% endif %}
-</div>
+  

@@ -21,6 +21,8 @@
 
 
 
+
+
                 {# on créé un compteur qui permettra de calculer le montant du panier #}
                 {% set montantTotal = 0 %}
                 {% for lignecommande in panier.lignecommandes %}
@@ -84,8 +86,10 @@ appliquer un traitement pour une remise ou calculer la tva... #}
             {# ici on affiche le formulaire qui est constitué d'un bouton unique qui servira à valider le panier #}
 
 
- {{ form_start(form) }} 
-   {{ form_widget(form) }} 
- {{ form_end(form) }}
+ {{ form_start(formCheckout) }}  
+   {{ form_widget(formCheckout) }}  
+ {{ form_end(formCheckout) }} 
+
+ 
 
  {% endblock %}

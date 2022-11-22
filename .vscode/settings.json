@@ -3,5 +3,25 @@
     "editor.autoClosingQuotes": "always",
     "editor.autoIndent": "advanced",
     "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
-    "editor.columnSelection": true
+    "editor.columnSelection": true,
+    "emmet.showSuggestionsAsSnippets": true,
+    "emmet.triggerExpansionOnTab": true,
+    "emmet.useInlineCompletions": true,
+    "editor.quickSuggestions": {
+        "comments": "on",
+        "strings": "on"
+    },
+    "editor.suggest.shareSuggestSelections": true,
+    "editor.suggest.preview": true,
+    "editor.suggest.localityBonus": true,
+    "files.autoGuessEncoding": true,
+    "workbench.colorTheme": "Dark-Dracula",
+    "workbench.editor.wrapTabs": true,
+    "auto-close-tag.disableOnLanguage": [
+    
+    ],
+    "better-comments.highlightPlainText": true,
+    "emmet.syntaxProfiles": {
+    }
+    
 }

@@ -80,12 +80,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $birthdate = null;
 
+    #[ORM\ManyToMany(targetEntity: Addresses::class, mappedBy: 'client')]
+    private Collection $addresses;
+
 
     public function __construct()
     {
         $this->commande = new ArrayCollection();
         $this->products = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->addresses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -397,6 +401,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setBirthdate(?\DateTimeInterface $birthdate): self
     {
         $this->birthdate = $birthdate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Addresses>
+     */
+    public function getAddresses(): Collection
+    {
+        return $this->addresses;
+    }
+
+    public function addAddress(Addresses $address): self
+    {
+        if (!$this->addresses->contains($address)) {
+            $this->addresses->add($address);
+            $address->addClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAddress(Addresses $address): self
+    {
+        if ($this->addresses->removeElement($address)) {
+            $address->removeClient($this);
+        }
 
         return $this;
     }
