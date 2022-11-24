@@ -81,9 +81,9 @@
         <h6 class="ms-2">Choisir le mode de livraison</h6>
         {# Formulaire pour afficher le choix de livraison#}
         
-          {{ form_start(formLivraison) }}   
-              {{ form_widget(formLivraison) }}   
-          {{ form_end(formLivraison) }}   
+         {#  {{ form_start(formLivraison) }}    #}
+         {#      {{ form_widget(formLivraison) }}    #}
+         {#  {{ form_end(formLivraison) }}    #}
         <input type="radio" id="form_modeLivraison" name="form[modeLivraison]" required="required" value=""/>
         <label for="domicile"> Domicile</label><br>
 
@@ -93,9 +93,9 @@
             {{ app.user.city}}</p>
 
              {# Formulaire pour Ajouter une nouvelle adresse #}
-                {{ form_start(formAd) }}  
-                    {{ form_widget(formAd) }} 
-                {{ form_end(formAd) }} 
+                {# {{ form_start(formAd) }}   #}
+                {#     {{ form_widget(formAd) }}  #}
+                {# {{ form_end(formAd) }}  #}
     </div>
 
     <div>

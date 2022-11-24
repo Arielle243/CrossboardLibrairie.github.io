@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class CommandeCrudController extends AbstractCrudController
@@ -19,14 +20,20 @@ class CommandeCrudController extends AbstractCrudController
     }
 
     
- /*    public function configureFields(string $pageName): iterable */
- /*    { *
+     public function configureFields(string $pageName): iterable 
+     { 
 
- /*        //yield    IdField::new('id', 'Numéro de commande'); */
- /*       // yield    TextField::new('title', 'Nom de la commande'); */
- /*        //yield    TextEditorField::new('description', 'Description'); */
- /*     */
- /*    } */
+        yield    IdField::new('id', 'Numéro de commande'); 
+        yield    TextField::new('title', 'Nom de la commande'); 
+        yield    TextEditorField::new('description', 'Description'); 
+        yield    AssociationField::new('lignecommandes', 'Les produits')
+                        ->setColumns('col-sm-6 col-lg-5 col-xxl-3')
+                        ->hideOnIndex()
+                        ->setQueryBuilder(function (QueryBuilder $queryBuilder){
+                          $queryBuilder
+                                ->where('entity.statut=true');
+                        });
+     } 
     
 
 

@@ -137,9 +137,6 @@ class HomeController extends AbstractController
          $panier = $commandeRepository->findOneBy([ 
              'statutCommande' => 'panier', 
              'user' => $this->getUser(),
-            
-             
-              
          ]); 
 
         //-------------------------------------VALIDATION PANIER------------------------------------------------------------------------
@@ -149,11 +146,7 @@ class HomeController extends AbstractController
         $form->handleRequest($request);
             if($form->isSubmitted() && $form->isValid()) {
                 $date = new \DatetimeImmutable('now');
-                $this->addFlash('success', 'Votre commande est bien validée');
                  // on veut récuperer les produits commandés
-                $lignecommande->getProduct($product);
-                $lignecommandeRepository->save($lignecommande, true);
-
                  // on change le statut du panier
                 $panier->setStatutCommande('en cours de préparation');
                 // on met à jour le statut, donc il faut mettre aussi à jour la propriété 'updatedAt'
@@ -162,8 +155,7 @@ class HomeController extends AbstractController
                 $entityManager->persist($panier);
                 $entityManager->flush();
 
-                $entityManager->persist($lignecommande);
-                $entityManager->flush();
+                $this->addFlash('success', 'Votre commande est bien validée');
 
                  // n'oublions pas de créer un nouveau panier : une nouvelle commande qui appartient au client connecté et qui a le statut 'panier'
                 $commande = new Commande();
@@ -171,17 +163,11 @@ class HomeController extends AbstractController
                 $commande->setStatutCommande('panier');
                 $commande->setDateCommande($date);
                 $commande->setUpdatedAt($date);
-                $commande->setLignecommandes();
-               /*  $commande->setTitle(); */
-               /*  $commande->setDescription(); */
-               
 
                  // on persiste les données
-                $entityManager->persist($panier);
-                $entityManager->flush();
-
                 $entityManager->persist($commande);
                 $entityManager->flush();
+
                  // on redirige vers l'accueil
                 return $this->redirectToRoute('home-index', [], Response::HTTP_SEE_OTHER);
             }
@@ -196,54 +182,9 @@ class HomeController extends AbstractController
 
     }
 
-    // ajouter une nouvelle adresse 
-     #[Route('/panier/address/new', name: 'address_new', methods: ['GET', 'POST'])]
- public function new_address(Request $request, LignecommandeRepository 
-$addressesRepository): Response
- {
-     $addresses = new Addresses();
-     $formAd = $this->createForm(AddressesType::class, $addresses);
-     $formAd->handleRequest($request);
-     if ($formAd->isSubmitted() && $formAd->isValid()) {
-         $addressesRepository->save($addresses, true);
-         return $this->redirectToRoute('home-panier_validation', [], 
-        Response::HTTP_SEE_OTHER);
-     }
 
 
-        return $this->renderForm('home/validation_panier.html.twig', [
-            'addresses' => $addresses,
-            'formAd' => $formAd,
-        ]);
-    }
-
-
-        /**
-         * !-----------------------------------------PARTIE         Livraison--------------------------------------------------*/
-        
-        // Pour afficher le formulaire de choix de livraison
-
-    #[Route('/panier/livraison', name: 'panier_livraison', methods: ['GET', 
-        'POST'])]
-    public function livraison_choice(LivraisonRepository $livraisonRepository): Response 
-
-    {
-
-
-       $formLivraison = $this->createForm(LivraisonType::class, $livraison);
-       $formLivraison->handleRequest($request);
-       if($formLivraison->isSubmitted() && $formLivraison->isValid()){
-
-        return $this->redirectToroute('home-panier_validation', [], Response::HTTP_SEE_OTHER);
-       }
-
-        return $this->renderForm('home/validation_panier.html.twig', [
-            'livraison' => $livraison,
-            'formLivraison' => $formLivraison,
-
-             ]); 
-    }
-
+       
 
     //----------------------------DELETE LIGNE COMMANDE------------------------------------------------
 
@@ -295,19 +236,19 @@ $addressesRepository): Response
 
 
 
-    //----------------------------DELETE  PANIER------------------------------------------------
-/*  */
-/*     #[Route('/panier/delete/{id}', name: 'panier_delete', methods: ['POST'])] */
-/*     public function delete_panier(Request $request, Commande $commande, CommandeRepository  */
-/*     $commandeRepository, EntityManagerInterface  */
-/*         $entityManager): Response */
-/*     { */
-/*         if ($this->isCsrfTokenValid('delete'.$panier->getId(), $request->request->get('_token'))) { */
-/*             $commandeRepository->remove($panier, true); */
-/*         } */
-/*         return $this->redirectToRoute('home-panier', [], Response::HTTP_SEE_OTHER); */
-/*  */
-/*     } */
+                    //----------------------------DELETE  PANIER------------------------------------------------
+                /*  */
+                /*     #[Route('/panier/delete/{id}', name: 'panier_delete', methods: ['POST'])] */
+                /*     public function delete_panier(Request $request, Commande $commande, CommandeRepository  */
+                /*     $commandeRepository, EntityManagerInterface  */
+                /*         $entityManager): Response */
+                /*     { */
+                /*         if ($this->isCsrfTokenValid('delete'.$panier->getId(), $request->request->get('_token'))) { */
+                /*             $commandeRepository->remove($panier, true); */
+                /*         } */
+                /*         return $this->redirectToRoute('home-panier', [], Response::HTTP_SEE_OTHER); */
+                /*  */
+                /*     } */
 
 
 
@@ -339,5 +280,6 @@ $addressesRepository): Response
         ]); 
 
      }
+
 
 }

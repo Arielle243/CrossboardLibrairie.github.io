@@ -158,8 +158,14 @@ class UserCrudController extends AbstractCrudController
                     ->setPageTitle('index', 'Crossboard Gestion des utilisateurs')
                     ->setPageTitle('new', 'Crossboard ajouter un utilisateur')
                     ->setPageTitle('detail', 'Crossboard profil utilisateur')
-                    ->setDefaultSort(['dateRegistration' => 'DESC']);
-        
+                    ->setDefaultSort(['dateRegistration' => 'DESC'])
+                    // use dots (e.g. 'seller.email') to search in Doctrine associations
+                    ->setSearchFields(['name', 'description', 'seller.email', 'seller.address.zipCode'])
+                    // set it to null to disable and hide the search box
+                    ->setSearchFields(null)
+                    // call this method to focus the search input automatically when loading the 'index' page
+                    ->setAutofocusSearch();
+
                     
             }
 
