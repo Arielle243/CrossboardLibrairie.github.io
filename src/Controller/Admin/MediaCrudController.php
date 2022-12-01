@@ -2,16 +2,18 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\User;
 use App\Entity\Media;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\User;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use EasyCorp\Bundle\EasyAdminBundle\Form\Type\Model\FileUploadState;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Form\Type\Model\FileUploadState;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class MediaCrudController extends AbstractCrudController
@@ -62,5 +64,13 @@ class MediaCrudController extends AbstractCrudController
         parent::persistEntity($entityManager, $media);
     }
 
+
+        public function configureActions(Actions $actions): Actions
+        {
+             return $actions
+                // ...
+            ->add(Crud::PAGE_INDEX, Action::DETAIL)
+            ->add(Crud::PAGE_EDIT, Action::SAVE_AND_ADD_ANOTHER);
+        }
     
 }

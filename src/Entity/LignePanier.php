@@ -25,8 +25,6 @@ class LignePanier
     #[ORM\JoinColumn(nullable: false)]
     private ?Panier $panier = null;
 
-    #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'lignePaniers')]
-    private Collection $products;
 
     #[ORM\ManyToMany(targetEntity: Commande::class, inversedBy: 'lignePaniers')]
     private Collection $commandes;
@@ -74,30 +72,6 @@ class LignePanier
     public function setPanier(?Panier $panier): self
     {
         $this->panier = $panier;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Product>
-     */
-    public function getProducts(): Collection
-    {
-        return $this->products;
-    }
-
-    public function addProduct(Product $product): self
-    {
-        if (!$this->products->contains($product)) {
-            $this->products->add($product);
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(Product $product): self
-    {
-        $this->products->removeElement($product);
 
         return $this;
     }
