@@ -49,7 +49,7 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('CrossboardLibrairie', 'fa fa-home')
+            ->setTitle('CrossroardLibrairie', 'fa fa-home')
              ->renderContentMaximized();
         
         

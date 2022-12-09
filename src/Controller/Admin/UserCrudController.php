@@ -42,9 +42,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 class UserCrudController extends AbstractCrudController
 {
 
-     //pour faire appel au dossier images
-    public const USER_BASE_PATH ='upload/images/users';
-    public const USER_UPLOAD_DIR ='public/upload/images/users';
+    /*  //pour faire appel au dossier images */
+     public const USERS_BASE_PATH ='upload/images/users/'; 
+     public const USERS_UPLOAD_DIR ='public/upload/images/users/'; 
 
     
     public function __construct(
@@ -76,9 +76,9 @@ class UserCrudController extends AbstractCrudController
             IdField::new('id', 'Identifiant')->hideOnForm(),
 
             ImageField::new('picture', 'Photo de profil')
-                ->setBasePath(self::USER_BASE_PATH)
-                ->setUploadDir(self::USER_UPLOAD_DIR)
-                //->hideOnIndex()
+                 ->setBasePath(self::USERS_BASE_PATH) 
+                 ->setUploadDir(self::USERS_UPLOAD_DIR) 
+                ->hideOnIndex()
                 ,
 
             TextField::new('name', 'Nom')

@@ -87,8 +87,6 @@ class Product
     #[ORM\ManyToMany(targetEntity: Rayon::class, inversedBy: 'products')]
     private Collection $rayons;
 
-    #[ORM\ManyToMany(targetEntity: LignePanier::class, mappedBy: 'products')]
-    private Collection $lignePaniers;
 
     #[ORM\Column(nullable: true)]
     private ?bool $bestSeller = null;
@@ -107,7 +105,7 @@ class Product
         $this->comments = new ArrayCollection();
         $this->lignecommandes = new ArrayCollection();
         $this->rayons = new ArrayCollection();
-        $this->lignePaniers = new ArrayCollection();
+       
     }
 
     public function getId(): ?int

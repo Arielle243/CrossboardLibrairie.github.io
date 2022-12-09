@@ -44,7 +44,7 @@ class MediaCrudController extends AbstractCrudController
 
 
              if ($pageName  == Crud::PAGE_DETAIL) {
-                $imageField[] = $imageField;
+                $imageField = $imageField;
             }
             yield $imageField;
 

@@ -9,8 +9,6 @@ use App\Entity\Commande;
 use App\Entity\Livraison;
 use App\Form\CommentType;
 use App\Entity\LignePanier;
-use App\Form\AddressesType;
-use App\Form\LivraisonType;
 use App\Entity\Lignecommande;
 use App\Service\FileUploader;
 use App\Form\LigneCommandeType;
@@ -41,11 +39,17 @@ class HomeController extends AbstractController
 
         // Pour afficher les produits par best-seller
 
-            $productBest = $productRepository->findBybestSeller(1);
-            return $this->render('home/index.html.twig', [
-                'productBest' =>'$productBest',
-            ]);
-     }
+     return $this->render('home/index.html.twig', [
+     'product' => $productRepository->findOneByBestSeller(1),
+     'product' => $productRepository->findOneByNouveaute(1),
+        ]);
+        
+ 
+        
+     
+            
+        }
+     
 
 
 
@@ -119,6 +123,9 @@ class HomeController extends AbstractController
                     //-----------------------------------------------------
                     // si on ne trouve pas de produit on rédirige vers l'accueil
                     if(!$product){
+                         throw $this->createNotFoundException(
+                            'No product found for id '.$id
+                        );
                         return $this->redirectToRoute('home-index');
                     }
 
@@ -155,8 +162,6 @@ class HomeController extends AbstractController
                 $entityManager->persist($panier);
                 $entityManager->flush();
 
-                $this->addFlash('success', 'Votre commande est bien validée');
-
                  // n'oublions pas de créer un nouveau panier : une nouvelle commande qui appartient au client connecté et qui a le statut 'panier'
                 $commande = new Commande();
                 $commande->setUser($this->getUser());
@@ -168,6 +173,7 @@ class HomeController extends AbstractController
                 $entityManager->persist($commande);
                 $entityManager->flush();
 
+                $this->addFlash('success', 'Votre commande est bien validée');
                  // on redirige vers l'accueil
                 return $this->redirectToRoute('home-index', [], Response::HTTP_SEE_OTHER);
             }
@@ -237,18 +243,22 @@ class HomeController extends AbstractController
 
 
                     //----------------------------DELETE  PANIER------------------------------------------------
-                /*  */
-                /*     #[Route('/panier/delete/{id}', name: 'panier_delete', methods: ['POST'])] */
-                /*     public function delete_panier(Request $request, Commande $commande, CommandeRepository  */
-                /*     $commandeRepository, EntityManagerInterface  */
-                /*         $entityManager): Response */
-                /*     { */
-                /*         if ($this->isCsrfTokenValid('delete'.$panier->getId(), $request->request->get('_token'))) { */
-                /*             $commandeRepository->remove($panier, true); */
-                /*         } */
-                /*         return $this->redirectToRoute('home-panier', [], Response::HTTP_SEE_OTHER); */
-                /*  */
-                /*     } */
+/*                    */
+/*                      #[Route('/panier/delete', name: 'panier_delete', methods: ['POST'])]  */
+/*                      public function delete_panier(Request $request, Commande $commande, CommandeRepository $commandeRepository,  * EntityManagerInterface  $entityManager, Lignecommande $lignecommande, LignecommandeRepositor  /* $lignecommandeRepository): Response */
+/*                      {  */
+/*                        /*  $entityManager->remove($lignecommande); */ 
+/*                        /*  $entityManager->flush(); */ 
+/*                        /*  if ($this->isCsrfTokenValid('delete'.$lignecommande->getId(), $request->request->get('_token'))) { */ 
+/*                        /*  $lignecommandeRepository->remove($lignecommande, true); */ 
+/*                        $lignecommandeRepository->remove($lignecommande, true); */
+/*                          if ($quantite < 1) { */
+/*        $lignecommandeRepository->remove($lignecommande, true); */
+/*   } */
+/* } */
+/*                          return $this->redirectToRoute('home-panier_checkout', [], Response::HTTP_NO_CONTENT);  */
+/*                  */
+/*                      }  */
 
 
 

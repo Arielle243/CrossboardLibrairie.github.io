@@ -1,40 +1,51 @@
+
+
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
     {% endblock %}
     
+
             <div class="text-end">
                 <div class="banner">
                     <div class="link">
-                      {% if app.user %}
-                        <button type="button" class="btn btn-secondary btn-sm">
-                            <a class="link" href="{{ path('home-panier_checkout') }}"><i class="bi bi-basket"></i></a>
-                        </button>
+                        {% if app.user %}
 
-                        <button type="button" class="btn btn-secondary btn-sm">
-                            <a  class="link" href="{{ path('app_logout') }}">Déconnexion</a>
-                        </button>
-
-                            {# ce lien sera accessible que par l'administrateur donc on vérifie si l'utilisateur connecté à un rôle et si il a un rôle admin on affiche ce lien. #}
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <button type="button" class="btn btn-secondary btn-sm"><a  class="link" href="{{ path('admin') }}">
-                                Espace admin</a>
-                            </button>
-                        {% endif %}
-
-                        <button type="button" class="btn btn-secondary btn-sm">
-                            <a  class="link" href="{{ path('client_index' , { 'name': app.user.name, 'firstname':app.user.firstname}) }}"><i class="bi bi-person-circle"></i>{{ app.user.firstname }}
-                        </button>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-person-circle"></i>{{ app.user.firstname }}
+                                </button>
+                               
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    {# ce lien sera accessible que par l'admin on vérifie si le user connecté à un rôle admin, on affiche ce lien.#}
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <a class="dropdown-item" href="{{ path('admin') }}">Espace Admin</a>
+                                        <a class="dropdown-item" href="{{ path('user_index') }}">Mon compte</a>
+                                    
+                                         {% else %}
+                                        <a class="dropdown-item" href="{{ path('client_index') }}"><i class="bi bi-person"></i>Mon compte</a>
+                                        {% endif %}
+                                        <a class="link" href="{{ path('app_logout') }}">Déconnexion</a>
+                                </div>
+                        
+                                    
+                                {% if is_granted('ROLE_CLIENT') %}
+                                    <button type="button" class="btn btn-secondary btn-sm">
+                                        <a class="link" href="{{ path('home-panier_checkout') }}"><i class="bi bi-basket"></i></a>
+                                    </button>
+                                {% endif %}
+                            </div>
             
            
 
                             {% else %}
 
-                        <button type="button" class="btn btn-secondary btn-sm">
-                        <a  class="link" href="{{ path('app_login') }}"><i class="bi bi-person-circle"></i> Connexion</button><a>
+                            <button type="button" class="btn btn-secondary btn-sm">
+                            <a  class="link" href="{{ path('app_login') }}"><i class="bi bi-person-circle"></i> Connexion</button><a>
            
+                        {% endif %}
                     </div>
-                    {% endif %}
+                  
                 
+
 
 
                     <nav class="navbar navbar-expand-lg">

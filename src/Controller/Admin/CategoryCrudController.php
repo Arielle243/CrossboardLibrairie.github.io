@@ -58,8 +58,8 @@ class CategoryCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud) : Crud
     {
     return $crud
-        ->setEntityLabelInPlural('Utilisateurs')
-        ->setEntityLabelInSingular('Utilisateur')
+        ->setEntityLabelInPlural('Catégories')
+        ->setEntityLabelInSingular('Catégorie')
         ->setPageTitle('index', 'Crossboard Gestion des catégories')
         ->setPageTitle('new', 'Crossboard ajouter une catégorie')
         ->setPageTitle('edit', 'Crossboard Modifier une catégorie')

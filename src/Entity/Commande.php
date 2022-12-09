@@ -161,11 +161,6 @@ class Commande
     }
 
 
-     public function __toString(): string
- {
-     return $this->title;
-     
- }
 
      /**
       * @return Collection<int, Livraison>
