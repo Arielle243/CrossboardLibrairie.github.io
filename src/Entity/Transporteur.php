@@ -19,8 +19,6 @@ class Transporteur
     #[ORM\Column]
     private ?bool $statut = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $address = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $city = null;
@@ -30,6 +28,12 @@ class Transporteur
 
     #[ORM\Column(length: 255)]
     private ?string $phoneNumber = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     public function getId(): ?int
     {
@@ -56,18 +60,6 @@ class Transporteur
     public function setStatut(bool $statut): self
     {
         $this->statut = $statut;
-
-        return $this;
-    }
-
-    public function getAddress(): ?string
-    {
-        return $this->address;
-    }
-
-    public function setAddress(?string $address): self
-    {
-        $this->address = $address;
 
         return $this;
     }
@@ -104,6 +96,30 @@ class Transporteur
     public function setPhoneNumber(string $phoneNumber): self
     {
         $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

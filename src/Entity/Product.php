@@ -30,8 +30,6 @@ class Product
     #[ORM\Column(length: 255)]
     private ?string $author = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $publishedAt = null;
 
     #[ORM\Column(length: 255)]
     private ?string $editor = null;
@@ -54,12 +52,7 @@ class Product
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $age = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $updatedAt = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $createdAt = null;
-
+   
     #[ORM\Column]
     private ?bool $statut = null;
 
@@ -96,6 +89,15 @@ class Product
 
     #[ORM\Column(nullable: true)]
     private ?int $nbProduct = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $publishedAt = null;
 
 
 
@@ -157,18 +159,6 @@ class Product
     public function setAuthor(string $author): self
     {
         $this->author = $author;
-
-        return $this;
-    }
-
-    public function getPublishedAt(): ?\DateTimeInterface
-    {
-        return $this->publishedAt;
-    }
-
-    public function setPublishedAt(?DateTimeInterface $publishedAt): self
-    {
-        $this->publishedAt = $publishedAt;
 
         return $this;
     }
@@ -253,30 +243,6 @@ class Product
     public function setAge(?string $age): self
     {
         $this->age = $age;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(?\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -503,6 +469,42 @@ class Product
     public function setNbProduct(?int $nbProduct): self
     {
         $this->nbProduct = $nbProduct;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getPublishedAt(): ?\DateTimeImmutable
+    {
+        return $this->publishedAt;
+    }
+
+    public function setPublishedAt(\DateTimeImmutable $publishedAt): self
+    {
+        $this->publishedAt = $publishedAt;
 
         return $this;
     }

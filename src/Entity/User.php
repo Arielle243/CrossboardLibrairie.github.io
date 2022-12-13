@@ -68,8 +68,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $statut = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateRegistration = null;
 
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Product::class)]
     private Collection $products;
@@ -77,11 +75,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Comment::class)]
     private Collection $comments;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $birthdate = null;
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\ManyToMany(targetEntity: Addresses::class, mappedBy: 'client')]
-    private Collection $addresses;
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $birthDate = null;
 
 
     public function __construct()
@@ -315,18 +316,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getDateRegistration(): ?\DateTimeInterface
-    {
-        return $this->dateRegistration;
-    }
-
-    public function setDateRegistration(?\DateTimeInterface $dateRegistration): self
-    {
-        $this->dateRegistration = $dateRegistration;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Product>
      */
@@ -388,40 +377,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
 
-    public function __toString(): string
-{
-    return $this->name;
-}
-
-    public function getBirthdate(): ?\DateTimeInterface
-    {
-        return $this->birthdate;
-    }
-
-    public function setBirthdate(?\DateTimeInterface $birthdate): self
-    {
-        $this->birthdate = $birthdate;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Addresses>
-     */
-    public function getAddresses(): Collection
-    {
-        return $this->addresses;
-    }
-
-    public function addAddress(Addresses $address): self
-    {
-        if (!$this->addresses->contains($address)) {
-            $this->addresses->add($address);
-            $address->addClient($this);
-        }
-
-        return $this;
-    }
 
     public function removeAddress(Addresses $address): self
     {
@@ -432,5 +387,46 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+
+    public function __toString(): string
+{
+    return $this->name;
+}
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getBirthDate(): ?\DateTimeInterface
+    {
+        return $this->birthDate;
+    }
+
+    public function setBirthDate(\DateTimeInterface $birthDate): self
+    {
+        $this->birthDate = $birthDate;
+
+        return $this;
+    }
 
 }

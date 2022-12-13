@@ -44,6 +44,7 @@ class RegistrationController extends AbstractController
             //les utilisateurs inscrit avec ce formulaires auront un rôle client
             $user->setRoles(['ROLE_CLIENT']);
             $user->setStatut(True);
+            
 
 
              // on récupère le fichier présent dans le formulaire

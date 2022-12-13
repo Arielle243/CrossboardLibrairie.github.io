@@ -16,8 +16,6 @@ class Commande
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $dateCommande = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $statutCommande = null;
@@ -39,6 +37,9 @@ class Commande
     #[ORM\OneToMany(mappedBy: 'commandes', targetEntity: Livraison::class, orphanRemoval: true)]
     private Collection $livraisons;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
 
     public function __construct()
     {
@@ -52,17 +53,6 @@ class Commande
         return $this->id;
     }
 
-    public function getDateCommande(): ?\DateTimeInterface
-    {
-        return $this->dateCommande;
-    }
-
-    public function setDateCommande(\DateTimeInterface $dateCommande): self
-    {
-        $this->dateCommande = $dateCommande;
-
-        return $this;
-    }
 
     public function getStatutCommande(): ?string
     {
@@ -188,6 +178,18 @@ class Commande
                  $livraison->setCommandes(null);
              }
          }
+
+         return $this;
+     }
+
+     public function getCreatedAt(): ?\DateTimeImmutable
+     {
+         return $this->createdAt;
+     }
+
+     public function setCreatedAt(\DateTimeImmutable $createdAt): self
+     {
+         $this->createdAt = $createdAt;
 
          return $this;
      }
