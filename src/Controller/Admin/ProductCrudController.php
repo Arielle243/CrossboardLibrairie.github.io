@@ -2,8 +2,9 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Product;
+use DatetimeIMMUTABLE;
 
+use App\Entity\Product;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -20,8 +21,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class ProductCrudController extends AbstractCrudController
 {
@@ -41,8 +42,8 @@ class ProductCrudController extends AbstractCrudController
     {
         $product= new Product();
         $product->setUsers($this->getUser());
-        $product->setCreatedAt (new \Datetime());
-        $product->setUpdatedAt (new \Datetime());
+        $product->setCreatedAt (new DatetimeIMMUTABLE('now'));
+        $product->setUpdatedAt (new \DatetimeIMMUTABLE('now'));
 
         return $product;
     }
@@ -88,8 +89,7 @@ class ProductCrudController extends AbstractCrudController
                             'Dvd'=>'dvd',
                         ]);
 
-            yield   MoneyField::new('price', 'Prix')
-                        ->setCurrency('EUR');
+            yield   MoneyField::new('price', 'Prix')->setCurrency('EUR');
 
             yield   TextField::new('isbn', 'ISBN')
                         ->hideOnIndex()
@@ -194,8 +194,8 @@ class ProductCrudController extends AbstractCrudController
         return $crud
             ->setEntityLabelInPlural('Produits')
             ->setEntityLabelInSingular('Produit')
-            ->setPageTitle('index', 'Crossboard Gestion des produits')
-            ->setPageTitle('new', 'Crossboard ajouter un produit')
+            ->setPageTitle('index', 'Crossroard Gestion des produits')
+            ->setPageTitle('new', 'Crossroard ajouter un produit')
             ->setDefaultSort(['createdAt' => 'DESC']);
 
         

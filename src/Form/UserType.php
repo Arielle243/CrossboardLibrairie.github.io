@@ -25,9 +25,9 @@ class UserType extends AbstractType
             ->add('addressDelivery')
             ->add('phoneNumber')
             ->add('statut')
-            ->add('dateRegistration')
-            ->add('birthdate')
-            ->add('addresses')
+            ->add('createdAt')
+            ->add('updatedAt')
+            ->add('birthDate')
         ;
     }
 

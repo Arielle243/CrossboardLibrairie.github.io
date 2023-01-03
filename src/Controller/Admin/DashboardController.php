@@ -20,6 +20,7 @@ use App\Controller\Admin\ProductCrudController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\Admin\CategoryCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -32,6 +33,12 @@ class DashboardController extends AbstractDashboardController
 {
 
 
+    public function configureAssets(): Assets
+    {
+        return Assets::new()->addCssFile('css/admin.css');
+    }
+
+
      public function __construct( 
        private AdminUrlGenerator $adminUrlGenerator 
     ) { 
@@ -41,8 +48,9 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
+      
+      return $this->render('admin/dashboard.html.twig');
 
-         return $this->render('admin/dashboard.html.twig');
          
     }
 
@@ -139,7 +147,7 @@ class DashboardController extends AbstractDashboardController
 
             // you can use any type of menu item, except submenus
             ->addMenuItems([
-                MenuItem::linkToRoute('Mon Compte', 'fa fa-id-card', 'route_name'),
+                MenuItem::linkToRoute('Mon Compte', 'fa fa-id-card', 'admin_show'),
                 MenuItem::linkToRoute('Settings', 'fa fa-user-cog', '...'),
                 MenuItem::section(),
                // MenuItem::linkToLogout('Logout', 'fa fa-sign-out'),

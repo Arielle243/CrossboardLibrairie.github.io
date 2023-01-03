@@ -37,7 +37,7 @@ class HomeController extends AbstractController
         public function index(ProductRepository $productRepository, Request $request, EntityManagerInterface $entityManager): Response
         {
 
-        // Pour afficher les produits par best-seller
+        // Pour afficher les produits par best-seller et par nouveauté
 
      return $this->render('home/index.html.twig', [
      'product' => $productRepository->findOneByBestSeller(1),
@@ -152,12 +152,12 @@ class HomeController extends AbstractController
         $form = $this->createForm(ValidatePanierType::class, $panier);
         $form->handleRequest($request);
             if($form->isSubmitted() && $form->isValid()) {
-                $date = new \DatetimeImmutable('now');
                  // on veut récuperer les produits commandés
+                $panier->setCreatedAt(new \DatetimeImmutable('now'));
                  // on change le statut du panier
                 $panier->setStatutCommande('en cours de préparation');
                 // on met à jour le statut, donc il faut mettre aussi à jour la propriété 'updatedAt'
-                $panier->setUpdatedAt($date);
+                $panier->setUpdatedAt(new \DatetimeImmutable('now'));
                 // on persiste les données
                 $entityManager->persist($panier);
                 $entityManager->flush();
@@ -166,8 +166,8 @@ class HomeController extends AbstractController
                 $commande = new Commande();
                 $commande->setUser($this->getUser());
                 $commande->setStatutCommande('panier');
-                $commande->setDateCommande($date);
-                $commande->setUpdatedAt($date);
+                $commande->setCreatedAt(new \DatetimeImmutable('now'));
+                $commande->setUpdatedAt(new \DatetimeImmutable('now'));
 
                  // on persiste les données
                 $entityManager->persist($commande);

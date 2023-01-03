@@ -387,12 +387,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-
-    public function __toString(): string
-{
-    return $this->name;
-}
-
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
@@ -429,4 +423,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+
+            public function __toString(): string
+        {
+            return $this->name;
+        }
 }

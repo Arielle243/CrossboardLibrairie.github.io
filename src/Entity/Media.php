@@ -72,12 +72,6 @@ class Media
     }
 
 
-    public function __toString(): string
-    {
-    return $this->name;
-    
-    }
-
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
@@ -101,4 +95,11 @@ class Media
 
         return $this;
     }
+
+            public function __toString(): string
+        {
+        return $this->name;
+
+        }
+        
 }

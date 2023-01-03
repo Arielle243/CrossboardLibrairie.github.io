@@ -7,11 +7,11 @@ html, body {
     height:auto;
  }
 
- #main {
-    min-height:100%;
-    position:relative;
-    padding-bottom:100px;   /* Hauteur du pied de page */
- }
+    #main {
+       min-height:100%;
+       position:relative;
+       padding-bottom:100px;   /* Hauteur du pied de page */
+    }
 
 
 /*-----------------HEADER-------------------------------------------------------------------------------*/
@@ -23,55 +23,67 @@ html, body {
     border: 1px solid black;
 }
 
-/*----------------Lien en tête---------------------*/
-/*-----------login, logout, cart----------------------*/
-.container-fluid {
-    background-color:rgba(0,0,0,0.5);
+    /*----------------Lien en tête---------------------*/
+    /*-----------login, logout, cart----------------------*/
+    .container-fluid {
+        background-color:rgba(0,0,0,0.5);
 
-}
+    }
 
-.btn  a {
-    color:white;
-    text-decoration: none;
-    padding: 2px;
-}
+        .btn  a {
+            color:white;
+            text-decoration: none;
+            padding: 2px;
+        }
 
-.navbar-nav{
-    margin-left: 45em;
- 
-}
+            .navbar-nav{
+                margin-left: 45em;
 
-.nav-link{
-    color: white;
-}
-.banner{
-background-image: url(../upload/images/mesImages/bookish1.webp);
- background-repeat: no-repeat;
- background-position:center;
- background-size:cover;
- height: 250px;
- 
-}
+            }
 
-.navbar-brand{
-    color: white;
-    
-}
+                .nav-link{
+                    color: white;
+                }
+
+                    .banner{
+                    background-image: url(../upload/images/mesImages/bookish1.webp);
+                     background-repeat: no-repeat;
+                     background-position:center;
+                     background-size:cover;
+                     height: 250px;
+
+                    }
+
+                        .navbar-brand{
+                            color: white;
+
+                        }
 
 
 
-.userIdentifier{
-    /* background: rgba(0,0,0,0.5); */
-    color:coral;
-    width: 18em;
-    margin-left: 75em;
-    margin-top: -2em;
-    
-}
+                            .userIdentifier{
+                                /* background: rgba(0,0,0,0.5); */
+                                color:coral;
+                                width: 18em;
+                                margin-left: 75em;
+                                margin-top: -2em;
 
-.link{
-    padding: 2px;
-}
+                            }
+
+                                .link{
+                                    padding: 2px;
+                                    text-decoration: none;
+                                    margin-left: 1em;
+                                    color: black;
+                                }
+
+                                /* mouse over link */
+                                    .link:hover {
+                                    color: rgb(23, 7, 238);
+                                    }
+
+
+
 
 
 /*-------------------------------------BODY---------------------------------------------------*/
@@ -84,57 +96,96 @@ background-image: url(../upload/images/mesImages/bookish1.webp);
     margin-top:2em;
 }
 
-.all_product a {
-    font-size: 1em;
-    text-decoration: none;
-    margin-left:42em;
+    .all_product a {
+        font-size: 1em;
+        text-decoration: none;
+        margin-left:42em;
 
+    }
+
+
+
+        .details{
+            border: 1px solid black;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 5em;
+            background-color:  rgba(170, 155, 155, 0.5);
+            /*width:45%;*/
+
+        }
+            .single_head{
+                   margin-top: 5em;
+                   width: 30%;
+            }
+
+                .single{
+                    display:flex;
+                    flex-direction: row;
+                    gap:30px;
+                }
+
+                    .caracteristique td{
+                    
+                      padding: 10px;
+
+                    }
+
+                        .resume h6{
+                            padding-top: 15px;
+                        }
+
+                            .table_panier{
+                                width:90%;
+                                margin-left:5em;
+                                padding: 40px;
+
+                            }
+
+                                .image{
+                                    padding-left:10px;
+                                    padding-top: 10px;
+                                    padding-bottom: 10px;
+                                }
+
+
+
+/* PAGE COMPTE*/
+
+.card-link a{
+    text-decoration-style: none;
 }
+    .card-body {
+        background-color:bisque;
+        margin-left: 18%;
+        margin-top: 3em;
+        margin-bottom: 3em;
+        width: 60%;
+        padding: 3%;
+        height: 80%;
+    }
+
+        #user_form{
+            background-color:bisque;
+            margin-left: 18%;
+            margin-top: 3em;
+            margin-bottom: 3em;
+            width: 60%;
+            padding: 2%;
+            justify-content: space-around;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
 
 
+        }
 
-.details{
-    border: 1px solid black;
-    padding: 15px;
-    border-radius: 12px;
-    margin-top: 5em;
-    background-color:  rgba(170, 155, 155, 0.5);
-    /*width:45%;*/
+            .user_form_delete{
+            justify-content: center;
 
-}
-.single_head{
-       margin-top: 5em;
-       width: 30%;
-}
+            }
 
-.single{
-    display:flex;
-    flex-direction: row;
-    gap:30px;
-}
 
-.caracteristique td{
-  
-  padding: 10px;
-
-}
-
-.resume h6{
-    padding-top: 15px;
-}
-
-.table_panier{
-    width:90%;
-    margin-left:5em;
-    padding: 40px;
-    
-}
-
-.image{
-    padding-left:10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
 
 
 

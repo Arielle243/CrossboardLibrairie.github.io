@@ -56,9 +56,9 @@ class CommandeCrudController extends AbstractCrudController
         return $crud
             ->setEntityLabelInPlural('Commandes')
             ->setEntityLabelInSingular('Commande')
-            ->setPageTitle('index', 'Crossboard Gestion des commandes')
-            ->setPageTitle('new', 'Crossboard ajouter une commande')
-            ->setDefaultSort(['dateCommande' => 'ASC']);
+            ->setPageTitle('index', 'Crossroard Gestion des commandes')
+            ->setPageTitle('new', 'Crossroard ajouter une commande')
+            ->setDefaultSort(['createdAt' => 'ASC']);
 
         
             

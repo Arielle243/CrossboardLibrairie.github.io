@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use DatetimeIMMUTABLE;
 use App\Entity\Souscategory;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -19,6 +20,16 @@ class SouscategoryCrudController extends AbstractCrudController
         return Souscategory::class;
     }
 
+
+
+         public function createEntity(string $entityFqcn)
+ {
+     $souscategory= new Souscategory();
+    //  $souscategory->setUsers($this->getUser());
+     $souscategory->setCreatedAt (new DatetimeIMMUTABLE('now'));
+     $souscategory->setUpdatedAt (new DatetimeIMMUTABLE('now'));
+     return $souscategory;
+ }
     
     public function configureFields(string $pageName): iterable
     {
@@ -26,7 +37,7 @@ class SouscategoryCrudController extends AbstractCrudController
 
             TextField::new('title', 'Nom'),
             TextField::new('description', 'Description'),
-            //DateTimeField::new('createdAt', 'Date d\'ajout'),
+            DateTimeField::new('createdAt', 'Date d\'ajout')->HideOnForm(),
             BooleanField::new('statut','Statut'),
         ];
     }
@@ -38,8 +49,8 @@ class SouscategoryCrudController extends AbstractCrudController
         return $crud
             ->setEntityLabelInPlural('Sous-catégories')
             ->setEntityLabelInSingular('Sous-catégorie')
-            ->setPageTitle('index', 'Crossboard Gestion des sous-catégories')
-            ->setPageTitle('new', 'Crossboard ajouter une sous-catégorie');
+            ->setPageTitle('index', 'Crossroard Gestion des sous-catégories')
+            ->setPageTitle('new', 'Crossroard ajouter une sous-catégorie');
  
     }
 

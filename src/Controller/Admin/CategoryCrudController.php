@@ -28,10 +28,11 @@ class CategoryCrudController extends AbstractCrudController
     {
         $category = new Category();
         //$category->setUsers($this->getUser());
-        $date = new \DatetimeImmutable('now');
-        $category->setCreatedAt($date);
+        $category->setCreatedAt (new DatetimeIMMUTABLE('now'));
+        $category->setUpdatedAt (new DatetimeIMMUTABLE('now'));
         return $category;
     }
+
 
     
     public function configureFields(string $pageName): iterable

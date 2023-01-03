@@ -13,6 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use Symfony\Component\Security\Core\User\UserInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\Model\FileUploadState;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
@@ -30,23 +31,28 @@ class MediaCrudController extends AbstractCrudController
         $productsDir = $this->getParameter('products_directory');
 
         yield TextField::new('name', 'Nom');
+        yield DateTimeField::new('createdAt', 'Crée le')
+                ->HideOnForm();
+        yield DateTimeField::new('updatedAt', 'Modifié le')
+                ->hideOnIndex()
+                ->HideOnForm();
 
-        $imageField = ImageField::new('filename', 'Média')
-            ->setBasePath($productsDir)
-            ->setUploadDir($mediasDir)
-            ->setUploadedFileNamePattern('[slug].[extension]');
+                $imageField = ImageField::new('filename', 'Média')
+                    ->setBasePath($productsDir)
+                    ->setUploadDir($mediasDir)
+                    ->setUploadedFileNamePattern('[slug].[extension]');
 
-            if (Crud::PAGE_EDIT == $pageName) {
-                $imageField->setRequired(false);
-            }
-    
-            yield $imageField;
+                    if (Crud::PAGE_EDIT == $pageName) {
+                        $imageField->setRequired(false);
+                    }
+
+        yield $imageField;
 
 
              if ($pageName  == Crud::PAGE_DETAIL) {
                 $imageField = $imageField;
             }
-            yield $imageField;
+        yield $imageField;
 
 
 
@@ -59,7 +65,8 @@ class MediaCrudController extends AbstractCrudController
         $media = $entityInstance;
 
         $media->setName($media->getFilename());
-        //$media->setCreatedAt(new \DateTime());
+        $media->setCreatedAt (new \DateTimeImmutable('now'));
+        $media->setUpdatedAt (new \DateTimeImmutable('now'));
 
         parent::persistEntity($entityManager, $media);
     }

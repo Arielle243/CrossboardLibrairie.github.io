@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "whatwedo.twig",
-        "xdebug.php-pack"
+        "xdebug.php-pack",
+        "ms-ceintl.vscode-language-pack-fr"
     ]
 }

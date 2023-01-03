@@ -11,19 +11,19 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-#[Route('/user')]
+#[Route('/adminCompte')]
 class CompteAdminController extends AbstractController
 {
-    #[Route('/', name: 'user_index', methods: ['GET'])]
-    public function index(UserRepository $userRepository): Response
+    #[Route('/', name: 'admin_index', methods: ['GET'])]
+    public function index_admin(UserRepository $userRepository): Response
     {
-        return $this->render('user/index.html.twig', [
+        return $this->render('admin/compte/index.html.twig', [
             'users' => $userRepository->findAll(),
         ]);
     }
 
-    #[Route('/new', name: 'user_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, UserRepository $userRepository, FileUploader $fileUploader): Response
+    #[Route('/new', name: 'admin_new', methods: ['GET', 'POST'])]
+    public function new_admin(Request $request, UserRepository $userRepository, FileUploader $fileUploader): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -44,27 +44,27 @@ class CompteAdminController extends AbstractController
                 }
 
             $userRepository->add($user, true);
-            return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('user/new.html.twig', [
+        return $this->renderForm('admin/compte/new.html.twig', [
             'user' => $user,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'user_show', methods: ['GET'])]
-    public function show(User $user): Response
+    #[Route('/{id}', name: 'admin_show', methods: ['GET'])]
+    public function show_admin(User $user): Response
     {
-        return $this->render('user/show.html.twig', [
+        return $this->render('admin/compte/show.html.twig', [
             'user' => $user,
         ]);
 
 
     }
 
-    #[Route('/{id}/edit', name: 'user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, UserRepository $userRepository): Response
+    #[Route('/{id}/edit', name: 'admin_edit', methods: ['GET', 'POST'])]
+    public function edit_admin(Request $request, User $user, UserRepository $userRepository): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -72,22 +72,22 @@ class CompteAdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $userRepository->save($user, true);
 
-            return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('user/edit.html.twig', [
+        return $this->renderForm('admin/compte/edit.html.twig', [
             'user' => $user,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'user_delete', methods: ['POST'])]
-    public function delete(Request $request, User $user, UserRepository $userRepository): Response
+    #[Route('/{id}', name: 'admin_delete', methods: ['POST'])]
+    public function delete_admin(Request $request, User $user, UserRepository $userRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $userRepository->remove($user, true);
         }
 
-        return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin_index', [], Response::HTTP_SEE_OTHER);
     }
 }
