@@ -38,11 +38,11 @@ class HomeController extends AbstractController
         {
 
         // Pour afficher les produits par best-seller et par nouveauté
-
-     return $this->render('home/index.html.twig', [
-     'product' => $productRepository->findOneByBestSeller(1),
-     'product' => $productRepository->findOneByNouveaute(1),
-        ]);
+         $product = $productRepository->findOneBy([ 
+     'bestSeller' => 'bestSeller', 
+     
+     ]); 
+     return $this->render('home/index.html.twig');
         
  
         
@@ -98,7 +98,7 @@ class HomeController extends AbstractController
                         $quantite = $item->getQuantite() + 1;
                         $item->setQuantite($quantite);
                         $lignecommandeRepository->save($item, true);
-                        return $this->redirectToRoute('home-panier_checkout', [], Response::HTTP_SEE_OTHER);
+                        return $this->redirectToRoute('home-product', [], Response::HTTP_SEE_OTHER);
                     }
                 }
                 //sinon on l'ajoute dans le panier comme une nouvelle ligne de commande
@@ -111,6 +111,8 @@ class HomeController extends AbstractController
                 $entityManager->flush();
                 return $this->redirectToRoute('home-panier_checkout', [], Response::HTTP_SEE_OTHER);
             }
+                        echo 'Le produit est bien ajouté dans le panier';
+           
 
                     return $this->renderForm('home/single_product.html.twig', [
                         'product' => $product,
@@ -120,6 +122,7 @@ class HomeController extends AbstractController
                         'button_label' => 'Ajouter au panier',
                     ]);
 
+                 
                     //-----------------------------------------------------
                     // si on ne trouve pas de produit on rédirige vers l'accueil
                     if(!$product){
@@ -128,6 +131,8 @@ class HomeController extends AbstractController
                         );
                         return $this->redirectToRoute('home-index');
                     }
+
+                    
 
         }
     
@@ -144,6 +149,7 @@ class HomeController extends AbstractController
          $panier = $commandeRepository->findOneBy([ 
              'statutCommande' => 'panier', 
              'user' => $this->getUser(),
+            
          ]); 
 
         //-------------------------------------VALIDATION PANIER------------------------------------------------------------------------
@@ -173,9 +179,10 @@ class HomeController extends AbstractController
                 $entityManager->persist($commande);
                 $entityManager->flush();
 
-                $this->addFlash('success', 'Votre commande est bien validée');
                  // on redirige vers l'accueil
                 return $this->redirectToRoute('home-index', [], Response::HTTP_SEE_OTHER);
+                 $this->addFlash('success', 'Votre commande est bien validée');
+                 echo 'Votre commande est bien validée';
             }
 
                 return $this->renderForm('home/validation_panier.html.twig', [
@@ -201,7 +208,7 @@ class HomeController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$lignecommande->getId(), $request->request->get('_token'))) {
             $lignecommandeRepository->remove($lignecommande, true);
         }
-        return $this->redirectToRoute('home-panier', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('home-panier_checkout', [], Response::HTTP_SEE_OTHER);
     }
 
 
@@ -278,18 +285,19 @@ class HomeController extends AbstractController
                 $date = new \DatetimeImmutable('now');
                 $panier->setUpdatedAt($date);
 
+
                 return $this->redirectToRoute('home-panier_validation', [],
                 Response::HTTP_SEE_OTHER);
 
                 }
  
-        return $this->renderForm('home/checkout_panier.html.twig', [
-        'panier' => $panier,
-        'formCheckout' => $formCheckout,
-         
-        ]); 
+                    return $this->renderForm('home/checkout_panier.html.twig', [
+                    'panier' => $panier,
+                    'formCheckout' => $formCheckout,
 
-     }
+                    ]); 
+
+            }
 
 
 }

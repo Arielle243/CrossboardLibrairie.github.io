@@ -148,6 +148,45 @@ html, body {
                                     padding-bottom: 10px;
                                 }
 
+                                .card-title{
+                                    overflow: hidden;
+                                    white-space: nowrap;
+                                    text-overflow: ellipsis;
+                                    padding: 4px;
+                                    margin-left: 1.5em;
+                                   
+                                }
+                                    .card-text{
+                                        text-align: center;
+                                    }
+
+
+                                    .livraison{
+                                       display: flex;
+                                       flex-direction: row;
+                                       margin-left: 23em;
+                                       gap: 10%;
+                                       padding: 5px;
+                                    }
+
+                                    .panier_resume{
+                                        background-color:bisque;
+                                        border:1px solid black;
+                                        border-radius: 10px;
+                                        width: 80%;
+                                        margin-left: 10em;
+                                        padding: 10px;
+                                    }
+
+                                    .livraison_check{
+                                        background-color:bisque;
+                                        border:1px solid black;
+                                        border-radius: 10px;
+                                        width: 30%;
+                                        padding: 5px;
+                                    }
+
+
 
 
 /* PAGE COMPTE*/

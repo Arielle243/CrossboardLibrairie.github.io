@@ -5,101 +5,97 @@
 {% block body %}
       <h1 class="text-center p-3">Panier</h1>
 
-        <table class="table_panier">
-            <thead>
-                <tr class="text-primary">
-                    <th>Image du produit</th>
-                    <th>Produit</th>
-                    <th>Prix(unité)</th>
-                    <th>Quantité</th>
-                    <th>Montant</th>
-                    <th>Supprimer</th>
-                </tr>
-            </thead>
+                <div class="panier_resume">
+                    <table class="table_panier">
+                        <thead>
+                            <tr class="text-primary">
+                                <th>Image du produit</th>
+                                <th>Produit</th>
+                                <th>Prix(unité)</th>
+                                <th>Quantité</th>
+                                <th>Montant</th>
+                                <th>Supprimer</th>
+                            </tr>
+                        </thead>
 
-            <tbody>
+                        <tbody>
+                            {# on créé un compteur qui permettra de calculer le montant du panier #}
+                            {% set montantTotal = 0 %}
+                            {% for lignecommande in panier.lignecommandes %}
 
+                                {# on affiche les propriétés désirées #}
+                                <tr>{# on affiche l'image du produit#}
+                                    <td class="image">
+                                        <img src="{{ asset('/products/' ~  lignecommande.product.featuredImage )}}" 
+                                        alt="image du produit" width="60">
+                                    </td>
+                                    <td>{{ lignecommande.product.title }}</td>
+                                    <td>{{  lignecommande.product.price / 100 }} €</td>
+                                        {# en TWIG il est possible de multiplier, additionner, soustraire ou diviser les    
+                                        propriétés entre elles si leur type s'y prète (integer ou float) #}
+                                    <td>{# bouton pour ajouter une unité dans quantité dans une ligne de commande #}
+                                        <a  class="btn-outline-warning" 
+                                            href="{{ path('home-lignecommande_remove', {'id': lignecommande.id}) }}">
+                                            <i class="bi bi-dash-square"></i>
+                                        </a>
+                                        {{ lignecommande.quantite }}
+                                            {# bouton pour retirer une unité quantite dans une ligne de commande #}
+                                        <a  class="btn-outline-success" 
+                                            href="{{ path('home-lignecommande_add', {'id': lignecommande.id}) }}"><i class="bi bi-plus-square"></i></a>
+                                    </td>
+                                    <td>{{ lignecommande.quantite * lignecommande.product.price / 100 }} € </td>
 
+                                    {# formulaire pour supprimer une ligne de commande #}
+                                    {# {{ include('lignecommande/_delete_form.html.twig') }}#}
+                                    <td><form method="post" 
+                                            action="{{ path('home-lignecommande_delete', {'id': lignecommande.id}) }}"
+                                            onsubmit="return confirm('Are you sure you want to delete this product?');">
+                                            <input type="hidden" name="_token" 
+                                            value="{{ csrf_token('delete' ~ lignecommande.id) }}">
+                                            <button class="btn btn-outline-danger"><i class="bi bi-x-square"></i></button>
+                                        </form>          
+                                    </td>
 
-
-
-                {# on créé un compteur qui permettra de calculer le montant du panier #}
-                {% set montantTotal = 0 %}
-                {% for lignecommande in panier.lignecommandes %}
-
-                    {# on affiche les propriétés désirées #}
-                        <tr>{# on affiche l'image du produit#}
-                            <td class="image">
-                                <img src="{{ asset('/products/' ~  lignecommande.product.featuredImage )}}" 
-                                alt="image du produit" width="60">
-                            </td>
-                            <td>{{ lignecommande.product.title }}</td>
-                            <td>{{  lignecommande.product.price / 100 }} €</td>
-                                {# en TWIG il est possible de multiplier, additionner, soustraire ou diviser les    
-                                propriétés entre elles si leur type s'y prète (integer ou float) #}
-                            <td>{# bouton pour ajouter une unité dans quantité dans une ligne de commande #}
-                                <a  class="btn-outline-warning" 
-                                href="{{ path('home-lignecommande_remove', {'id': lignecommande.id}) }}">
-                                <i class="bi bi-dash-square"></i></a>
-                                {{ lignecommande.quantite }}
-                                    {# bouton pour retirer une unité quantite dans une ligne de commande #}
-                                <a  class="btn-outline-success" href="{{ path('home-lignecommande_add', {'id': lignecommande.id}) }}"><i class="bi bi-plus-square"></i></a>
-                            </td>
-                            <td>{{ lignecommande.quantite * lignecommande.product.price / 100 }} € </td>
-
-                                {# formulaire pour supprimer une ligne de commande #}
-                                {# {{ include('lignecommande/_delete_form.html.twig') }}#}
-                            <td><form method="post" 
-                                    action="{{ path('home-lignecommande_delete', {'id': lignecommande.id}) }}"
-                                    onsubmit="return confirm('Are you sure you want to delete this product?');">
-                                    <input type="hidden" name="_token" 
-                                    value="{{ csrf_token('delete' ~ lignecommande.id) }}">
-                                    <button class="btn btn-outline-danger"><i class="bi bi-x-square"></i></button>
-                                </form>          
-                            </td>
-
-                                {# à chaque tour de boucle, càd pour chaque ligne de commande, on incrémente le compteur    
-                                avec le montant de cette ligne #}
-                                {% set montantTotal = montantTotal + (lignecommande.quantite * lignecommande.product.
-                                price) / 100 %}
-                        </tr>
+                                        {# à chaque tour de boucle, càd pour chaque ligne de commande, on incrémente le compteur  avec le montant de cette ligne #}
+                                        {% set montantTotal = montantTotal + (lignecommande.quantite * lignecommande.product.price) / 100 %}
+                                </tr>
                 
-                {% endfor %}
-            </tbody>
+                            {% endfor %}
+                        </tbody>
 
-            <tfoot>
-                <tr class="text-primary">
-                    <td colspan="4">Total du panier</td>
-                    {# maintenant on peut afficher le compteur qui contient le montant total, on pourrait aussi lui 
-appliquer un traitement pour une remise ou calculer la tva... #}
-                    <td>{{ montantTotal }} €</td>
-                </tr> 
-            </tfoot>
-        </table>
+                        <tfoot>
+                            <tr class="text-primary">
+                                <td colspan="4">Total du panier</td>
+                                {# maintenant on peut afficher le compteur qui contient le montant total, on pourrait aussi lui 
+                                appliquer un traitement pour une remise ou calculer la tva... #}
+                                <td>{{ montantTotal }} €</td>
+                            </tr> 
+                        </tfoot>
+                    </table>
+                </div>
 
-        <p class="text-end"><a href="{{ path('home-product') }}">Continuer mes achats</a></p>
-            {# <form method="post" action="{{ path('panier_delete', {'id': panier.id}) }}" #}
-            {#     onsubmit="return confirm('Are you sure you want to delete this product?');"> #}
-            {#     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ panier.id) }}"> #}
-            {#     <button class="btn btn-outline-danger">Supprimer le panier</button> #}
-            {# </form>           #}
-            {# ici on affiche le formulaire qui est constitué d'un bouton unique qui servira à valider le panier #}
-
-
- {{ form_start(formCheckout) }}  
-   {{ form_widget(formCheckout) }}  
- {{ form_end(formCheckout) }} 
+                    <p class="text-end"><a href="{{ path('home-product') }}">Continuer mes achats</a></p>
+                        {# <form method="post" action="{{ path('panier_delete', {'id': panier.id}) }}" #}
+                        {#     onsubmit="return confirm('Are you sure you want to delete this product?');"> #}
+                        {#     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ panier.id) }}"> #}
+                        {#     <button class="btn btn-outline-danger">Supprimer le panier</button> #}
+                        {# </form>           #}
 
 
+                        {# ici on affiche le formulaire qui est constitué d'un bouton unique qui servira à valider le panier #}
 
-                {# formulaire pour supprimer ou vider le panier #}
-        <p class="text-end"><a href="{{ path('home-product') }}">Vider le panier</a></p>
-            {# <form method="post" action="{{ path('panier_delete', {'id': panier.id}) }}" #}
-            {#     onsubmit="return confirm('Are you sure you want to delete this product?');"> #}
-            {#     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ panier.id) }}"> #}
-            {#     <button class="btn btn-outline-danger">Supprimer le panier</button> #}
-            {# </form> #}
+                            {{ form_start(formCheckout) }}   
+                              {{ form_widget(formCheckout) }} 
+                            {{ form_end(formCheckout) }}  
+                            
 
- 
+
+                        {# formulaire pour supprimer ou vider le panier #}
+                         <p class="text-end"><a href="{{ path('home-product') }}">Vider le panier</a></p>
+                        {# <form method="post" action="{{ path('panier_delete', {'id': panier.id}) }}" #}
+                        {#     onsubmit="return confirm('Are you sure you want to delete this product?');"> #}
+                        {#     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ panier.id) }}"> #}
+                        {#     <button class="btn btn-outline-danger">Supprimer le panier</button> #}
+                        {# </form> #}
 
  {% endblock %}

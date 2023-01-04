@@ -8,6 +8,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -24,15 +26,24 @@ class CommandeCrudController extends AbstractCrudController
      { 
 
         yield    IdField::new('id', 'Numéro de commande'); 
-        yield    TextField::new('title', 'Nom de la commande'); 
-        yield    TextEditorField::new('description', 'Description'); 
+        yield    TextField::new('title', 'Nom de la commande')
+                    ->hideOnIndex(); 
+        yield    TextField::new('statutcommande', 'Statut de la commande');
+        yield    DateTimeField::new('createdAt', 'Date de la commande');
+        yield    AssociationField::new('user', 'Client');
         yield    AssociationField::new('lignecommandes', 'Les produits')
                         ->setColumns('col-sm-6 col-lg-5 col-xxl-3')
                         ->hideOnIndex()
                         ->setQueryBuilder(function (QueryBuilder $queryBuilder){
                           $queryBuilder
-                                ->where('entity.statut=true');
+                                ->where('entity.statut=true')
+                                ->setParameters([
+                                    'title'=> $title
+                                ]);
                         });
+
+
+        yield    NumberField::new('quantite', 'Quantité')->hideOnIndex();
      } 
     
 

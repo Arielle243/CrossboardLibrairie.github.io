@@ -194,8 +194,8 @@ class ProductCrudController extends AbstractCrudController
         return $crud
             ->setEntityLabelInPlural('Produits')
             ->setEntityLabelInSingular('Produit')
-            ->setPageTitle('index', 'Crossroard Gestion des produits')
-            ->setPageTitle('new', 'Crossroard ajouter un produit')
+            ->setPageTitle('index', 'Crossroards Gestion des produits')
+            ->setPageTitle('new', 'Crossroards ajouter un produit')
             ->setDefaultSort(['createdAt' => 'DESC']);
 
         

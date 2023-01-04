@@ -5,6 +5,7 @@
 {% block body %}
       <h4 class="text-center p-3">Récapitulatif de votre panier</h4>
 
+        <div class="panier panier_resume">
         <table class="table_panier">
             <thead>
                 <tr class="text-primary">
@@ -54,56 +55,86 @@
 
        
 
-                    <td colspan="4">Total des produits dans le panier</td>
+
+                    {# <td colspan="4">Total des produits dans le panier</td> #}
                   {#   <td>{% if lignecommande.quantite|length > 1 %} #}
                   {#       {{lignecommande.quantite}}</td> #}
                   {#       {% endif %} #}
      {% endfor %}
     </tbody>
-                    <td colspan="4">Total du panier</td>
+                    <td colspan="4" class="text-primary">Total de votre panier</td>
                     {# maintenant on peut afficher le compteur qui contient le montant total, on pourrait aussi lui appliquer un traitement pour une remise ou calculer la tva... #}
-                    <td>{{ montantTotal }} €</td>
+                    <td class="text-danger">{{ montantTotal }} €</td>
                 
                  
             
         </table>
+</div>
 
-
-    <div>
-        <h6 class="ms-2">Choisir le mode de livraison</h6>
+    
+        <h5 class="text-center p-3">Choisir le mode de paiement et de livraison</h5>
         {# Formulaire pour afficher le choix de livraison#}
-        
-         {#  {{ form_start(formLivraison) }}    #}
-         {#      {{ form_widget(formLivraison) }}    #}
-         {#  {{ form_end(formLivraison) }}    #}
-        <input type="radio" id="form_modeLivraison" name="form[modeLivraison]" required="required" value=""/>
-        <label for="domicile"> Domicile</label><br>
+            <div class="livraison">
+                <div class="livraison_check">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                    <label class="form-check-label" for="exampleRadios1">
+                      En librairie
+                      <p class="ms-2">Crossroads Librairie<br>
+                        18 avenue Victor Hugo<br>
+                        75001 Paris</p>
+                        <details>
+                            <summary>Horaire du magasin</summary>
+                            Mardi, Mercredi, Jeudi, Vendredi de 9h-19h30<br>
+                            Samedi et Dimanche de 10h-18h30<br>
+                            Fermée les lundis.
+                        </details>
 
-        {# affichage de l'addresse du client #}
-            <p class="ms-2">{{ app.user.address}}<br>
-            {{ app.user.zipCode}}<br>
-            {{ app.user.city}}</p>
+                       
+                    </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                  <label class="form-check-label" for="exampleRadios2">
+                    Domicile
+                    {# affichage de l'addresse du client #}
+                    <p class="ms-2">{{ app.user.address}}<br>
+                    {{ app.user.zipCode}}<br>
+                    {{ app.user.city}}</p>
+                  </label>
+                </div>
 
-             {# Formulaire pour Ajouter une nouvelle adresse #}
-                {# {{ form_start(formAd) }}   #}
-                {#     {{ form_widget(formAd) }}  #}
-                {# {{ form_end(formAd) }}  #}
-    </div>
+            </div>
 
-    <div>
-        <h6>Choisir mode de paiement</h6>
-        <form  class="mt-3" action="{{ path ('home-panier_validation')}}">
-  
-     <input type="radio" name="card" id="card"/>
-     <label for="card">Carte bancaire</label>
    
-     <input type="radio" name="domicile" id="domicile"/>
-     <label for="paypal"> Paypal</label>
-</form>
+       
+                <div class="livraison_check">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                        <label class="form-check-label" for="exampleRadios1">
+                          Carte bancaire
+                        </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                      <label class="form-check-label" for="exampleRadios2">
+                        Paypal
+                      </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3">
+                        <label class="form-check-label" for="exampleRadios3">
+                        Carte cadeau
+                    </label>
+</div>
+            </div>
     </div>
 
- {# formulaire pour payer la commande et envoyé dans la base de données #}
- {{ form_start(form) }}  
-   {{ form_widget(form) }} 
-  {{ form_end(form) }} 
+    <h6 class="text-center p-3">Livraison en 48h ouvrées ou retrait en 1h à la librairie</h6>
+
+        {# formulaire pour payer la commande et envoyé dans la base de données #}
+        {{ form_start(form) }}  
+          {{ form_widget(form) }} 
+         {{ form_end(form) }} 
 {% endblock %}

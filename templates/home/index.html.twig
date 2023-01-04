@@ -15,21 +15,21 @@
         <div class="col-12">
             <h5>Découvrez nos nouveautés</h5>
         </div>
-         {% for product in product %}
+         {# {% for product in product %} #}
             {% if product.bestSeller is defined  and product.bestSeller %}
                 <div class="col-2 mb-3 g-4">
                     <div class="card h-100" style="width: 10em;">
                         <img src="{{ asset('/products/' ~ product.featuredImage) }}" class="card-img-top"  height="150" alt="..." >
                             <div class="card-body">
            
-                                <h5 class="card-title text-decoration-none"><a href="{{ path('home-details', {"id": product.id }) }}">{{ product.title }}</a></h5>
+                                <h5 class="card-title text-decoration-none"><a href="{{ path('home-details', {"id": product.id })}}">                   {{ product.title }}</a></h5>
                                 {# <p class="card-text ">{{ product.bestSeller }}</p>  #}
                 
                             </div>
                     </div>
                 </div>
             {% endif %}
-        {% endfor %}
+        {# {% endfor %} #}
 </section>
 
   {#  <section class="row"> #}

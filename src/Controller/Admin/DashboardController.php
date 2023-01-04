@@ -9,11 +9,9 @@ use App\Entity\Comment;
 use App\Entity\Product;
 use App\Entity\Category;
 use App\Entity\Commande;
-use App\Entity\Employes;
 use App\Entity\Addresses;
 use App\Entity\Souscategory;
 use App\Entity\Transporteur;
-use App\Entity\Lignecommande;
 use App\Entity\SousCategories;
 use Symfony\Component\HttpFoundation\Response;
 use App\Controller\Admin\ProductCrudController;
@@ -32,7 +30,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 class DashboardController extends AbstractDashboardController
 {
 
-
+    # Ajouter du css pour easyadmin
     public function configureAssets(): Assets
     {
         return Assets::new()->addCssFile('css/admin.css');
@@ -107,8 +105,8 @@ class DashboardController extends AbstractDashboardController
         //yield MenuItem::section('Commandes', 'fa-sharp fa-solid fa-basket-shopping');
         yield   MenuItem::subMenu('Commandes', 'fa-sharp fa-solid fa-basket-shopping')->setSubItems([
                 //MenuItem::linkToCrud('Ajouter une commande', 'fas fa-plus', Commande::class)->setAction(Crud::PAGE_NEW),
-                MenuItem::linkToCrud('Liste les commandes', 'fas fa-eye', Commande::class),
-                MenuItem::linkToCrud('Liste les commandes', 'fas fa-eye',Lignecommande::class)
+                MenuItem::linkToCrud('Liste des commandes', 'fas fa-eye', Commande::class),
+                
         ]);
 
         
@@ -147,7 +145,7 @@ class DashboardController extends AbstractDashboardController
 
             // you can use any type of menu item, except submenus
             ->addMenuItems([
-                MenuItem::linkToRoute('Mon Compte', 'fa fa-id-card', 'admin_show'),
+                MenuItem::linkToRoute('Mon Compte', 'fa fa-id-card', 'admin'),
                 MenuItem::linkToRoute('Settings', 'fa fa-user-cog', '...'),
                 MenuItem::section(),
                // MenuItem::linkToLogout('Logout', 'fa fa-sign-out'),
