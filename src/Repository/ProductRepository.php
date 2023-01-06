@@ -64,6 +64,18 @@ class ProductRepository extends ServiceEntityRepository
 //        ;
 //    }
 
+/* public function findWithSearch($search) : array */
+/* { */
+/*     if($search->getProduct) */
+/*     return $this->createQueryBuilder('p') */
+/*     ->andWhere('p.bestSeller = :bestSeller') */
+/*      ->setParameter('bestSeller', $bestSeller) */
+/*      ->getQuery() */
+/*     ->getResult(); */
+/* } */
+/*  */
+/*  */
+/*  */
 
 public function findOneByBestSeller($bestSeller) : array
 {
