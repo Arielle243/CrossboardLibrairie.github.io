@@ -37,9 +37,7 @@ class CommandeCrudController extends AbstractCrudController
                         ->setQueryBuilder(function (QueryBuilder $queryBuilder){
                           $queryBuilder
                                 ->where('entity.statut=true')
-                                ->setParameters([
-                                    'title'=> $title
-                                ]);
+                                ->setParameter();
                         });
 
 

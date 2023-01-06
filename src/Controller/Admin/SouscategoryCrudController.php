@@ -36,8 +36,11 @@ class SouscategoryCrudController extends AbstractCrudController
         return [
 
             TextField::new('title', 'Nom'),
-            TextField::new('description', 'Description'),
-            DateTimeField::new('createdAt', 'Date d\'ajout')->HideOnForm(),
+            TextField::new('description', 'Description')
+                ->hideOnIndex(),
+            DateTimeField::new('createdAt', 'Date d\'ajout')
+                ->HideOnForm()
+                ->hideOnIndex(),
             BooleanField::new('statut','Statut'),
         ];
     }

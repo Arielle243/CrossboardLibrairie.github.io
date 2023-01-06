@@ -3,18 +3,24 @@
 {% block title %}Hello RayonController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="row">
+{% for products in rayon %}
+    
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/niong/OneDrive/Bureau/Arielle dossiers/FORMATION DEV WEB ESRP/Projet PASS/CrossbooardLibrairie/CrossboardLibrairie/src/Controller/RayonController.php'|file_link(0) }}">src/Controller/RayonController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/niong/OneDrive/Bureau/Arielle dossiers/FORMATION DEV WEB ESRP/Projet PASS/CrossbooardLibrairie/CrossboardLibrairie/templates/rayon/index.html.twig'|file_link(0) }}">templates/rayon/index.html.twig</a></code></li>
-    </ul>
+<div class="col-3 mb-3 mt-5 ms-5">
+    <div class="card h-100 p-5" style="width: 25em;">
+        <img src="https://www.artistikrezo.com/wp-content/uploads/2020/03/Top-10-des-livres-a%CC%80-lire-a%CC%80-tout-prix-e1584548393404.png"
+            class="card-img-top"  height="200" alt="..." >
+            <div class="card-body-product">
+                <h5 class="card-title">
+              <a href="{{ path('home-rayon' , {'id':products.id}) }}">{{ products.name }}</a></h5>
+            </div>
+    </div>
+</div>
+    
+   
+{% endfor %}
+    
 </div>
 {% endblock %}

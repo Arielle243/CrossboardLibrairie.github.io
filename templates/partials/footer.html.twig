@@ -1,32 +1,60 @@
 
-{% block stylesheets %}
-<link rel="stylesheet" href="{{ asset('css/home.css') }}">
-{% endblock %}
 
 
-{% block body %}
+    <footer class="container-fluid-footer">
+        <div class="librairie_info">
+            {# <div class="librairie_contact"> #}
+                <div class="contact">
+                    <ul>
+                        <li><a href="">Qui sommes-nous</a></li>
+                        <li><a href="">Reprise des livres</a></li>
+                        <li><a href="">Mentions légales</a></li>
+                        <li><a href="">Conditions générales de vente</a></li>
+                        
+                    </ul>
+                </div>
+        
+                <div class="legacy">
+                    <ul>
+                        <li><a href="">Évènements</a></li>
+                        <li><a href="">Politique des protections des données</a></li>
+                        <li><a href="">Tarifs et options de livraison</a></li>
+                        <li><a href="">Paiement sécurisé</a></li>
+                    </ul>
+                </div>
+            {# </div> #}
+            <div class="contact-bckg">
+                <form action="home/index.html.twig" method="post" class="contact_form">
+                    <div>
+                        <label for="name">Pseudo :</label>
+                        <input type="text" id="name" name="user_name">
+                    </div>
+                    <div>
+                        <label for="mail">E-mail&nbsp;:</label>
+                        <input type="email" id="mail" name="user_mail">
+                    </div>
+                    <div>
+                        <label for="msg">Message :</label>
+                        <textarea id="msg" name="user_message"></textarea>
+                    </div>
 
+                    <div>
+                        <button  id="form_btn" type="submit">Envoyer</button>
+                    </div>
+                </form>
 
-    <footer class="container-fluid">
-        <div class="row" style="background-color: #b7cff3;">
-            <section class="col">
-                © {{ 'now'|date('Y') }} 
-		    </section>
-
-		    <section class="col">
-                 Crossboard Librairie
-		    </section>
-
-		    <section class="col">
-                Tous droits résérvés
-		    </section>
+            </div>
+    
 	    </div>
-
+        
+            <div class="copy">
+                {# Pour mettre l'année automatiquement en fonction de l'année en cours #}
+                <div>© {{ 'now'|date('Y') }}</div>
+                <div>Crossboard Librairie</div>
+                <div>Tous droits résérvés</div>
+            </div>
 
 
     </footer>
 
 
-
-
-{% endblock %}

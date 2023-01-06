@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Category;
+use DatetimeIMMUTABLE;
 
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -40,8 +41,8 @@ class CategoryCrudController extends AbstractCrudController
         
             yield  TextField::new('title', 'Titre');
                     //TextField::new('illustration'),
-            yield  TextEditorField::new('description', 'Description');
-
+            yield  TextEditorField::new('description', 'Description')
+                    ->HideOnIndex();
             yield  DateTimeField::new('createdAt', 'Date d\'ajout')
                 ->hideOnForm()
                 ->setFormat('short', 'short');

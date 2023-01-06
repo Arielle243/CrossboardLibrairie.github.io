@@ -3,12 +3,9 @@
 {% block title %}Compte client{% endblock %}
 
         {% block body %}
-         {% for user in users %}
-            <h3>Bienvenue </h3>
-        {% endfor %}
+    
 
         {% for user in users %}
-
 
             <div class="row">
               <div class="col-sm-6">
@@ -25,7 +22,7 @@
                   <div class="card-body">
                     <h5 class="card-title">Historique de mes commandes</h5>
                     <p class="card-text">Pour voir les hitoriques de vos commandes veuillez suivre ce lien.</p>
-                    <a href="" class="btn btn-primary">Mes commandes</a>
+                    <a href="{{ path('app_commande_show', {'id': commande.id}) }}" class="btn btn-primary">Mes commandes</a>
                   </div>
                 </div>
               </div>

@@ -32,12 +32,13 @@ class MediaCrudController extends AbstractCrudController
 
         yield TextField::new('name', 'Nom');
         yield DateTimeField::new('createdAt', 'Crée le')
-                ->HideOnForm();
+                ->HideOnForm()
+                ->hideOnIndex();
         yield DateTimeField::new('updatedAt', 'Modifié le')
                 ->hideOnIndex()
                 ->HideOnForm();
 
-                $imageField = ImageField::new('filename', 'Média')
+                $imageField = ImageField::new('filename', 'Images du produit')
                     ->setBasePath($productsDir)
                     ->setUploadDir($mediasDir)
                     ->setUploadedFileNamePattern('[slug].[extension]');

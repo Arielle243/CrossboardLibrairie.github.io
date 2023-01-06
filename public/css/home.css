@@ -3,15 +3,12 @@
 
 html, body {
     margin:0;
-    padding:0;
-    height:auto;
+     min-height: 100vh;
+ display: grid;
+ grid-template-rows: auto 1fr  auto;
  }
+ 
 
-    #main {
-       min-height:100%;
-       position:relative;
-       padding-bottom:100px;   /* Hauteur du pied de page */
-    }
 
 
 /*-----------------HEADER-------------------------------------------------------------------------------*/
@@ -89,13 +86,6 @@ html, body {
 /*-------------------------------------BODY---------------------------------------------------*/
 
 
-
-
-.best_seller h5{
-    text-align: center;
-    margin-top:2em;
-}
-
     .all_product a {
         font-size: 1em;
         text-decoration: none;
@@ -170,7 +160,7 @@ html, body {
                                     }
 
                                     .panier_resume{
-                                        background-color:bisque;
+                                        background-color:rgba(163, 159, 159, 0.4);
                                         border:1px solid black;
                                         border-radius: 10px;
                                         width: 80%;
@@ -179,7 +169,7 @@ html, body {
                                     }
 
                                     .livraison_check{
-                                        background-color:bisque;
+                                        background-color:rgba(163, 159, 159, 0.4);
                                         border:1px solid black;
                                         border-radius: 10px;
                                         width: 30%;
@@ -189,7 +179,7 @@ html, body {
 
 
 
-/* PAGE COMPTE*/
+/*------------------------------------ PAGE COMPTE------------------------*/
 
 .card-link a{
     text-decoration-style: none;
@@ -228,6 +218,122 @@ html, body {
 
 
 
-/*---------------FOOTER------------*/
+/*---------------FOOTER-----------------------------------------------------------*/
 
+   .container-fluid-footer{
+  
+      bottom:0;  /* on le colle en bas */
+      width:100%;
+      height:100px;   /* Hauteur du pied de page */
+      border-radius: 12px;
+      padding-top: 10px;
+     
+     
+   
+   }
+
+
+.librairie_info{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: rgb(28, 24, 48);
+ 
+    
+}
+
+    .contact ul li  , .legacy ul li  {
+        list-style: none;
+       text-decoration: none;
+       margin-top: 5px;
+    }
+
+        .contact a, .legacy a {
+        
+        color:white;
+        text-decoration: none;
+        line-height: 1.9;
+        
+
+        }
+
+            .contact_form {
+              /* Uniquement centrer le formulaire sur la page */
+              margin-top: -8em;
+              margin-left:65em;
+              margin-bottom: 2em;
+              width: 400px;
+              /* Encadré pour voir les limites du formulaire */
+              padding:2px 2px 6px 2px;
+              border: 1px solid #CCC;
+              border-radius: 1em;
+              background-color:rgba(163, 159, 159, 0.4);
+              padding-top: 10px;
+              color: white;
+            }
+
+                 .contact_form div + div {
+                  margin-top: 1em;
+                }
+
+                    .contact_form label {
+                      /* Pour être sûrs que toutes les étiquettes ont même taille et sont correctement alignées */
+                      display: inline-block;
+                      width: 90px;
+                      text-align: right;
+                    }
+
+                        #name,#msg, #mail  {
+                          /* Pour s'assurer que tous les champs texte ont la même police.
+                             Par défaut, les textarea ont une police monospace */
+                          font: 1em sans-serif;
+
+                          /* Pour que tous les champs texte aient la même dimension */
+                          width: 200px;
+                          box-sizing: border-box;
+
+                          /* Pour harmoniser le look & feel des bordures des champs texte */
+                          border: 1px solid #999;
+                        }
+
+                            .contact_form input:focus, .contact_form textarea:focus {
+                              /* Pour souligner légèrement les éléments actifs */
+                              border-color: #000;
+                            }
+
+                                .contact_form textarea {
+                                  /* Pour aligner les champs texte multi‑ligne avec leur étiquette */
+                                  vertical-align: top;
+
+                                  /* Pour donner assez de place pour écrire du texte */
+                                  height: 5em;
+                                }
+
+                                    .button { 
+                                    /*Pour placer le bouton à la même position que les champs texte*/
+                                    padding-left: 90px; /* même taille que les étiquettes */
+
+                                    } 
+
+                                         #form_btn { 
+                                        /*   /* Cette marge supplémentaire représente grosso modo le même espace que celui */
+                                        /*      entre les étiquettes et les champs texte */ 
+                                          margin-left: 6em; 
+                                          padding: 3px;
+                                          width: 12em;
+                                          border-radius: 10px;
+                                         } 
+
+
+
+                                                    .copy{
+                                                        background-color: #b7cff3 ;
+                                                        display: flex;
+                                                        flex-direction: row;
+                                                        flex-wrap: nowrap;
+                                                        justify-content:space-around;
+                                                        padding-bottom: 1px;
+                                                        bottom: 0;
+
+                                                    }
 

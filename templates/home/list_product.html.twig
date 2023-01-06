@@ -9,20 +9,20 @@
 <main class="container">
     <section class="row">
         <div class="col-12">
-            <h4 class="text-center">Les produits</h4>
+            <h5 class="text-center">Les produits</h5>
         </div>
 
         {% for product in product %}
             <div class="col-3">
-                <article class="card h-100" style="width: 15em;">
-                <img src="{{ asset('/products/' ~ product.featuredImage) }}" class="card-img-top"  height="220" alt="..." >
+                <div class="card h-100 p-5" style="width: 15em;">
+                <img src="{{ asset('/products/' ~ product.featuredImage) }}" class="card-img-top"  height="250" alt="..." >
                     <div class="card-body-product">
                        
-                            <h5 class="card-title"><a href="{{ path('home-details', {"id": product.id }) }}">{{ product.title }}</a></h5>
-                            <p class="card-text ">{{ product.author }}</p>
+                            <h5 class="card-title"><a href="{{ path('home-details', {"title": product.title }) }}">{{ product.title }}</a></h5>
+                            <p class="card-text">{{ product.author }}</p>
                             
                     </div>
-                </article>
+                </div>
             </div>
 
         {% endfor %} 

@@ -6,28 +6,28 @@
       <h4 class="text-center p-3">Récapitulatif de votre panier</h4>
 
         <div class="panier panier_resume">
-        <table class="table_panier">
-            <thead>
-                <tr class="text-primary">
-                    <th>Image du produit</th>
-                    <th>Produit</th>
-                    <th>Prix(unité)</th>
-                    <th>Quantité</th>
-                    <th>Montant</th>
-                    <th>Supprimer</th>
-                </tr>
-            </thead>
+            <table class="table_panier">
+                <thead>
+                    <tr class="text-primary">
+                        <th>Image du produit</th>
+                        <th>Produit</th>
+                        <th>Prix(unité)</th>
+                        <th>Quantité</th>
+                        <th>Montant</th>
+                        <th>Supprimer</th>
+                    </tr>
+                </thead>
 
-            <tbody>
+                <tbody>
 
-                {# on créé un compteur qui permettra de calculer le montant du panier #}
-                {% set montantTotal = 0 %}
-                {% for lignecommande in panier.lignecommandes %}
+                    {# on créé un compteur qui permettra de calculer le montant du panier #}
+                    {% set montantTotal = 0 %}
+                    {% for lignecommande in panier.lignecommandes %}
 
-                    {# on affiche les propriétés désirées #}
+                        {# on affiche les propriétés désirées #}
                         <tr>{# on affiche l'image du produit#}
                             <td class="image">
-                                <img src="{{ asset('/products/' ~  lignecommande.product.featuredImage )}}" 
+                                <img src="{{ asset('/products/' ~ lignecommande.product.featuredImage )}}" 
                                 alt="image du produit" width="60">
                             </td>
                             <td>{{ lignecommande.product.title }}</td>
@@ -36,75 +36,69 @@
                             <td>{# recupérer la  quantité dans une ligne de commande #}
                                 {{ lignecommande.quantite }}
                             </td>
-                            <td>{{ lignecommande.quantite * lignecommande.product.price / 100 }} € </td>
+                            <td>{{ lignecommande.quantite * lignecommande.product.price /100 }} €   </td>
 
                                 {# formulaire pour supprimer une ligne de commande 
                                  {{ include('lignecommande/_delete_form.html.twig') }}#}
-                             <td><form method="post"  
-                                     action="{{ path('home-lignecommande_delete',{'id': lignecommande.id}) }}" 
-                                    onsubmit="return confirm('Souhaitez-vous retirer ce produit de votre panier?');">
+                            <td><form method="post"  
+                                    action="{{ path('home-lignecommande_delete',{'id':  lignecommande.id}) }}" onsubmit="return confirm  ('Souhaitez-vous retirer ce produit de votre panier?');">
                                     <input type="hidden" name="_token"  
-                                    value="{{ csrf_token('delete' ~  lignecommande.id) }}"><button class="btn btn-outline-danger"><i class="bi bi-x-square"></i></button> 
-                                 </form>         
-                             </td> 
-                                {# à chaque tour de boucle, càd pour chaque ligne de commande, on incrémente le compteur    avec le montant de cette ligne #}
-                                {% set montantTotal = montantTotal + (lignecommande.quantite * lignecommande.product.price) / 100 %}
+                                    value="{{ csrf_token('delete' ~  lignecommande.id) }}"><button  class="btn btn-outline-danger"><i class="bi bi-x-square"></i></  button> 
+                                </form>         
+                            </td> 
+                                {# à chaque tour de boucle, càd pour chaque ligne de commande,on    incrémente le compteur    avec le montant de cette ligne #}
+                                {% set montantTotal = montantTotal + (lignecommande.quantite *lignecommande.product.price) / 100 %}
                         </tr>
-       
+    
 
-
-       
-
-
-                    {# <td colspan="4">Total des produits dans le panier</td> #}
-                  {#   <td>{% if lignecommande.quantite|length > 1 %} #}
-                  {#       {{lignecommande.quantite}}</td> #}
-                  {#       {% endif %} #}
-     {% endfor %}
-    </tbody>
-                    <td colspan="4" class="text-primary">Total de votre panier</td>
-                    {# maintenant on peut afficher le compteur qui contient le montant total, on pourrait aussi lui appliquer un traitement pour une remise ou calculer la tva... #}
-                    <td class="text-danger">{{ montantTotal }} €</td>
+                        {# <td colspan="4">Total des produits dans le panier</td> #}
+                        {#   <td>{% if lignecommande.quantite|length > 1 %} #}
+                        {#       {{lignecommande.quantite}}</td> #}
+                        {#       {% endif %} #}
+                    {% endfor %}
+                </tbody>
+                            <td colspan="4" class="text-primary">Total de votre panier</td>
+                            {# maintenant on peut afficher le compteur qui contient le montant total,       on pourrait aussi lui appliquer un traitement pour une remise ou calculer       la tva... #}
+                            <td class="text-danger">{{ montantTotal }} €</td>
                 
                  
             
-        </table>
-</div>
+            </table>
+        </div>
 
     
         <h5 class="text-center p-3">Choisir le mode de paiement et de livraison</h5>
         {# Formulaire pour afficher le choix de livraison#}
             <div class="livraison">
                 <div class="livraison_check">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                    <label class="form-check-label" for="exampleRadios1">
-                      En librairie
-                      <p class="ms-2">Crossroads Librairie<br>
-                        18 avenue Victor Hugo<br>
-                        75001 Paris</p>
-                        <details>
-                            <summary>Horaire du magasin</summary>
-                            Mardi, Mercredi, Jeudi, Vendredi de 9h-19h30<br>
-                            Samedi et Dimanche de 10h-18h30<br>
-                            Fermée les lundis.
-                        </details>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios"   id="exampleRadios1" value="option1" checked>
+                        <label class="form-check-label" for="exampleRadios1">
+                            En librairie
+                            <p class="ms-2">Crossroads Librairie<br>
+                            18 avenue Victor Hugo<br>
+                            75001 Paris</p>
+                                <details>
+                                    <summary>Horaire du magasin</summary>
+                                    Mardi, Mercredi, Jeudi, Vendredi de 9h-19h30<br>
+                                    Samedi et Dimanche de 10h-18h30<br>
+                                    Fermée les lundis.
+                                </details>
+                        </label>
+                    </div>
 
-                       
-                    </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-                  <label class="form-check-label" for="exampleRadios2">
-                    Domicile
-                    {# affichage de l'addresse du client #}
-                    <p class="ms-2">{{ app.user.address}}<br>
-                    {{ app.user.zipCode}}<br>
-                    {{ app.user.city}}</p>
-                  </label>
-                </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios"       id="exampleRadios2" value="option2">
+                        <label class="form-check-label" for="exampleRadios2">
+                            Domicile
+                            {# affichage de l'addresse du client #}
+                            <p class="ms-2">{{ app.user.address}}<br>
+                            {{ app.user.zipCode}}<br>
+                            {{ app.user.city}}</p>
+                        </label>
+                    </div>
 
-            </div>
+                </div>
 
    
        
@@ -127,14 +121,19 @@
                         <label class="form-check-label" for="exampleRadios3">
                         Carte cadeau
                     </label>
-</div>
+                </div>
             </div>
     </div>
 
     <h6 class="text-center p-3">Livraison en 48h ouvrées ou retrait en 1h à la librairie</h6>
 
         {# formulaire pour payer la commande et envoyé dans la base de données #}
-        {{ form_start(form) }}  
-          {{ form_widget(form) }} 
-         {{ form_end(form) }} 
+        <div class="text-center">
+            {{ form_start(form) }}  
+            {{ form_widget(form) }} 
+            {{ form_end(form) }} 
+        </div>
+        
+        
+        
 {% endblock %}

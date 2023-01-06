@@ -149,14 +149,14 @@ class ProductCrudController extends AbstractCrudController
                         
                         
             yield   DateTimeField::new('createdAt', 'Date d\'ajout') 
-                         ->setFormat('dd.MM.yyyy HH:mm')
+                         ->setFormat('short', 'short')
                          ->hideOnIndex() 
                          ->hideOnForm();
                         
 
             yield   DateTimeField::new('updatedAt', 'Date de modification') 
                         ->hideOnForm() 
-                        ->setFormat('dd.MM.yyyy HH:mm') 
+                        ->setFormat('short', 'short')
                         ->hideOnIndex();
 
             yield   AssociationField::new('users', 'Ajouté par ')

@@ -14,6 +14,7 @@ use App\Service\FileUploader;
 use App\Form\LigneCommandeType;
 use App\Form\CheckoutPanierType;
 use App\Form\ValidatePanierType;
+use App\Repository\RayonRepository;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\CommandeRepository;
@@ -38,15 +39,12 @@ class HomeController extends AbstractController
         {
 
         // Pour afficher les produits par best-seller et par nouveauté
-         $product = $productRepository->findOneBy([ 
-     'bestSeller' => 'bestSeller', 
-     
-     ]); 
-     return $this->render('home/index.html.twig');
+      
+
+        return $this->render('home/index.html.twig', [
+             'product' => $productRepository->findBy(['nouveaute'=>true ]),
+        ]);
         
- 
-        
-     
             
         }
      
@@ -68,10 +66,12 @@ class HomeController extends AbstractController
             ]);
         }
 
+
+
         //------------------------------------------DETAILS DU PRODUIT--------------------------------------
         // on intègre la commande ayant un staut panier et y'a que l'utilisateur connecté qui peut avoir un panier
 
-        #[Route('/product/{id}/details', name: 'details', methods:['GET', 'POST'])]
+        #[Route('/product/{title}/details', name: 'details', methods:['GET', 'POST'])]
 
         public function details(Request $request, Product $product, CommandeRepository 
         $commandeRepository, LignecommandeRepository $lignecommandeRepository, 
@@ -152,6 +152,9 @@ class HomeController extends AbstractController
             
          ]); 
 
+
+
+
         //-------------------------------------VALIDATION PANIER------------------------------------------------------------------------
 
         // on va mettre en place un bouton qui permettra de valider le panier, càd modifier le statut  du panier pour lui donner le statut 'en cours de préparation'
@@ -188,6 +191,7 @@ class HomeController extends AbstractController
                 return $this->renderForm('home/validation_panier.html.twig', [
                  'panier' => $panier,
                  'form' => $form,
+                 'button_label' => 'Payer ma commande',
                     ]); 
 
 
@@ -212,6 +216,8 @@ class HomeController extends AbstractController
     }
 
 
+
+
     //----------------------------ADD UNE QUANTITE  DANS UNE LIGNE COMMANDE------------------------------------------------------
 
     #[Route('/addQuantity/{id}', name: 'lignecommande_add', methods: ['GET', 'POST'])]
@@ -228,6 +234,9 @@ class HomeController extends AbstractController
 
     }
 
+/*-------------------------------------------------------------------------------------------*/
+
+
 
      //----------------------------RETIRER UNE QUANTITE  DANS UNE LIGNE COMMANDE------------------------------------------------------
      #[Route('/removeQuantity/{id}', name: 'lignecommande_remove', methods: ['GET', 'POST'])]
@@ -243,31 +252,8 @@ class HomeController extends AbstractController
         return $this->redirectToRoute('home-panier_checkout', [], Response::HTTP_SEE_OTHER);
      }
 
-
-
-
-
-
-
-                    //----------------------------DELETE  PANIER------------------------------------------------
-/*                    */
-/*                      #[Route('/panier/delete', name: 'panier_delete', methods: ['POST'])]  */
-/*                      public function delete_panier(Request $request, Commande $commande, CommandeRepository $commandeRepository,  * EntityManagerInterface  $entityManager, Lignecommande $lignecommande, LignecommandeRepositor  /* $lignecommandeRepository): Response */
-/*                      {  */
-/*                        /*  $entityManager->remove($lignecommande); */ 
-/*                        /*  $entityManager->flush(); */ 
-/*                        /*  if ($this->isCsrfTokenValid('delete'.$lignecommande->getId(), $request->request->get('_token'))) { */ 
-/*                        /*  $lignecommandeRepository->remove($lignecommande, true); */ 
-/*                        $lignecommandeRepository->remove($lignecommande, true); */
-/*                          if ($quantite < 1) { */
-/*        $lignecommandeRepository->remove($lignecommande, true); */
-/*   } */
-/* } */
-/*                          return $this->redirectToRoute('home-panier_checkout', [], Response::HTTP_NO_CONTENT);  */
-/*                  */
-/*                      }  */
-
-
+/*---------------------------------------------------------------------------------------------------*/
+            /**------------------PANIER AVANT VALIDATION-------------- */
 
          #[Route('/panier/checkout', name: 'panier_checkout', methods: ['GET', 'POST'])]
         public function checkout( CommandeRepository $commandeRepository, EntityManagerInterface   $entityManager, ProductRepository $productRepository, Request $request ) : Response {
@@ -294,10 +280,31 @@ class HomeController extends AbstractController
                     return $this->renderForm('home/checkout_panier.html.twig', [
                     'panier' => $panier,
                     'formCheckout' => $formCheckout,
+                    'button_label' => 'Valider mon panier',
 
                     ]); 
 
             }
 
 
+
+
+        /**
+ * !--------------------------------------------------PARTIE header-----------------------------*/
+
+
+        #[Route('/rayon', name: 'rayon')]
+
+        public function rayon(  RayonRepository $rayonRepository, Request $request,
+        EntityManagerInterface $entityManager, ProductRepository $product): Response
+        {
+            return $this->render('rayon/index.html.twig', [
+                'rayon' => $rayonRepository->findAll(),
+                
+            ]);
+        }
+
+
+
 }
+

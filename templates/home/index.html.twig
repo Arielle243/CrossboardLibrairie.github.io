@@ -13,45 +13,26 @@
 <main class="container">
     <section class="row">
         <div class="col-12">
-            <h5>Découvrez nos nouveautés</h5>
+            <h5 class="text-center">Découvrez nos nouveautés</h5>
         </div>
-         {# {% for product in product %} #}
-            {% if product.bestSeller is defined  and product.bestSeller %}
-                <div class="col-2 mb-3 g-4">
-                    <div class="card h-100" style="width: 10em;">
-                        <img src="{{ asset('/products/' ~ product.featuredImage) }}" class="card-img-top"  height="150" alt="..." >
-                            <div class="card-body">
-           
-                                <h5 class="card-title text-decoration-none"><a href="{{ path('home-details', {"id": product.id })}}">                   {{ product.title }}</a></h5>
-                                {# <p class="card-text ">{{ product.bestSeller }}</p>  #}
-                
-                            </div>
-                    </div>
+         {% for product in product %}
+        
+            <div class="col-3">
+                <div class="card h-100 p-5" style="width: 15em;">
+                    <img src="{{ asset('/products/' ~ product.featuredImage) }}" 
+                        class="card-img-top"  height="230" alt="..." >
+                        <div class="card-body-product">
+            
+                            <h5 class="card-title"><a href="{{ path('home-details', {"title": 
+                            product.title }) }}">{{ product.title }}</a></h5>
+                            <p class="card-text">{{ product.author }}</p>
+                        </div>
                 </div>
-            {% endif %}
-        {# {% endfor %} #}
-</section>
+            </div>
 
-  {#  <section class="row"> #}
-  {#      <div class="col-12"> #}
-  {#          <h5>Découvrez nos bestsellers</h5> #}
-  {#      </div> #}
-  {#           {% for product in product %} #}
-  {#               {% if product.bestSeller is defined  and product.bestSeller %} #}
-  {#                   <div class="col-2 mb-3 g-4"> #}
-  {#                       <div class="card h-100" style="width: 10em;"> #}
-  {#                           <img src="{{ asset('/products/' ~ product.featuredImage) }}"  #}
-  {#                           class="card-img-top"  height="150" alt="..." > #}
-  {#                          <div class="card-body"> #}
-  {#                              <h5 class="card-title text-decoration-none"><a href="{{ path #}
-  {#                               ('home-details', {"id": product.id }) }}">{{ product.title }}</a></h5> #}
-  {#                               <p class="card-text ">{{ product.bestSeller }}</p>  #}
-  {#                           </div> #}
-  {#                       </div> #}
-  {#                   </div> #}
-  {#               {% endif %} #}
-  {#      {% endfor %} #}
-  {#   </section> #}
+        {% endfor %}
+        
+    </section>
 </main>
 
     <div class="all_product">
