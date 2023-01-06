@@ -1,5 +1,5 @@
 
-
+ @import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
 
 html, body {
     margin:0;
@@ -13,12 +13,29 @@ html, body {
 
 /*-----------------HEADER-------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------------*/
-
+.brand{
+    display: flex;
+    flex-direction: row;
+}
 
 .logo{
     border-radius: 5em;
-    border: 1px solid black;
+   
+    
 }
+.titre_site a {
+    font-family: 'Sacramento', cursive;
+    color: white;
+    text-decoration: none;
+    
+}
+
+.titre_site h1{
+    margin-top: 0.5em;
+}
+
+
+
 
     /*----------------Lien en tête---------------------*/
     /*-----------login, logout, cart----------------------*/
@@ -176,6 +193,9 @@ html, body {
                                         padding: 5px;
                                     }
 
+                                        .card-body-product a {
+                                            text-decoration: none;
+                                        }
 
 
 

@@ -185,9 +185,10 @@ class HomeController extends AbstractController
                  // on redirige vers l'accueil
                 return $this->redirectToRoute('home-index', [], Response::HTTP_SEE_OTHER);
                  $this->addFlash('success', 'Votre commande est bien validée');
-                 echo 'Votre commande est bien validée';
+                
             }
-
+                 echo 'Votre commande est bien validée';
+                 
                 return $this->renderForm('home/validation_panier.html.twig', [
                  'panier' => $panier,
                  'form' => $form,
@@ -277,6 +278,7 @@ class HomeController extends AbstractController
 
                 }
  
+
                     return $this->renderForm('home/checkout_panier.html.twig', [
                     'panier' => $panier,
                     'formCheckout' => $formCheckout,
