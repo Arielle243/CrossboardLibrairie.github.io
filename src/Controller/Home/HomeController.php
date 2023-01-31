@@ -227,7 +227,7 @@ class HomeController extends AbstractController
         // On défini la quantite qui sera associé à la ligne de commande en ajoutant 1 pour incrementer 
         $quantite = $lignecommande->getQuantite() + 1 ;
         $lignecommande->setQuantite($quantite);
-        //Ensuite on sauvegarde dans la base de données avec la foonction save
+        //Ensuite on sauvegarde dans la base de données avec la fonction save
         $lignecommandeRepository->save($lignecommande, true);
         // et on rédirige
          return $this->redirectToRoute('home-panier_checkout', [], Response::HTTP_SEE_OTHER);
