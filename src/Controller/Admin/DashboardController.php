@@ -55,8 +55,8 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('CrossroardLibrairie', 'fa fa-home')
-             ->renderContentMaximized();
+            ->setTitle('Crossroard Librairie')
+            ->renderContentMaximized();
         
         
         
@@ -66,30 +66,31 @@ class DashboardController extends AbstractDashboardController
     {
         
         //yield MenuItem::linkTo
-        yield   MenuItem::linkToRoute('Aller sur le site', 'fa fa-undo', routeName:'home-index');
-        //yield MenuItem::section('Produits', 'fa fa-book');
+        yield   MenuItem::linkToRoute('Retourner sur le site', 'fa fa-undo', routeName:'home-index');
+       
 
+        yield   MenuItem::section('Produits');
         yield   MenuItem::subMenu('Produits', 'fa fa-book')->setSubItems([
                 MenuItem::linkToCrud('Ajouter un produit', 'fas fa-plus', Product::class)->setAction(Crud::PAGE_NEW),
                 MenuItem::linkToCrud('Ajouter un rayon', 'fas fa-plus', Rayon::class)->setAction(Crud::PAGE_NEW),
                 MenuItem::linkToCrud('Ajouter une catégorie', 'fas fa-plus', Category::class)->setAction(Crud::PAGE_NEW),
                 MenuItem::linkToCrud('Ajouter une sous-catégorie', 'fas fa-plus', Souscategory::class)->setAction(Crud::PAGE_NEW),
-                MenuItem::linkToCrud('Liste des produits', 'fas fa-eye', Product::class),
-                MenuItem::linkToCrud('Liste des rayons', 'fas fa-eye', Rayon::class),
-                MenuItem::linkToCrud('Liste des catégories', 'fas fa-eye', Category::class),
-                MenuItem::linkToCrud('Liste des sous-catégories', 'fas fa-eye', Souscategory::class),
+                MenuItem::linkToCrud('Voir les produits', 'fas fa-eye', Product::class),
+                MenuItem::linkToCrud('Voir les rayons', 'fas fa-eye', Rayon::class),
+                MenuItem::linkToCrud('Voir les catégories', 'fas fa-eye', Category::class),
+                MenuItem::linkToCrud('Voir les sous-catégories', 'fas fa-eye', Souscategory::class),
         ]);
        
         
-                //yield MenuItem::section('Media', 'fa-sharp fa-solid fa-basket-shopping');
-         yield   MenuItem::subMenu('Media', 'fas fa-photo-video')->setSubItems([
-                 MenuItem::linkToCrud('Ajouter une image', 'fas fa-plus', Media::class)->setAction(Crud::PAGE_NEW),
-                 MenuItem::linkToCrud('Liste des images', 'fas fa-eye', Media::class)
+            yield  MenuItem::section('Images des produits');
+            yield  MenuItem::subMenu('Media', 'fas fa-photo-video')->setSubItems([
+                   MenuItem::linkToCrud('Ajouter une image', 'fas fa-plus', Media::class)->setAction(Crud::PAGE_NEW),
+                  MenuItem::linkToCrud('Liste des images', 'fas fa-eye', Media::class)
          ]);
                 
 
        
-        //yield MenuItem::section('Clients', 'fa-sharp fa-solid fa-address-card');
+        yield MenuItem::section('Gestion utilisateurs');
         yield   MenuItem::subMenu('Utilisateurs', 'fa-solid fa-users')->setSubItems([
                 MenuItem::linkToCrud('Ajouter un utilisateur', 'fas fa-plus', User::class)->setAction(Crud::PAGE_NEW),
                 MenuItem::linkToCrud('Ajouter un transporteur', 'fas fa-plus', 
@@ -102,7 +103,7 @@ class DashboardController extends AbstractDashboardController
     
         ]);
         
-        //yield MenuItem::section('Commandes', 'fa-sharp fa-solid fa-basket-shopping');
+        yield MenuItem::section('Gestion commandes');
         yield   MenuItem::subMenu('Commandes', 'fa-sharp fa-solid fa-basket-shopping')->setSubItems([
                 //MenuItem::linkToCrud('Ajouter une commande', 'fas fa-plus', Commande::class)->setAction(Crud::PAGE_NEW),
                 MenuItem::linkToCrud('Liste des commandes', 'fas fa-eye', Commande::class),
@@ -110,7 +111,7 @@ class DashboardController extends AbstractDashboardController
         ]);
 
         
-           //yield MenuItem::section('Commentaires & notes', 'fa-sharp fa-solid fa-basket-shopping');
+        yield MenuItem::section('Commentaires & notes');
         yield   MenuItem::subMenu('Commentaires & notes', 'fa-solid fa-comments')->setSubItems([
                 MenuItem::linkToCrud('Ajouter un commentaire', 'fas fa-plus', Comment::class)->setAction(Crud::PAGE_NEW),
                 MenuItem::linkToCrud('Liste les commentaires & notes', 'fas fa-eye', Comment::class)
@@ -119,8 +120,6 @@ class DashboardController extends AbstractDashboardController
 
 
     }
-
-
 
 
         public function configureUserMenu(UserInterface $user): UserMenu
@@ -132,15 +131,7 @@ class DashboardController extends AbstractDashboardController
             // use the given $user object to get the user name
             ->setName($user->getName())
             // use this method if you don't want to display the name of the user
-            ->displayUserName(false)
-
-            // you can return an URL with the avatar image
-            ->setAvatarUrl('https://..')
-            //->setAvatarUrl($user->getPicture())
-            // use this method if you don't want to display the user image
-            ->displayUserAvatar(true)
-            // you can also pass an email address to use gravatar's service
-            ->setGravatarEmail($user->getEmail())
+            ->displayUserName(true)
            
 
             // you can use any type of menu item, except submenus

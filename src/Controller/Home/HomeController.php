@@ -308,5 +308,19 @@ class HomeController extends AbstractController
 
 
 
-}
 
+
+
+
+
+        /**
+ * !--------------------------------------------------PARTIE footer-----------------------------*/
+
+        #[Route('/legacy', name: 'legacy')]
+        public function legacy( Request $request,  EntityManagerInterface $entityManager): Response
+
+        {
+            return $this->render('home/mentionsLegales.html.twig');
+        }
+ 
+}
