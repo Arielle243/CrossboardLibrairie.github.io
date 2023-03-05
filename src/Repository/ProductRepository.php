@@ -96,4 +96,19 @@ public function findOneByNouveaute($nouveaute) : array
     ->getResult();
 }
 
+
+
+
+public function findWithSearch($critere) : array
+{
+    return $this->createQueryBuilder('product')
+    ->andWhere('product.title  LIKE :string')
+    ->orWhere('product.excerpt LIKE :string')
+     ->setParameter('string', '%'.$critere.'%')
+     ->orderBy('product.id', 'ASC')
+     ->setMaxResults(10)
+     ->getQuery()
+    ->getResult();
+}
+
 }

@@ -322,5 +322,44 @@ class HomeController extends AbstractController
         {
             return $this->render('home/mentionsLegales.html.twig');
         }
+
+
+
+
+
+
+        /**
+ * !--------------------------------------------------PARTIE search-----------------------------*/
+// mise en place de champs de recherche 
+
+         #[Route('/product_resultat/{critere}', name: 'resultat_recherche')]
+            public function productSearch(ProductRepository $productRepository, $critere): Response
+            {
+                if($critere){
+                    $productListSearch = $productRepository->search($critere);
+                    if($productListSearch !=[]){
+                        // on affiche les résultats
+                        return $this->render('home/result.html.twig', [
+                            'product'=>$productListSearch,
+                            'message'=>'Résultat de la recherche: '.$critere,
+                        ]);
+                    }else{
+                        //on affiche un message 'pas de résultats'
+                        return $this->render('home/result.html.twig', [
+                            'message'=>'Pas de résultat pour votre recherche '.$critere
+                        ]);
+                    }
+                }else{
+                     return $this->render('home/home-index.html.twig', [
+                        'product' =>$productRepository->findAll(),
+                     ]);
+                }
+               
+            }
+
+
  
 }
+
+
+
